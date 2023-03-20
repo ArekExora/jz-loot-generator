@@ -8,65 +8,67 @@ import { ItemHandler } from './item-handler.js';
  * @Class
  */
 export class ActorItemsHandler {
-  static get breakChance() {
+  get breakChance() {
     return Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.BREAK_CHANCE);
   }
 
-  static get damageChance() {
+  get damageChance() {
     return Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.DAMAGE_CHANCE);
   }
 
-  static get breakableTypes() {
+  get breakableTypes() {
     return Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.BREAKABLE_TYPES).split(',').map(t => t.trim().toLowerCase());
   }
   
-  static get damageableTypes() {
+  get damageableTypes() {
     return Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.DAMAGEABLE_TYPES).split(',').map(t => t.trim().toLowerCase());
   }
   
-  static get breakableMagicItems() {
+  get breakableMagicItems() {
     return Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.BREAKABLE_MAGIC_ITEMS);
   }
 
+  constructor (actor) {
+    this.actor = actor;
+  }
+
   /**
-   * Add a set of coins to an actor.
-   * @param {Actor} actor - The actor to handle
+   * Add a set of coins to the actor.
    * @param {CoinGroup} coins - The set of coins
    */
-  static async addCoinsToActor(actor, coins) {
-    const currency = actor.system.currency;
+  async addCoins(coins) {
+    const currency = this.actor.system.currency;
 
     for (let coinType in coins) {
       currency[coinType] += coins[coinType];
     }
 
-    await actor.update({ 'system.currency': currency });
+    await this.actor.update({ 'system.currency': currency });
+    return this;
   }
 
   /**
-   * Add a list of itemQuantities to an actor.
-   * @param {Actor} actor - The actor to handle
+   * Add a list of itemQuantities to the actor.
    * @param {ItemQuantity[]} itemQuantities - The list of item and quantities
    */
-  static async addItemQuantities(actor, itemQuantities) {
+  async addItemQuantities(itemQuantities) {
     itemQuantities = itemQuantities
       .map(({ item, quantity }) => {
-        const actorItem = actor.items.find(i => this.#isSameItem(item, i));
+        const actorItem = this.actor.items.find(i => this.#isSameItem(item, i));
         quantity += actorItem ? actorItem.system.quantity : 0;
         return { item, quantity, actorItem };
       });
     
-    await this.setItemQuantities(actor, itemQuantities, true);
+    return await this.setItemQuantities(itemQuantities, true);
   }
 
   /**
-   * Set a list of itemQuantities to an actor, overwritting the previous quantities for the items in the list.
-   * @param {Actor} actor - The actor to handle
+   * Set a list of itemQuantities to the actor, overwritting the previous quantities for the items in the list.
    * @param {ItemQuantity[]} itemQuantities - The list of item and quantities
    */
-  static async setItemQuantities(actor, itemQuantities, withActorItems = false) {
+  async setItemQuantities(itemQuantities, withActorItems = false) {
     itemQuantities = withActorItems ? itemQuantities : itemQuantities
-      .map(({ item, quantity }) => ({ item, quantity, actorItem: actor.items.find(i => this.#isSameItem(item, i)) }));
+      .map(({ item, quantity }) => ({ item, quantity, actorItem: this.actor.items.find(i => this.#isSameItem(item, i)) }));
 
     const toRemove = itemQuantities.filter(({ quantity }) => quantity < 1)
       .map(({ actorItem }) => actorItem._id);
@@ -76,21 +78,21 @@ export class ActorItemsHandler {
       .map(({ quantity, item }) => ({ ...item, system: { ...item.system, quantity }}));
 
     if (toRemove.length)
-      await actor.deleteEmbeddedDocuments('Item', toRemove);
+      await this.actor.deleteEmbeddedDocuments('Item', toRemove);
     if (toUpdate.length)
-      await actor.updateEmbeddedDocuments('Item', toUpdate);
+      await this.actor.updateEmbeddedDocuments('Item', toUpdate);
     if (toAdd.length)
-      await actor.createEmbeddedDocuments('Item', toAdd);
+      await this.actor.createEmbeddedDocuments('Item', toAdd);
+    return this;
   }
 
   /**
-   * Deteriorates the items an actor has, based on the configuration of the module.
-   * @param {Actor} actor - The actor to handle
+   * Deteriorates the items the actor has, based on the configuration of the module.
    */
-  static async deteriorateEquipment(actor) {
+  async deteriorateItems() {
     // ['equipment', 'weapon', 'consumable', 'backpack', 'tool', 'loot'] Item types in DnD5e SRD => game.items.reduce((acc, item) => acc.includes(item.type) ? acc : [...acc, item.type], []);
-    Module.log(false, `Deteriorating items from ${actor.name}`);
-    const modifiedItems = actor.items
+    Module.log(false, `Deteriorating items from ${this.actor.name}`);
+    const modifiedItems = this.actor.items
       .map(item => this.#breakItemQuantity({ item, quantity: item.system.quantity }))
       .filter(Boolean);
 
@@ -106,10 +108,10 @@ export class ActorItemsHandler {
       }
     }
       
-    this.setItemQuantities(actor, modifiedItems);
+    this.setItemQuantities(modifiedItems);
   }
 
-  static #breakItemQuantity({ item, quantity }) {
+  #breakItemQuantity({ item, quantity }) {
     if (!this.#canBeBroken(item) && !this.#canBeDamaged(item))
       return;
 
@@ -135,15 +137,15 @@ export class ActorItemsHandler {
     return quantity === q ? null : { item, quantity: q, damaged };
   }
 
-  static #isSameItem(itemA, itemB) {
+  #isSameItem(itemA, itemB) {
     return itemA?.name === itemB?.name && itemA?.type === itemB?.type;
   }
 
-  static #canBeBroken(item) {
+  #canBeBroken(item) {
     return this.breakableTypes.includes(item.type.toLowerCase()) && (this.breakableMagicItems || !item.system.properties?.mgc);
   }
 
-  static #canBeDamaged(item) {
+  #canBeDamaged(item) {
     return this.damageableTypes.includes(item.type.toLowerCase()) && (this.breakableMagicItems || !item.system.properties?.mgc);
   }
 

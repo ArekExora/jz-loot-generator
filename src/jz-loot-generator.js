@@ -101,28 +101,15 @@ Hooks.once('init', () => {
 // Cannot be done in precreateToken, the actor is not ready at that point (the original actor is updated also)
 Hooks.on('createToken', (token, options, userId) => {
   if (userId === game.userId)
-    ActorHandler.generateLoot(token?.actor);
+    new ActorHandler(token?.actor).generateLoot();
 });
 
 Hooks.on('updateActor', (actor, change, options, userId) => {
   const newHP = change.system?.attributes?.hp?.value;
   if (userId === game.userId && newHP === 0)
-    ActorHandler.deteriorateItems(actor);
+    new ActorHandler(actor).deteriorateItems();
 });
 
 // Hooks.on('renderActorSheet5eNPC', async (sheet, html, data) => {
 //   await NPCSheetHandler.displayCurrency(sheet, html, data);
 // });
-
-
-// Garbage to remove later
-
-Hooks.once("ready", function() {
-  game.JZLootGenerator = {
-    generate
-  }
-});
-
-function generate() {
-  return ActorHandler.generateLoot(canvas.tokens.controlled[0].actor);
-}
