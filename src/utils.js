@@ -13,7 +13,7 @@ export class Utils {
    */
   static requireModule(moduleName) {
     if (!game.modules.get(moduleName)?.active) {
-        Module.error(`This function requires the "${moduleName}" module to work!`);
+        Module.error('module_required', { moduleName });
         return false;
     }
     return true;
@@ -42,7 +42,7 @@ export class Utils {
 
     const table = game.tables.getName(tableName);
     if (!table) {
-      Module.warn(`Table ${tableName} not found!`);
+      Module.warn('element_name_not_found', { element: 'Table', name: tableName });
       return items;
     }
 
@@ -61,7 +61,7 @@ export class Utils {
       } else {
         const pack = game.packs.get(documentCollection);
         if (!pack) {
-          Module.warn(`Compendium ${documentCollection} not found!`);
+          Module.warn('element_name_not_found', { element: 'Compendium', name: documentCollection });
           continue;
         }
         item = await pack.getDocument(documentId);
@@ -133,7 +133,7 @@ export class Utils {
     for (let i = 0; i < compendiums.length; i++) {
       const pack = game.packs.get(compendiums[i]);
       if (!pack) {
-        Module.warn(`Compendium ${compendiums[i]} not found!`); // TODO: localize
+        Module.warn('element_name_not_found', { element: 'Compendium', name: compendiums[i] });
         continue;
       }
       

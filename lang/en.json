@@ -1,5 +1,19 @@
 {
   "jz-loot-generator": {
+    "notifications": {
+      "info": {
+        
+      },
+      "warn": {
+        "unable_to_fix": "Unable to fix {name}.",
+        "element_name_not_found": "{element} {name} not found!"
+      },
+      "error": {
+        "module_required": "This function requires the {moduleName} module to work!",
+        "no_tokens_for_actor": "No active tokens found for {name}!",
+        "invalid_actor": "Invalid actor!"
+      }
+    },
     "items": {
       "damaged_suffix": " (Damaged)"
     },

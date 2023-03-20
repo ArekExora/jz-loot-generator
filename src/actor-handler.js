@@ -24,7 +24,7 @@ export class ActorHandler {
     // Load config
     this.typesWithLoot = Module.getConfig(Module.SETTINGS.TYPES_WITH_LOOT).split(',').map(t => t.trim().toLowerCase());
     this.turnIntoItemPilesEnabled = Module.getConfig(Module.SETTINGS.TURN_INTO_ITEM_PILES);
-    
+
     this.actor = actor;
     this.itemsHandler = new ActorItemsHandler(actor);
   }
@@ -116,7 +116,7 @@ export class ActorHandler {
 
     const token = this.actor.getActiveTokens()[0];
     if (!token) {
-      Module.error(`No active tokens found for ${this.actor.name}!`);
+      Module.error('no_tokens_for_actor', { name: this.actor.name });
       return;
     }
     
@@ -125,12 +125,12 @@ export class ActorHandler {
   }
 
   #isActor() {
-    if (!this.actor instanceof Actor) {
-      Module.error('Invalid actor!');
-      Module.logError(`Invalid actor received:`, this.actor);
-      return false;
-    }
-    return true;
+    if (this.actor && this.actor instanceof Actor)
+      return true;
+
+    Module.error('invalid_actor');
+    Module.logError(false, `Invalid actor received:`, this.actor);
+    return false;
   }
 
   #isNPC() {

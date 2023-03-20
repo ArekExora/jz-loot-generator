@@ -40,16 +40,16 @@ export class BaseModule {
     }
   }
 
-  static info(msg) {
-    ui.notifications.info(`${this.ID} | ${msg}`);
+  static info(msgKey, data = {}) {
+    ui.notifications.info(game.i18n.format(`${this.ID}.notifications.info.${msgKey}`, data));
   }
 
-  static warn(msg) {
-    ui.notifications.warn(`${this.ID} | ${msg}`);
+  static warn(msgKey, data = {}) {
+    ui.notifications.warn(game.i18n.format(`${this.ID}.notifications.warn.${msgKey}`, data));
   }
 
-  static error(msg) {
-    ui.notifications.error(`${this.ID} | ${msg}`);
+  static error(msgKey, data = {}) {
+    ui.notifications.error(game.i18n.format(`${this.ID}.notifications.error.${msgKey}`, data));
   }
 
   static getConfig(key) {

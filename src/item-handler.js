@@ -35,7 +35,7 @@ export class ItemHandler {
       if (fixed) {
         this.item = fixed;
       } else {
-        Module.warn(`Unable to fix ${this.damagedName}`); // TODO: localize
+        Module.warn('unable_to_fix', { name: this.damagedName });
         return null;
       }
     }
