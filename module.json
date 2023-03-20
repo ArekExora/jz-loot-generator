@@ -1,0 +1,22 @@
+{
+  "name": "jz-loot-generator",
+  "title": "JZ Loot Generator",
+  "description": "Generates the loot of dead NPCs in DnD 5e, by Jan Zizka.",
+  "version": "0.0.1",
+  "authors": [{ "name": "Jan Zizka" }],
+  "minimumCoreVersion": "10",
+  "compatibleCoreVersion": "10",
+  "esmodules": [
+    "src/jz-loot-generator.js"
+  ],
+  "styles": [
+    "styles/jz-loot-generator.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ]
+}

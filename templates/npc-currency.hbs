@@ -1,0 +1,13 @@
+<ol class="currency flexrow">
+  <h3>
+    {{localize "DND5E.Currency"}}
+    <a class="action-button currency-convert rollable" data-action="convertCurrency"
+      data-tooltip="DND5E.CurrencyConvert">
+      <i class="fas fa-coins"></i>
+    </a>
+  </h3>
+  {{#each system.currency as |v k|}}
+  <label class="denomination {{k}}">{{ lookup ../labels.currencies k }}</label>
+  <input type="text" name="system.currency.{{k}}" value="{{v}}" data-dtype="Number">
+  {{/each}}
+</ol>
