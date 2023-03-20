@@ -11,16 +11,7 @@ import { ActorItemsHandler } from './actor-items-handler.js';
  * @Class
  */
 export class ActorHandler {
-  get typesWithLoot() {
-    return Module.getConfig(Module.SETTINGS.TYPES_WITH_LOOT).split(',').map(t => t.trim().toLowerCase());
-  }
-  
-  get turnIntoItemPilesEnabled() {
-    return Module.getConfig(Module.SETTINGS.TURN_INTO_ITEM_PILES);
-  }
-
   TREASURE_TYPE = 'treasure';
-
   PILE_SETTINGS = {
     displayOne: false,
     shareCurrenciesEnabled: false,
@@ -30,6 +21,10 @@ export class ActorHandler {
   }
 
   constructor (actor) {
+    // Load config
+    this.typesWithLoot = Module.getConfig(Module.SETTINGS.TYPES_WITH_LOOT).split(',').map(t => t.trim().toLowerCase());
+    this.turnIntoItemPilesEnabled = Module.getConfig(Module.SETTINGS.TURN_INTO_ITEM_PILES);
+    
     this.actor = actor;
     this.itemsHandler = new ActorItemsHandler(actor);
   }
@@ -47,6 +42,8 @@ export class ActorHandler {
     } else if (this.#shouldGenerateLoot()) {
       await this.#generateNPCLoot();
     }
+
+    return this;
   }
 
   /**
@@ -58,6 +55,8 @@ export class ActorHandler {
 
     await this.itemsHandler.deteriorateItems();
     await this.#turnToItemPile();
+
+    return this;
   }
 
   #shouldGenerateLoot() {

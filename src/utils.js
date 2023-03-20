@@ -13,7 +13,7 @@ export class Utils {
    */
   static requireModule(moduleName) {
     if (!game.modules.get(moduleName)?.active) {
-        Module.error(`This function requires the "${moduleName}" module to function!`);
+        Module.error(`This function requires the "${moduleName}" module to work!`);
         return false;
     }
     return true;
@@ -133,7 +133,7 @@ export class Utils {
     for (let i = 0; i < compendiums.length; i++) {
       const pack = game.packs.get(compendiums[i]);
       if (!pack) {
-        Module.error(`Compendium ${compendiums[i]} not found!`); // TODO: localize
+        Module.warn(`Compendium ${compendiums[i]} not found!`); // TODO: localize
         continue;
       }
       

@@ -9,23 +9,16 @@ import { Utils } from './utils.js';
  * @Class
  */
 export class ItemHandler {
-  get priceLossFactor() {
-    return (100 - Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.PRICE_LOSS_FACTOR)) / 100;
-  }
-  
-  get utilityLossFactor() {
-    return (100 - Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.UTILITY_LOSS_FACTOR)) / 100;
-  }
-
-  get damagedSuffix() {
-    return game.i18n.localize(`${Module.ID}.items.damaged_suffix`);
-  }
-
   get isDamaged() {
     return this.item.name === this.damagedName;
   }
 
   constructor(item) {
+    // Load config
+    this.priceLossFactor = (100 - Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.PRICE_LOSS_FACTOR)) / 100;
+    this.utilityLossFactor = (100 - Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.UTILITY_LOSS_FACTOR)) / 100;
+    this.damagedSuffix = game.i18n.localize(`${Module.ID}.items.damaged_suffix`);
+
     this.item = item;
     this.fixedName = item.name.replace(this.damagedSuffix, '');
     this.damagedName = this.fixedName + this.damagedSuffix;
@@ -38,7 +31,13 @@ export class ItemHandler {
   async getFixed() {
     if (this.isDamaged) {
       Module.debug(false, `Trying to fix ${this.damagedName}`);
-      this.item = await Utils.getItem({ name: this.fixedName, type: this.item.type });
+      const fixed = await Utils.getItem({ name: this.fixedName, type: this.item.type });
+      if (fixed) {
+        this.item = fixed;
+      } else {
+        Module.warn(`Unable to fix ${this.damagedName}`); // TODO: localize
+        return null;
+      }
     }
 
     return this.item;

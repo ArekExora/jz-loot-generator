@@ -8,27 +8,15 @@ import { ItemHandler } from './item-handler.js';
  * @Class
  */
 export class ActorItemsHandler {
-  get breakChance() {
-    return Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.BREAK_CHANCE);
-  }
-
-  get damageChance() {
-    return Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.DAMAGE_CHANCE);
-  }
-
-  get breakableTypes() {
-    return Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.BREAKABLE_TYPES).split(',').map(t => t.trim().toLowerCase());
-  }
-  
-  get damageableTypes() {
-    return Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.DAMAGEABLE_TYPES).split(',').map(t => t.trim().toLowerCase());
-  }
-  
-  get breakableMagicItems() {
-    return Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.BREAKABLE_MAGIC_ITEMS);
-  }
 
   constructor (actor) {
+    // Load config
+    this.breakChance = Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.BREAK_CHANCE);  
+    this.damageChance = Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.DAMAGE_CHANCE);
+    this.breakableTypes = Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.BREAKABLE_TYPES).split(',').map(t => t.trim().toLowerCase());
+    this.damageableTypes = Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.DAMAGEABLE_TYPES).split(',').map(t => t.trim().toLowerCase());
+    this.breakableMagicItems = Module.getConfig(Module.SETTINGS.ITEM_DETERIORATION.BREAKABLE_MAGIC_ITEMS);
+
     this.actor = actor;
   }
 
