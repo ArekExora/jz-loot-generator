@@ -150,12 +150,13 @@ export class Utils {
   /**
    * Generate the rate of success with a given chance, from 0 to max.
    * @param {number} chance - The percentage of success
+   * @param {number} min - The minimum success rate obtainable
    * @param {number} max - The maximum success rate obtainable
    * @returns {number} The rate of success, 0 means failure, the chance of an aditional success is half the current chance.
    */
-  static evaluateSuccessRate(chance, max) {
-    if (Math.min(chance, max) < 0)
-      return 0;
+  static evaluateSuccessRate(chance, min, max) {
+    if (min >= max || Math.min(chance, max) <= 0)
+      return min;
 
     const result = Math.random() * 100 - (100 - chance);
 
@@ -165,8 +166,9 @@ export class Utils {
     const segments = this.storedSuccessRateSegments[max];
     const segmentSize = chance/segments.length;
     const index = Math.floor(result/segmentSize);
-    Module.debug(false, `Evaluating success rate. SegmentSize: ${segmentSize}, index: ${index}, segments:`, segments);
-    return index >= 0 ? segments[index] : 0;
+    const successRate = index >= 0 ? Math.max(min, segments[index]) : min;
+    Module.debug(false, `Success rate: ${successRate}. Size: ${segmentSize}, index: ${index}, segments: ${segments.join(',')}`);
+    return successRate;
   }
 
   static #getSuccessRateSegments(max) {

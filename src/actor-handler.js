@@ -36,14 +36,22 @@ export class ActorHandler {
     if (!this.#isNPC())
       return;
 
-    const treasureLevel = this.#getTreasureLevel();
-    if (treasureLevel) {
-      await this.#stashTreasure(treasureLevel);
-    } else if (this.#shouldGenerateLoot()) {
-      await this.#generateNPCLoot();
-    }
+    let treasures = [];
+    let coins = {};
+    const { treasureRolls, hasTrinkets, turnToPile, minCoinFactor } = this.#getFlags();
+    
+    if (treasureRolls)
+      coins = CoinGenerator.generateIndividualTreasure(this.actor, treasureRolls, minCoinFactor);
+    ({ coins, treasures } = await TreasureConverter.convertCoinsToTreasures(coins));
+    treasures.push(...await TrinketGenerator.generateAmmo(this.actor));
+    if (hasTrinkets)
+      treasures.push(...await TrinketGenerator.generateTrinkets());
 
-    return this;
+    await this.itemsHandler.addCoins(coins);
+    await this.itemsHandler.addItemQuantities(treasures);
+
+    if (turnToPile)
+      this.#turnToItemPile({ deleteWhenEmpty: true });
   }
 
   /**
@@ -57,6 +65,18 @@ export class ActorHandler {
     await this.#turnToItemPile();
 
     return this;
+  }
+  
+  #getFlags() {
+    const hasLoot = this.#shouldGenerateLoot();
+    const treasureLevel = this.#getTreasureLevel();
+
+    return {
+      treasureRolls: treasureLevel || (hasLoot ? 1 : 0),
+      hasTrinkets: hasLoot,
+      turnToPile: !!treasureLevel,
+      minCoinFactor: treasureLevel ? 1 : 0,
+    }
   }
 
   #shouldGenerateLoot() {
@@ -73,41 +93,10 @@ export class ActorHandler {
   }
 
   #getTreasureLevel() {
-    const treasureSizes = {
-      tiny: 1,
-      sm: 3,
-      med: 5,
-      lg: 8,
-      huge: 10,
-      grg: 15,
-    };
-
-    const type = this.actor.system?.details?.type;
-    const isTreasure = type?.custom === this.TREASURE_TYPE;
-
-    return isTreasure ? treasureSizes[type?.swarm || 'med'] : 0;
-  }
-
-  async #generateNPCLoot() {
-    let treasures = [];
-    let coins = CoinGenerator.generateIndividualTreasure(this.actor);
-    ({ coins, treasures }= await TreasureConverter.convertCoinsToTreasures(coins));
-    treasures.push(...await TrinketGenerator.generateTrinkets());
-    treasures.push(...await TrinketGenerator.generateAmmo(this.actor));
-
-    await this.itemsHandler.addCoins(coins);
-    await this.itemsHandler.addItemQuantities(treasures);
-  }
-
-  async #stashTreasure(treasureLevel) {
-    let treasures = [];
-    let coins = CoinGenerator.generateIndividualTreasure(this.actor, treasureLevel);
-    ({ coins, treasures } = await TreasureConverter.convertCoinsToTreasures(coins));
-
-    await this.itemsHandler.addCoins(coins);
-    await this.itemsHandler.addItemQuantities(treasures);
-    
-    this.#turnToItemPile({ deleteWhenEmpty: true });
+    const defaultTreasureLevel = 5;
+    const type = this.actor.system?.details?.type || {};
+    const isTreasure = type.custom === this.TREASURE_TYPE;
+    return isTreasure ? parseInt(type.subtype) || defaultTreasureLevel : 0;
   }
 
   async #turnToItemPile(pileConfigOverrides = {}) {

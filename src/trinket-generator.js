@@ -22,7 +22,7 @@ export class TrinketGenerator {
    * @returns {Promise<ItemQuantity[]>} The list of trinkets generated
    */
   static async generateTrinkets() {
-    const amount = Utils.evaluateSuccessRate(this.chance, this.max);
+    const amount = Utils.evaluateSuccessRate(this.chance, 0, this.max);
     if (amount < 1) {
       Module.log(false, 'Skipping trinket generation');
       return [];

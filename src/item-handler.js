@@ -9,28 +9,6 @@ import { Utils } from './utils.js';
  * @Class
  */
 export class ItemHandler {
-  /**
-   * Gets a damaged version of the item, reducing its value and general usefulness.
-   * @param {Item} item - The original item
-   * @returns {Item} The damaged version of the item
-   */
-  static async getDamaged(item) {
-    const handler = new ItemHandler(item);
-    await handler.damage();
-    return handler.item;
-  }
-
-  /**
-   * Get an undamaged version of the item.
-   * @param {Item} item - The original (damaged) item
-   * @returns {Item} The undamaged version of the item
-   */
-  static async getFixed(item) {
-    const handler = new ItemHandler(item);
-    await handler.fix();
-    return handler.item;
-  }
-
   get isDamaged() {
     return this.item.name === this.damagedName;
   }
@@ -48,30 +26,30 @@ export class ItemHandler {
 
   /**
    * Restore the item to an undamaged version, if possible.
-   * @returns {Promise<ItemHandler>} The handler with an undamaged version of the item
+   * @returns {Promise<Item>} The undamaged version of the item
    */
-  async fix() {
+  async getFixed() {
     if (this.isDamaged) {
       Module.log(false, `Trying to fix ${this.damagedName}`);
       if (! await this.#findItem(this.fixedName))
         Module.warn('unable_to_fix', { name: this.damagedName });
     }
 
-    return this;
+    return this.item;
   }
 
   /**
    * Damage the item, reducing its value and general usefulness.
-   * @returns {Promise<ItemHandler>} The handler with a damaged version of the item
+   * @returns {Promise<Item>} The damaged version of the item
    */
-  async damage() {
+  async getDamaged() {
     if (!this.isDamaged) {
       Module.log(false, `Damaging ${this.fixedName}`);
       if (! await this.#findItem(this.damagedName))
         this.#createDamaged().#reducePrice().#reduceDamage().#reduceArmor();
     }
 
-    return this;
+    return this.item;
   }
 
   async #findItem(name) {

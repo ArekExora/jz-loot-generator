@@ -21,13 +21,13 @@ export class CoinGenerator {
    * @param {number} [rolls = 1] - How many times the rolls should be made (usefull for treasure piles)
    * @returns {CoinGroup} A group of coins
    */
-  static generateIndividualTreasure(actorOrCR, rolls = 1) {
+  static generateIndividualTreasure(actorOrCR, rolls = 1, minFactor = 0) {
     if (typeof actorOrCR !== 'number' && actorOrCR.type !== 'npc') {
       Module.logError(false, `Trying to generate individual treasure with invalid actorOrCR`, actorOrCR, rolls);
       return {};
     }
   
-    const factor = Utils.evaluateSuccessRate(this.chance, this.maxFactor);
+    const factor = Math.max(minFactor, Utils.evaluateSuccessRate(this.chance, minFactor, this.maxFactor));
     if (factor < 1) {
       Module.log(false, 'Skipping coin generation');
       return {};

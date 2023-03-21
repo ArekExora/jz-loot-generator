@@ -87,7 +87,7 @@ export class ActorItemsHandler {
     const toDamage = modifiedItems.filter(({ damaged }) => damaged);
     for (let i = 0; i < toDamage.length; i++) {
       const quantity = toDamage[i].damaged;
-      const newItem = await ItemHandler.getDamaged(toDamage[i].item);
+      const newItem = await new ItemHandler(toDamage[i].item).getDamaged();
       const itemInList = modifiedItems.find(({ item }) => this.#isSameItem(item, newItem));
       if (itemInList) {
         itemInList.quantity += quantity;
@@ -130,12 +130,27 @@ export class ActorItemsHandler {
   }
 
   #canBeBroken(item) {
-    return this.breakableTypes.includes(item.type.toLowerCase()) && (this.breakableMagicItems || !item.system.properties?.mgc);
+    return this.breakableTypes.includes(item.type.toLowerCase()) && !this.#isItemInmune(item);
   }
 
   #canBeDamaged(item) {
-    return this.damageableTypes.includes(item.type.toLowerCase()) && (this.breakableMagicItems || !item.system.properties?.mgc)
-      && !(item.type === 'equipment' && ['clothing', 'trinket'].includes(item.system.armor?.type) && !item.system.equipped); // Avoid damaging unquiped clothing and trinkets
+    return this.damageableTypes.includes(item.type.toLowerCase()) && !this.#isItemInmune(item);
+  }
+
+  #isItemInmune(item) {
+    // Do not damage magical items unless splicitly allowed to
+    if (!this.breakableMagicItems && item.system.properties?.mgc)
+      return true;
+     
+    switch(item.type) {
+      // Feats cannot be damaged
+      case 'feat': return true;
+      // Avoid damaging unquiped clothing and trinkets
+      case 'equipment': return ['clothing', 'trinket'].includes(item.system.armor?.type) && !item.system.equipped;
+      // Avoid damaging natural weapons
+      case 'weapon': return item.system.weaponType === 'natural';
+    }
+    return false;
   }
 
 }
