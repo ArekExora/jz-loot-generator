@@ -26,15 +26,9 @@ export class CoinGenerator {
       Module.logError(false, `Trying to generate individual treasure with invalid actorOrCR`, actorOrCR, rolls);
       return {};
     }
-  
-    const factor = Math.max(minFactor, Utils.evaluateSuccessRate(this.chance, minFactor, this.maxFactor));
-    if (factor < 1) {
-      Module.log(false, 'Skipping coin generation');
-      return {};
-    }
 
     const cr = actorOrCR.system?.details?.cr ?? actorOrCR;
-    return this.#individualTreasureRollGroup(cr, factor, rolls);
+    return this.#individualTreasureRollGroup(cr, minFactor, rolls);
   }
 
   /**
@@ -53,23 +47,27 @@ export class CoinGenerator {
     }
   }
 
-  static #individualTreasureRollGroup(cr, factor, rolls) {
+  static #individualTreasureRollGroup(cr, minFactor, rolls) {
     const coins = { cp: 0, sp: 0, ep: 0, gp: 0, pp: 0 };
+    const factors = [];
 
     for (let i = 0; i < rolls; i++) {
+      const factor = Math.max(minFactor, Utils.evaluateSuccessRate(this.chance, minFactor, this.maxFactor));
+      factors.push(factor);
+      if (factor < 1)
+        continue;
+
       const generated = this.#individualTreasureRoll(cr, factor);
-      const coinTypes = Object.keys(generated);
-      coinTypes.forEach(coinType => coins[coinType] += generated[coinType]);
+      for (const [coinType, amount] of Object.entries(generated))
+        coins[coinType] = (coins[coinType] || 0) + amount;
     }
 
-    Object.keys(coins).forEach(coinType => {
-      if (!coins[coinType])
-        delete coins[coinType];
-    });
+    if (Object.keys(coins).length)
+      Module.log(false, `Generated coins: [${Utils.parseCoins(coins)}] (${rolls} roll/s with CR${cr} and factors ${factors.join(',')})`);
+    else
+      Module.log(false, `No coins generated (${rolls} roll/s with CR${cr} and factors ${factors.join(',')})`);
 
-    Module.log(false, `Generated coins: ${Utils.parseCoins(coins)} (${rolls} roll/s with CR${cr} and factor ${factor})`);
-
-    return coins;
+    return Utils.cleanCoinGroup(coins);
   }
 
   static #individualTreasureRoll(cr, factor) {

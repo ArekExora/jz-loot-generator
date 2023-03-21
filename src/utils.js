@@ -47,7 +47,7 @@ export class Utils {
     }
 
     const tableResult = await table.drawMany(rolls, { displayChat: false });
-    for (let { documentId, documentCollection } of tableResult.results) {
+    for (const { documentId, documentCollection } of tableResult.results) {
       const itemQuantity = items.find(({ item }) => item._id === documentId);
       if (itemQuantity) {
         Module.debug(false, `Item ${itemQuantity.item.name} rolled from table ${tableName}`);
@@ -94,10 +94,25 @@ export class Utils {
    */
   static parseCoins(coins){
     const result = [];
-    for (let coinType in coins) {
-        if (coins[coinType]) result.push(`${coins[coinType]}${coinType}`);
-    }
+    
+    for (const [coinType, amount] of Object.entries(coins))
+      if (amount) result.push(`${amount}${coinType}`);
+
     return result.join(' ');
+  }
+
+  /**
+   * Remove all the empty coin types from the group.
+   * @param {CoinGroup} coins - The group of coins
+   * @returns {CoinGroup} The cleaned group of coins
+   */
+  static cleanCoinGroup(coins) {
+    const newCoins = {};
+
+    for (const [coinType, amount] of Object.entries(coins))
+      if (amount) newCoins[coinType] = amount;
+
+    return newCoins;
   }
 
   /**
@@ -167,7 +182,7 @@ export class Utils {
     const segmentSize = chance/segments.length;
     const index = Math.floor(result/segmentSize);
     const successRate = index >= 0 ? Math.max(min, segments[index]) : min;
-    Module.debug(false, `Success rate: ${successRate}. Size: ${segmentSize}, index: ${index}, segments: ${segments.join(',')}`);
+    Module.debug(false, `Success rate: ${successRate}[${min}-${max}]. Size: ${segmentSize}, index: ${index}, segments: ${segments.join(',')}`);
     return successRate;
   }
 

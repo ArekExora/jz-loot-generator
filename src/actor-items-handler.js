@@ -27,7 +27,7 @@ export class ActorItemsHandler {
   async addCoins(coins) {
     const currency = this.actor.system.currency;
 
-    for (let coinType in coins) {
+    for (const coinType in coins) {
       currency[coinType] += coins[coinType];
     }
 

@@ -51,11 +51,11 @@ export class TreasureConverter {
     const rollsByTable = {};
     const updatedCoins = {};
 
-    for (let coinType in coins) {
+    for (const coinType in coins) {
       updatedCoins[coinType] = coins[coinType];
       const rollsByCoin = this.#getRollsPerTable(updatedCoins[coinType] * coinValues[coinType].gp);
 
-      for (let tableName in rollsByCoin) {
+      for (const tableName in rollsByCoin) {
         const rolls = Utils.getHits(rollsByCoin[tableName].rolls, conversionRate);
         if (rolls) {
           updatedCoins[coinType] -= Math.ceil(rolls * rollsByCoin[tableName].table.valueInGp / coinValues[coinType].gp);
@@ -64,20 +64,15 @@ export class TreasureConverter {
       }
     }
 
-    Object.keys(updatedCoins).forEach(coinType => {
-      if (!updatedCoins[coinType])
-        delete updatedCoins[coinType];
-    });
-
     const treasures = await this.#getTreasuresFromRolls(rollsByTable);
 
-    return { coins: updatedCoins, treasures };
+    return { coins: Utils.cleanCoinGroup(updatedCoins), treasures };
   }
 
   static async #getTreasuresFromRolls(treasureRolls) {
     const treasures = [];
 
-    for (let tableName in treasureRolls) {
+    for (const tableName in treasureRolls) {
       treasures.push(... await Utils.rollTable(tableName, treasureRolls[tableName]));
     }
     
