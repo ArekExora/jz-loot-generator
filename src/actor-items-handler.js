@@ -87,7 +87,7 @@ export class ActorItemsHandler {
     const toDamage = modifiedItems.filter(({ damaged }) => damaged);
     for (let i = 0; i < toDamage.length; i++) {
       const quantity = toDamage[i].damaged;
-      const newItem = await new ItemHandler(toDamage[i].item).getDamaged();
+      const newItem = await ItemHandler.getDamaged(toDamage[i].item);
       const itemInList = modifiedItems.find(({ item }) => this.#isSameItem(item, newItem));
       if (itemInList) {
         itemInList.quantity += quantity;
@@ -134,7 +134,8 @@ export class ActorItemsHandler {
   }
 
   #canBeDamaged(item) {
-    return this.damageableTypes.includes(item.type.toLowerCase()) && (this.breakableMagicItems || !item.system.properties?.mgc);
+    return this.damageableTypes.includes(item.type.toLowerCase()) && (this.breakableMagicItems || !item.system.properties?.mgc)
+      && !(item.type === 'equipment' && ['clothing', 'trinket'].includes(item.system.armor?.type) && !item.system.equipped); // Avoid damaging unquiped clothing and trinkets
   }
 
 }

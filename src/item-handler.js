@@ -9,6 +9,28 @@ import { Utils } from './utils.js';
  * @Class
  */
 export class ItemHandler {
+  /**
+   * Gets a damaged version of the item, reducing its value and general usefulness.
+   * @param {Item} item - The original item
+   * @returns {Item} The damaged version of the item
+   */
+  static async getDamaged(item) {
+    const handler = new ItemHandler(item);
+    await handler.damage();
+    return handler.item;
+  }
+
+  /**
+   * Get an undamaged version of the item.
+   * @param {Item} item - The original (damaged) item
+   * @returns {Item} The undamaged version of the item
+   */
+  static async getFixed(item) {
+    const handler = new ItemHandler(item);
+    await handler.fix();
+    return handler.item;
+  }
+
   get isDamaged() {
     return this.item.name === this.damagedName;
   }
@@ -25,69 +47,38 @@ export class ItemHandler {
   }
 
   /**
-   * Get an undamaged version of the item.
-   * @returns {Item} The undamaged version of the item
+   * Restore the item to an undamaged version, if possible.
+   * @returns {Promise<ItemHandler>} The handler with an undamaged version of the item
    */
-  async getFixed() {
+  async fix() {
     if (this.isDamaged) {
-      Module.debug(false, `Trying to fix ${this.damagedName}`);
-      const fixed = await Utils.getItem({ name: this.fixedName, type: this.item.type });
-      if (fixed) {
-        this.item = fixed;
-      } else {
+      Module.log(false, `Trying to fix ${this.damagedName}`);
+      if (! await this.#findItem(this.fixedName))
         Module.warn('unable_to_fix', { name: this.damagedName });
-        return null;
-      }
     }
 
-    return this.item;
+    return this;
   }
 
   /**
-   * Gets a damaged version of the item, reducing its value and general usefulness.
-   * @returns {Item} The damaged version of the item
+   * Damage the item, reducing its value and general usefulness.
+   * @returns {Promise<ItemHandler>} The handler with a damaged version of the item
    */
-  async getDamaged() {
-    if (this.isDamaged) {
-      return this.item;
+  async damage() {
+    if (!this.isDamaged) {
+      Module.log(false, `Damaging ${this.fixedName}`);
+      if (! await this.#findItem(this.damagedName))
+        this.#createDamaged().#reducePrice().#reduceDamage().#reduceArmor();
     }
 
-    switch (this.item.type) {
-      case 'weapon': return this.#getDamagedWeapon();
-      case 'equipment': return this.#getDamagedEquipment();
-      default: return this.#getDamagedGeneric();
-    }
+    return this;
   }
 
-  async #getDamagedGeneric() {
-    this.item = await this.#findDamaged() || this.#createDamaged().#reducePrice().item;
-    return this.item;
-  }
-
-  async #getDamagedWeapon() {
-    this.item = await this.#findDamaged() || this.#createDamaged().#reducePrice().#reduceDamage().item;
-    return this.item;
-  }
-
-  async #getDamagedEquipment() {
-    // EQUIPMENT BASIC ARMOR TYPES: light, medium, heavy, shield, clothing, trinket
-    const armorTypes = ['light', 'medium', 'heavy', 'shield'];
-    
-    if (armorTypes.includes(this.item.system.armor.type)) {
-      return await this.#getDamagedArmor();
-    } else {
-      // Do not damage unequiped trinkets and clothing
-      return !this.item.system.equipped ? this.item : await this.#getDamagedGeneric();
-    }
-  }
-
-  async #getDamagedArmor() {
-    this.item = await this.#findDamaged() || this.#createDamaged().#reducePrice().#reduceArmor().item;
-    return this.item;
-  }
-
-  async #findDamaged() {
-    return await Utils.getItem({ name: this.damagedName, type: this.item.type });
+  async #findItem(name) {
+    const found = await Utils.getItem({ name, type: this.item.type });
+    if (found)
+      this.item = found;
+    return found;
   }
 
   #createDamaged() {
@@ -104,55 +95,51 @@ export class ItemHandler {
   }
 
   #reduceDamage(factor = this.utilityLossFactor) {
-    const oldDamage = [];
-    const newDamage = [];
+    const oldRolls = [];
+    const newRolls = [];
 
     // Reduce each damage roll formula
     const damage = this.item.system.damage;
     damage.parts.forEach(damageSet => {
-      oldDamage.push(damageSet[0]);
-      damageSet[0] = this.#getNewDamageFormula(damageSet[0], factor);
-      newDamage.push(damageSet[0]);
+      damageSet[0] = this.#getNewDamageFormula(damageSet[0], factor, oldRolls, newRolls);
     });
     if (damage.versatile) {
-      oldDamage.push(damage.versatile);
-      damage.versatile = this.#getNewDamageFormula(damage.versatile, factor);
-      newDamage.push(damage.versatile);
+      damage.versatile = this.#getNewDamageFormula(damage.versatile, factor, oldRolls, newRolls);
     }
 
-    Module.debug(false, `Generating ${this.damagedName}, new damage: ${newDamage.join(', ')} (${factor} * ${oldDamage.join(', ')})`);
+    if (newRolls.length)
+      Module.debug(false, `Generating ${this.damagedName}, new damage: ${newRolls.join(', ')} (${factor} * ${oldRolls.join(', ')})`);
     return this;
   }
 
-  #getNewDamageFormula(damageFormula, factor) {
+  #getNewDamageFormula(damageFormula, factor, oldRolls, newRolls) {
     return damageFormula.replace(/(\d+)d(\d+)/, roll => {
       const [dice, faces] = roll.split('d');
-      return `${Math.ceil(dice * factor)}d${Math.ceil(faces * factor)}`;
+      const newRoll = `${Math.ceil(dice * factor)}d${Math.ceil(faces * factor)}`;
+      oldRolls.push(roll);
+      newRolls.push(newRoll);
+      return newRoll;
     });
   }
 
   #reduceArmor(factor = this.utilityLossFactor) {
-    const armor = this.item.system.armor;
-    let { type, dex, value } = armor;
-    let stealth = this.item.system.stealth;
+    const armor = this.item.system.armor || {};
+    const { dex: oldDex, value: oldValue } = armor;
 
-    if (type !== 'shield') {
+    if (['light', 'medium', 'heavy'].includes(armor.type)) {
+      const oldStealth = this.item.system.stealth;
       // Ensure no light, medium or heavy armor has AC below 10
-      value = 10 + Math.floor(factor * (value - 10));
+      armor.value = 10 + Math.floor(factor * (armor.value - 10));
       // Reduce maximum Dexterity Modifier
-      dex = Math.floor(factor * (dex ?? 10));
+      armor.dex = Math.floor(factor * (armor.dex ?? 10));
       //Disadvantage to stealth
-      stealth = this.item.system.stealth || factor > 0.5;
-      Module.debug(false, `Generating ${this.damagedName}, AC${value} maxDexBonus: ${dex} [${stealth ? '' : 'NO '}Stealth Penalty] (${factor} of AC${armor.value} maxDexBonus: ${armor.dex ?? 'Unlimited'}) [${this.item.system.stealth ? '' : 'NO '}Stealth Penalty]`);
-    } else {
+      this.item.system.stealth = this.item.system.stealth || factor < 0.5;
+      Module.debug(false, `Generating ${this.damagedName}, AC${armor.value} maxDexBonus: ${armor.dex} ${this.item.system.stealth && !oldStealth ? '[Added Stealth Penalty]' : ''} (${factor} of AC${oldValue} maxDexBonus: ${oldDex ?? 'Unlimited'})`);
+    } else if (armor.type === 'shield') {
       // Reduce AC
-      value = Math.floor(factor * value);
-      Module.debug(false, `Generating ${this.damagedName}, AC${value} (${factor} of AC${armor.value}`);
+      armor.value = Math.floor(factor * armor.value);
+      Module.debug(false, `Generating ${this.damagedName}, AC${armor.value} (${factor} of AC${oldValue})`);
     }
-
-    //Update the item
-    this.item.system.armor = { ...armor, dex, value };
-    this.item.system.stealth = stealth;
 
     return this;
   }
