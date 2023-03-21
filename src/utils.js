@@ -145,10 +145,10 @@ export class Utils {
       return item;
     }
     
-    for (let i = 0; i < compendiums.length; i++) {
-      const pack = game.packs.get(compendiums[i]);
+    for (const compendium of compendiums) {
+      const pack = game.packs.get(compendium);
       if (!pack) {
-        Module.warn('element_name_not_found', { element: 'Compendium', name: compendiums[i] });
+        Module.warn('element_name_not_found', { element: 'Compendium', name: compendium });
         continue;
       }
       

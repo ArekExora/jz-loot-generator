@@ -40,25 +40,37 @@ export class TrinketGenerator {
    * @returns {Promise<ItemQuantity[]>} The list of ammo generated
    */
   static async generateAmmo(actor) {
-    const arrow = game.items.getName('Arrow');
-    const bolt = game.items.getName('Crossbow Bolt');
-    const needle = game.items.getName('Blowgun Needle');
-    const slingBullet = game.items.getName('Sling Bullet');
-
     const weaponsAndAmmo = [
-      { weapons: ['shortbow', 'longbow', 'oathbow'], ammo: arrow, quantityRoll: '4d3-5' },
-      { weapons: ['crossbow'], ammo: bolt, quantityRoll: '4d3-5' },
-      { weapons: ['blowgun'], ammo: needle, quantityRoll: '4d3-5'  },
-      { weapons: ['sling'], ammo: slingBullet, quantityRoll: '4d3' },
+      { weapons: ['shortbow', 'longbow', 'oathbow'], ammo: 'Arrow', quantityRoll: '4d3-5' },
+      { weapons: ['crossbow'], ammo: 'Crossbow Bolt', quantityRoll: '4d3-5' },
+      { weapons: ['blowgun'], ammo: 'Blowgun Needle', quantityRoll: '4d3-5'  },
+      { weapons: ['sling'], ammo: 'Sling Bullet', quantityRoll: '4d3' },
       { weapons: ['dart', 'javelin'], quantityRoll: '4d3-8' },
     ]
 
-    const ammoToAdd = actor.items.map(i => {
-      const weapon = weaponsAndAmmo.find(wa => wa.weapons.some((weaponName) => i.name.toLowerCase().includes(weaponName)));
-      const item = weapon ? weapon.ammo || i : null;
-      const quantity = item ? Math.max(0, Utils.rollDice(weapon.quantityRoll)) : 0;
-      return quantity ? { item, quantity } : null;
-    }).filter(Boolean);
+    const ammoToAdd = actor.items
+      .map(i => {
+        if (i.type !== 'weapon')
+          return;
+        const weapon = weaponsAndAmmo.find(wa => wa.weapons.some(weaponName => i.name.toLowerCase().includes(weaponName)));
+        const item = weapon ? weapon.ammo || i : null;
+        const quantity = item ? Math.max(0, Utils.rollDice(weapon.quantityRoll)) : 0;
+        return quantity ? { item, quantity } : null;
+      })
+      .filter(Boolean)
+      .reduce((acc, ammo) => {
+        console.log(ammo);
+        const existing = acc.find(a => (a.item.name || a.item) === (ammo.item.name || ammo.item));
+        if (existing)
+          existing.quantity += ammo.quantity;
+        else
+          acc.push(ammo);
+        return acc;
+      }, []);
+
+    for (const ammo of ammoToAdd) {
+      ammo.item = typeof ammo.item === 'string' ? await Utils.getItem(ammo.item) : ammo.item;
+    }
 
     if (ammoToAdd.length)
       Module.log(false, `Generated ammo: ${Utils.parseItemNames(ammoToAdd)}`);

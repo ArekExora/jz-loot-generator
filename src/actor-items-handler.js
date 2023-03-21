@@ -84,10 +84,10 @@ export class ActorItemsHandler {
       .map(item => this.#breakItemQuantity({ item, quantity: item.system.quantity }))
       .filter(Boolean);
 
-    const toDamage = modifiedItems.filter(({ damaged }) => damaged);
-    for (let i = 0; i < toDamage.length; i++) {
-      const quantity = toDamage[i].damaged;
-      const newItem = await new ItemHandler(toDamage[i].item).getDamaged();
+    const toDamageList = modifiedItems.filter(({ damaged }) => damaged);
+    for (const toDamageItem of toDamageList) {
+      const quantity = toDamageItem.damaged;
+      const newItem = await new ItemHandler(toDamageItem.item).getDamaged();
       const itemInList = modifiedItems.find(({ item }) => this.#isSameItem(item, newItem));
       if (itemInList) {
         itemInList.quantity += quantity;
@@ -143,8 +143,9 @@ export class ActorItemsHandler {
       return true;
      
     switch(item.type) {
-      // Feats cannot be damaged
-      case 'feat': return true;
+      // Feats and spells cannot be damaged
+      case 'feat': 
+      case 'spell': return true;
       // Avoid damaging unquiped clothing and trinkets
       case 'equipment': return ['clothing', 'trinket'].includes(item.system.armor?.type) && !item.system.equipped;
       // Avoid damaging natural weapons

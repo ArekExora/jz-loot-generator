@@ -39,8 +39,7 @@ export class CoinGenerator {
   static getClosestPrice({ value, denomination }) {
     const valueInCopper = Math.floor(value * coinValues[denomination].cp);
     const coinTypes = Object.keys(coinValues).reverse();
-    for (let i = 0; i < coinTypes.length; i++) {
-      denomination = coinTypes[i];
+    for (const denomination of coinTypes) {
       value = valueInCopper * coinValues.cp[denomination];
       if (value % 1 === 0)
         return { value, denomination };
