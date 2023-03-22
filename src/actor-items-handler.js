@@ -138,14 +138,19 @@ export class ActorItemsHandler {
   }
 
   #isItemInmune(item) {
+    // ['weapon', 'equipment', 'consumable', 'tool', 'loot', 'backpack', 'background', 'class', 'subclass', 'spell', 'feat']; game.documentTypes.Item
+
     // Do not damage magical items unless splicitly allowed to
     if (!this.breakableMagicItems && item.system.properties?.mgc)
       return true;
      
     switch(item.type) {
-      // Feats and spells cannot be damaged
-      case 'feat': 
-      case 'spell': return true;
+      // Backgrounds, Classes, Subclasses, Spells and Feats cannot be damaged
+      case 'background':
+      case 'class':
+      case 'subclass':
+      case 'spell':
+      case 'feat': return true;
       // Avoid damaging unquiped clothing and trinkets
       case 'equipment': return ['clothing', 'trinket'].includes(item.system.armor?.type) && !item.system.equipped;
       // Avoid damaging natural weapons
