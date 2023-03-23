@@ -2,20 +2,9 @@ import './typedefs.js';
 import { JZLootGenerator as Module } from './jz-loot-generator.js';
 import { Utils } from './utils.js';
 import { coinValues } from './constants.js';
+import { LootBuilder } from './loot-builder.js';
 
-const treasureTables = [
-  { tableName: 'ArtObjects_7500gp', valueInGp: 7500 },
-  { tableName: 'ArtObjects_2500gp', valueInGp: 2500 },
-  { tableName: 'ArtObjects_750gp',  valueInGp: 750  },
-  { tableName: 'ArtObjects_250gp',  valueInGp: 250  },
-  { tableName: 'ArtObjects_25gp',   valueInGp: 25   },
-  { tableName: 'Gemstones_5000gp',  valueInGp: 5000 },
-  { tableName: 'Gemstones_1000gp',  valueInGp: 1000 },
-  { tableName: 'Gemstones_500gp',   valueInGp: 500  },
-  { tableName: 'Gemstones_100gp',   valueInGp: 100  },
-  { tableName: 'Gemstones_50gp',    valueInGp: 50   },
-  { tableName: 'Gemstones_10gp',    valueInGp: 10   }
-].sort((a, b) => b.valueInGp - a.valueInGp);
+const treasureTables = [...LootBuilder.gems, ...LootBuilder.artObjects].map(({ valueInGp, tableName }) => ({ valueInGp, tableName })).sort((a, b) => b.valueInGp - a.valueInGp);
 
 /**
  * Converts a set of coins on a list of treasure items.
