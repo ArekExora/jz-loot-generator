@@ -40,7 +40,7 @@ export class Utils {
     if (rolls < 1)
       return items;
 
-    const table = game.tables.getName(tableName);
+    const table = await this.getTable(tableName);
     if (!table) {
       Module.warn('element_name_not_found', { element: 'Table', name: tableName });
       return items;
@@ -74,6 +74,36 @@ export class Utils {
     }
 
     return items;
+  }
+
+  /**
+   * Returns a Roll Table instance.
+   * @param {string} tableName - The name of the table to search
+   * @returns {Promise<RollTable>} The Roll Table found or undefined;
+   */
+  static async getTable(tableName) {
+    let table = game.tables.getName(tableName);
+
+    if (table) {
+      Module.debug(false, `Table ${tableName} found in game table list.`);
+    } else {
+      const packName = Module.COMPENDIUMS.LOOT_TABLES.nameInModule;
+      const tablePack = game.packs.get(packName);
+      if (tablePack) {
+        tablePack?.getIndex();
+        const id = tablePack.index.find(t => t.name === tableName)?._id;
+        table = await tablePack.getDocument(id);
+        if (table) {
+          Module.debug(false, `Table ${tableName} found in compendium ${packName}`);
+        } else {
+          Module.debug(false, `Table ${tableName} not found in compendium ${packName}`);
+        }
+      } else {
+        Module.debug(false, `Compendium ${packName} not found!`);
+      }
+    }
+
+    return table;
   }
 
   /**
@@ -135,7 +165,7 @@ export class Utils {
    * @returns {Item} The retrieved item, or undefined
    */
   static async getItem(data, extraCompendiums = []) {
-    const compendiums = ['dnd5e.items', ...extraCompendiums];
+    const compendiums = ['dnd5e.items', ...Module.COMPENDIUM_LIST, ...extraCompendiums];
     const { name, type } = typeof data === 'string' ? { name: data } : data;
 
     Module.debug(false, `Searching item: ${name}${type ? ' [' + type + ']' : ''}`);

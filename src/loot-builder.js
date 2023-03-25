@@ -133,9 +133,8 @@ export class LootBuilder {
   }
 
   static async #deleteExistingTables(tableList) {
-    // TODO: Search table in compendium, not in game
     for (const name of tableList) {
-      const table = game.tables.getName(name);
+      const table = await Utils.getTable(name);
       if (table) {
         Module.debug(false, `Deleting table ${name}`);
         await game.tables.getName(name).delete();

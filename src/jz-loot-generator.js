@@ -48,6 +48,8 @@ export class JZLootGenerator extends BaseModule {
       type: 'RollTable',
     },
   };
+
+  static COMPENDIUM_LIST = [this.COMPENDIUMS.TREASURES.nameInModule, this.COMPENDIUMS.LOOT_TABLES.nameInModule];
   
   static initialize() {
     this.setupSettings();

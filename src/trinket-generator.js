@@ -59,7 +59,6 @@ export class TrinketGenerator {
       })
       .filter(Boolean)
       .reduce((acc, ammo) => {
-        console.log(ammo);
         const existing = acc.find(a => (a.item.name || a.item) === (ammo.item.name || ammo.item));
         if (existing)
           existing.quantity += ammo.quantity;
