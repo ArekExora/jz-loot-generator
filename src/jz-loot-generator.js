@@ -1,7 +1,7 @@
 import './typedefs.js';
 import { BaseModule } from './base-module.js';
 import { ActorHandler } from './actor-handler.js';
-// import { NPCSheetHandler } from './npc-sheet-handler.js';
+import { LootBuilder } from './loot-builder.js';
 
 /**
  * Main module class
@@ -34,7 +34,20 @@ export class JZLootGenerator extends BaseModule {
       BREAKABLE_MAGIC_ITEMS: 'breakable_magic_items',
     },
     TURN_INTO_ITEM_PILES: 'turn_into_item_piles',
-  }
+  };
+
+  static COMPENDIUMS = {
+    TREASURES: {
+      ...this.#generateModuleNames(`${this.ID}_treasures`),
+      label: 'Lootable treasures',
+      type: 'Item',
+    },
+    LOOT_TABLES: {
+      ...this.#generateModuleNames(`${this.ID}_tables`),
+      label: 'Loot tables',
+      type: 'RollTable',
+    },
+  };
   
   static initialize() {
     this.setupSettings();
@@ -92,10 +105,20 @@ export class JZLootGenerator extends BaseModule {
     }].forEach(({ key, config }) => this._setupSetting(key, config));
   }
 
+  static #generateModuleNames(name) {
+    return {
+      name,
+      nameInWorld: `world.${name}`,
+      nameInModule: `world.${name}`,
+    }
+  }
+
 }
 
 Hooks.once('init', () => {
   JZLootGenerator.initialize();
+
+  game.JZLootGenerator = { generateItems: (cleanFirst) => LootBuilder.generateItems(cleanFirst) }
 });
 
 // Cannot be done in precreateToken, the actor is not ready at that point (the original actor is updated also)

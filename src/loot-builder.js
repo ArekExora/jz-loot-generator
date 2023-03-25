@@ -16,8 +16,8 @@ export const ITEM_RARITY = {
  * @Class
  */
 export class LootBuilder {
-  static gems = [{
-    tableName: 'Gemstones_10gp',
+  static treasureTables = [{
+    type: 'Gemstones',
     valueInGp: 10,
     items: [
       { name: 'Azurite', description: 'Opaque mottled deep blue', img: 'icons/commodities/gems/gem-cluster-blue-white.webp' },
@@ -31,72 +31,143 @@ export class LootBuilder {
       { name: 'Obsidian', description: 'Opaque black', img: 'icons/commodities/gems/gem-rough-cushion-violet.webp' },
       { name: 'Rhodochrosite', description: 'Opaque light pink', img: 'icons/commodities/gems/gem-rough-navette-pink.webp' },
       { name: 'Tiger eye', description: 'Translucent brown with golden center', img: 'icons/commodities/gems/gem-rough-cushion-orange-red.webp' },
-      { name: 'Turquoise', description: 'Opaque light blue-green', img: 'icons/commodities/gems/gem-rough-oval-teal.webp' }
+      { name: 'Turquoise', description: 'Opaque light blue-green', img: 'icons/commodities/gems/gem-rough-oval-teal.webp' },
     ]
   },{
-    tableName: 'Gemstones_50gp',
+    type: 'Gemstones',
     valueInGp: 50,
     items: [ ]
   },{
-    tableName: 'Gemstones_100gp',
+    type: 'Gemstones',
     valueInGp: 100,
     items: [ ]
   },{
-    tableName: 'Gemstones_500gp',
+    type: 'Gemstones',
     valueInGp: 500,
     items: [ ]
   },{
-    tableName: 'Gemstones_1000gp',
+    type: 'Gemstones',
     valueInGp: 1000,
     items: [ ]
   },{
-    tableName: 'Gemstones_5000gp',
+    type: 'Gemstones',
     valueInGp: 5000,
     items: [ ]
-  }];
-
-  static artObjects = [{
-    tableName: 'ArtObjects_25gp',
+  },{
+    type: 'ArtObjects',
     valueInGp: 25,
     items: [ ]
   },{
-    tableName: 'ArtObjects_250gp',
+    type: 'ArtObjects',
     valueInGp: 250,
     items: [ ]
   },{
-    tableName: 'ArtObjects_750gp',
+    type: 'ArtObjects',
     valueInGp: 750,
     items: [ ]
   },{
-    tableName: 'ArtObjects_2500gp',
+    type: 'ArtObjects',
     valueInGp: 2500,
     items: [ ]
   },{
-    tableName: 'ArtObjects_7500gp',
+    type: 'ArtObjects',
     valueInGp: 7500,
     items: [ ]
   }];
 
-  static async generateItems() {
-    const pack = 'world.loottest';
-    const gems = this.gems.reduce((acc, gemGroup) => [...acc, ...gemGroup.items.map(g => this.#prepareGem(g, gemGroup.valueInGp))], []);
+  static async generateItems(cleanFirst = false) {
+    const pack = Module.COMPENDIUMS.TREASURES.nameInWorld;
+    const items = this.treasureTables.reduce((acc, group) => [...acc, ...group.items.map(i => this.#prepare(i, group.valueInGp))], []);
 
-    const items = [...gems];
-  
-    const findings = await Promise.all(items.map(i => Utils.getItem(i, [pack])));
-    const missing = items.filter((_v, index) => !findings[index]);
+    await this.#createCompendiums([Module.COMPENDIUMS.TREASURES, Module.COMPENDIUMS.LOOT_TABLES], cleanFirst);
+
+    let itemsToGenerate = [];
+    if (cleanFirst) {
+      itemsToGenerate = items;
+    } else {
+      const findings = await Promise.all(items.map(i => Utils.getItem(i, [pack])));
+      itemsToGenerate = items.filter((_v, index) => !findings[index]);
+    }
     
-    if (missing.length) {
-      Module.debug(false, 'Generating items: ', missing);    
-      await Item.createDocuments(missing, { pack });
+    if (itemsToGenerate.length) {
+      Module.debug(false, 'Generating items: ', itemsToGenerate);    
+      await Item.createDocuments(itemsToGenerate, { pack });
+      await this.#generateTables();
     }
   }
 
-  static async generateTables() {
-    // Mirar por TableResult.creat(trdata, { parent: table });
-    // Pero mejor crearlo todo del tiron desde el RollTable.create
-    const rollTableData = { name: 'Test', formula: '1d20' };
-    RollTable.create(rollTableData);
+  static async #generateTables() {
+    const itemsPack = Module.COMPENDIUMS.TREASURES.nameInWorld;
+    const tablesPack = Module.COMPENDIUMS.LOOT_TABLES.nameInWorld;
+
+    const treasures = game.packs.get(itemsPack).map(i => ({ name: i.name, id: i._id, img: i.img, price: i.system.price.value }));
+
+    const tables = this.treasureTables.map(({ type, valueInGp }) => {
+      const results = treasures.filter(t => t.price === valueInGp).map((t, i) => {
+        return {
+          text: t.name,
+          type: CONST.TABLE_RESULT_TYPES.COMPENDIUM,
+          collection: 'Item',
+          documentCollection: itemsPack,
+          resultId: t.id,
+          img: t.img,
+          weight: 1,
+          range: [i+1, i+1],
+          drawn: false
+        };
+      });
+
+      return results.length ? {
+        name: `${type}_${valueInGp}gp`,
+        description: `A random treasure generation table.`,
+        results,
+        formula: `1d${results.length}`
+      } : null;
+    }).filter(Boolean);
+
+    if (tables.length) {
+      await this.#deleteExistingTables(tables.map(t => t.name));
+      Module.debug(false, 'Generating tables: ', tables);
+      await RollTable.createDocuments(tables, { pack: tablesPack });
+    }
+  }
+
+  static async #deleteExistingTables(tableList) {
+    // TODO: Search table in compendium, not in game
+    for (const name of tableList) {
+      const table = game.tables.getName(name);
+      if (table) {
+        Module.debug(false, `Deleting table ${name}`);
+        await game.tables.getName(name).delete();
+      }
+    }
+  }
+
+  static async #createCompendiums(compendiumList, cleanFirst) {
+    for (const { nameInWorld, name, label, type } of compendiumList) {
+      const pack = game.packs.get(nameInWorld);
+
+      if (pack && cleanFirst) {
+        Module.debug(false, `Recreating compendium ${label}`);
+        await pack.deleteCompendium();
+        await CompendiumCollection.createCompendium({ label, name, type });
+      } else {
+        Module.debug(false, `Creating compendium ${label}`);
+        await CompendiumCollection.createCompendium({ label, name, type });
+      }
+    }
+  }
+
+  static #prepare(itemData, price) {
+    return itemData.type === 'Gemstones' ? this.#prepareGem(itemData, price) : this.#prepareArtObject(itemData, price);
+  }
+
+  static #prepareGem(itemData, price) {
+    return this.#prepareItem({ ...itemData, price, description: `${itemData.description} gem, valued around ${price}gp`, rarity: price > 500 ? ITEM_RARITY.UNCOMMON : ITEM_RARITY.COMMON });
+  }
+
+  static #prepareArtObject(itemData, price) {
+    return this.#prepareItem({ ...itemData, price, description: `${itemData.description}, valued around ${price}gp`, rarity: price > 500 ? ITEM_RARITY.UNCOMMON : ITEM_RARITY.COMMON });
   }
 
   static #prepareItem({ name, img, type = 'loot', price = 0, coinType = 'gp', weight = 0.01, description = 'Just an item.', rarity = ITEM_RARITY.COMMON }) {
@@ -117,9 +188,5 @@ export class LootBuilder {
         source: 'JZ Loot Generator'
       }
     };
-  }
-
-  static #prepareGem(gemData, price) {
-    return this.#prepareItem({ ...gemData, price, description: `${gemData.description} gem, valued around ${price}gp`, rarity: price > 500 ? ITEM_RARITY.UNCOMMON : ITEM_RARITY.COMMON });
   }
 }
