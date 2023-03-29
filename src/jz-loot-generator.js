@@ -42,6 +42,11 @@ export class JZLootGenerator extends BaseModule {
       label: 'Lootable treasures',
       type: 'Item',
     },
+    TRINKETS: {
+      ...this.#generateModuleNames(`${this.ID}_trinkets`),
+      label: 'Lootable trinkets',
+      type: 'Item',
+    },
     LOOT_TABLES: {
       ...this.#generateModuleNames(`${this.ID}_tables`),
       label: 'Loot tables',
@@ -49,7 +54,7 @@ export class JZLootGenerator extends BaseModule {
     },
   };
 
-  static COMPENDIUM_LIST = [this.COMPENDIUMS.TREASURES.nameInModule, this.COMPENDIUMS.LOOT_TABLES.nameInModule];
+  static COMPENDIUM_LIST = [this.COMPENDIUMS.TREASURES, this.COMPENDIUMS.TRINKETS, this.COMPENDIUMS.LOOT_TABLES];
   
   static initialize() {
     this.setupSettings();
@@ -79,7 +84,7 @@ export class JZLootGenerator extends BaseModule {
       config: { type: Number, default: 3, range: { min: 1, max: 5 } }
     },{
       key: this.SETTINGS.TRINKETS.TABLE,
-      config: { type: String, default: 'RandomTrinkets' }
+      config: { type: String, default: LootBuilder.trinkets.table }
     },{
       key: this.SETTINGS.ITEM_DETERIORATION.BREAK_CHANCE,
       config: { type: Number, default: 80, range: { min: 0, max: 100 } }

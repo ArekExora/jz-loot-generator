@@ -165,7 +165,7 @@ export class Utils {
    * @returns {Item} The retrieved item, or undefined
    */
   static async getItem(data, extraCompendiums = []) {
-    const compendiums = ['dnd5e.items', ...Module.COMPENDIUM_LIST, ...extraCompendiums];
+    const compendiums = ['dnd5e.items', 'dnd5e.tradegoods', ...Module.COMPENDIUM_LIST.map(pack => pack.nameInModule), ...extraCompendiums];
     const { name, type } = typeof data === 'string' ? { name: data } : data;
 
     Module.debug(false, `Searching item: ${name}${type ? ' [' + type + ']' : ''}`);
