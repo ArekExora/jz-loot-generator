@@ -4,7 +4,7 @@ import { Utils } from './utils.js';
 import { coinValues } from './constants.js';
 import { LootBuilder } from './loot-builder.js';
 
-const treasureTables = LootBuilder.treasureTables.map(({ valueInGp }) => ({ valueInGp, tableName: `Treasures_${valueInGp}gp` })).sort((a, b) => b.valueInGp - a.valueInGp);
+const treasureTables = LootBuilder.treasureTables.tables.map(({ tableName, valueInGp }) => ({ tableName, valueInGp })).sort((a, b) => b.valueInGp - a.valueInGp);
 
 /**
  * Converts a set of coins on a list of treasure items.

@@ -84,7 +84,7 @@ export class JZLootGenerator extends BaseModule {
       config: { type: Number, default: 3, range: { min: 1, max: 5 } }
     },{
       key: this.SETTINGS.TRINKETS.TABLE,
-      config: { type: String, default: LootBuilder.trinkets.table }
+      config: { type: String, default: LootBuilder.trinkets.tableName }
     },{
       key: this.SETTINGS.ITEM_DETERIORATION.BREAK_CHANCE,
       config: { type: Number, default: 80, range: { min: 0, max: 100 } }

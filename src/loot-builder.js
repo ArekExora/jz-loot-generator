@@ -1,4 +1,4 @@
-import { Utils } from './utils.js';
+import { Utils, SYSTEM_PACKS } from './utils.js';
 import { JZLootGenerator as Module } from './jz-loot-generator.js';
 
 export const ITEM_RARITY = {
@@ -16,184 +16,190 @@ export const ITEM_RARITY = {
  * @Class
  */
 export class LootBuilder {
-  static treasureTables = [{
-    type: 'Gemstones',
-    valueInGp: 10,
-    items: [
-      { name: 'Azurite', description: 'Opaque gem mottled deep blue', img: 'icons/commodities/gems/gem-cluster-blue-white.webp' },
-      { name: 'Banded agate', description: 'Translucent gem striped brown, blue, white or red', img: 'icons/commodities/gems/gem-fragments-red.webp' },
-      { name: 'Blue quartz', description: 'Transparent pale blue gem', img: 'icons/commodities/gems/gem-rough-pendeloque-blue.webp' },
-      { name: 'Eye agate', description: 'Translucent gem with circles of gray, white, brown, blue or green', img: 'icons/commodities/gems/pearl-brown.webp' },
-      { name: 'Hematite', description: 'Opaque gray-black gem', img: 'icons/commodities/gems/gem-rough-navette-blue.webp' },
-      { name: 'Lapis lazuli', description: 'Opaque light and dark blue gem with yellow flecks', img: 'icons/commodities/gems/gem-rough-cushion-blue.webp' },
-      { name: 'Malachite', description: 'Opaque striated light and dark green gem', img: 'icons/commodities/gems/gem-raw-rough-teal.webp' },
-      { name: 'Moss agate', description: 'Translucent pink or yellow-white gem with mossy gray or green markings', img: 'icons/commodities/gems/gem-rough-tapered-green.webp' },
-      { name: 'Obsidian', description: 'Opaque black gem', img: 'icons/commodities/gems/gem-rough-cushion-violet.webp' },
-      { name: 'Rhodochrosite', description: 'Opaque light pink gem', img: 'icons/commodities/gems/gem-rough-navette-pink.webp' },
-      { name: 'Tiger eye', description: 'Translucent brown gem with golden center', img: 'icons/commodities/gems/gem-rough-cushion-orange-red.webp' },
-      { name: 'Turquoise', description: 'Opaque light blue-green gem', img: 'icons/commodities/gems/gem-rough-oval-teal.webp' },
-    ]
-  },{
-    type: 'Gemstones',
-    valueInGp: 50,
-    items: [
-      { name: 'Bloodstone', description: 'Opaque dark gray gem with red flecks', img: 'icons/commodities/gems/gem-rough-rose-red.webp' },
-      { name: 'Carnelian', description: 'Opaque orange to red-brown gem', img: 'icons/commodities/gems/gem-rough-round-orange.webp' },
-      { name: 'Chaldedony', description: 'Opaque white gem', img: 'icons/commodities/gems/pearl-white-oval.webp' },
-      { name: 'Chrysoprase', description: 'Translucent green gem', img: 'icons/commodities/gems/gem-fragments-green.webp' },
-      { name: 'Citrine', description: 'Transparent pale yellow-brown gem', img: 'icons/commodities/gems/gem-rough-pear-orange.webp' },
-      { name: 'Jasper', description: 'Opaque blue, black or brown gem', img: 'icons/commodities/gems/gem-rough-cushion-purple.webp' },
-      { name: 'Moonstone', description: 'Translucent white gem with pale blue glow', img: 'icons/commodities/gems/gem-rough-drop-blue.webp' },
-      { name: 'Onyx', description: 'Opaque gem with bands of black and white, or pure black or white', img: 'icons/commodities/gems/powder-raw-white.webp' },
-      { name: 'Quartz', description: 'Transparent white, smoky gray, or yellow gem', img: 'icons/commodities/gems/gem-rough-oval-white.webp' },
-      { name: 'Sardonyx', description: 'Opaque gem with bands of red and white', img: 'icons/commodities/gems/gem-faceted-rough-red.webp' },
-      { name: 'Star rose quartz', description: 'Translucent rosy stone gem with white star-shaped center', img: 'icons/commodities/gems/gem-rough-round-pink.webp' },
-      { name: 'Zircon', description: 'Transparent pale blue-green gem', img: 'icons/commodities/gems/gem-fragments-turquoise.webp' },
-      { name: 'Lesser ruby', description: 'Transparent clear red to deep crimsom gem of low quality', img: 'icons/commodities/gems/gem-faceted-navette-red.webp' },
-    ]
-  },{
-    type: 'Gemstones',
-    valueInGp: 100,
-    items: [
-      { name: 'Amber', description: 'Transparent watery gold to rich gold gem', img: 'icons/commodities/gems/gem-amber-insect-orange.webp' },
-      { name: 'Amethyst', description: 'Transparent deep purple gem', img: 'icons/commodities/gems/gem-cut-faceted-princess-purple.webp' },
-      { name: 'Chrysoberyl', description: 'Transparent yellow-green to pale green gem', img: 'icons/commodities/gems/gem-raw-rough-green-yellow.webp' },
-      { name: 'Coral', description: 'Opaque crimsom gem', img: 'icons/commodities/gems/gem-rough-cushion-red.webp' },
-      { name: 'Garnet', description: 'Transparent red, brown-green or violet gem', img: 'icons/commodities/gems/gem-rough-oval-purple.webp' },
-      { name: 'Jade', description: 'Translucent light green, deep green or white gem', img: 'icons/commodities/gems/gem-rough-oval-green.webp' },
-      { name: 'Jet', description: 'Opaque deep black gem', img: 'icons/commodities/gems/gem-rough-ball-purple.webp' },
-      { name: 'Pearl', description: 'Opaque lustrous white, yellow or pink gem', img: 'icons/commodities/gems/pearl-rough-white.webp' },
-      { name: 'Spinel', description: 'Transparent red, red-brown or deep green gem', img: 'icons/commodities/gems/gem-rough-square-red.webp' },
-      { name: 'Tourmaline', description: 'Transparent pale green, blue, brown or red gem', img: 'icons/commodities/gems/pearl-rough-turquoise.webp' },
-      { name: 'Lesser diamond', description: 'Transparent blue-white, canary, pink, brown or blue gem of low quality', img: 'icons/commodities/gems/gem-fragments-blue.webp' },
-    ]
-  },{
-    type: 'Gemstones',
-    valueInGp: 500,
-    items: [
-      { name: 'Alexandrite', description: 'Transparent dark green gem', img: 'icons/commodities/gems/gem-faceted-large-green.webp' },
-      { name: 'Aquamarine', description: 'Transparent pale blue-green gem', img: 'icons/commodities/gems/gem-shattered-teal.webp' },
-      { name: 'Black pearl', description: 'Opaque pure black gem', img: 'icons/commodities/gems/pearl-glass-purple.webp' },
-      { name: 'Blue spinel', description: 'Transparent deep blue gem', img: 'icons/commodities/gems/gem-shattered-violet.webp' },
-      { name: 'Peridot', description: 'Transparent rich olive green gem', img: 'icons/commodities/gems/gem-rough-brilliant-green.webp' },
-      { name: 'Topaz', description: 'Transparent golden yellow gem', img: 'icons/commodities/gems/gem-rough-rectangular-red.webp' },
-      { name: 'Great black onyx', description: 'Opaque pure black gem', img: 'icons/commodities/gems/gem-rough-tapered-purple.webp' },
-    ]
-  },{
-    type: 'Gemstones',
-    valueInGp: 1000,
-    items: [
-      { name: 'Black opal', description: 'Translucent dark green gem with black mottling and golden flecks', img: 'icons/commodities/gems/gem-faceted-diamond-green.webp' },
-      { name: 'Blue sapphire', description: 'Transparent blue-white to medium blue gem', img: 'icons/commodities/gems/gem-faceted-radiant-blue.webp' },
-      { name: 'Emerald', description: 'Transparent deep bright green gem', img: 'icons/commodities/gems/gem-cut-table-green.webp' },
-      { name: 'Fire opal', description: 'Translucent fiery red gem', img: 'icons/commodities/gems/gem-oval-red.webp' },
-      { name: 'Opal', description: 'Translucent pale blue gem with green and golden mottling', img: 'icons/commodities/gems/gem-faceted-hexagon-blue.webp' },
-      { name: 'Star ruby', description: 'Translucent ruby with white star-shaped center', img: 'icons/commodities/gems/pearl-fire-swirl.webp' },
-      { name: 'Star sapphire', description: 'Translucent blue sapphire with white star-shaped center', img: 'icons/commodities/gems/pearl-swirl-blue.webp' },
-      { name: 'Yellow sapphire', description: 'Transparent fiery yellow or yellow-green gem', img: 'icons/commodities/gems/gem-faceted-octagon-yellow.webp' },
-      { name: 'Agate', description: 'Transparent multicolored gem', img: 'icons/commodities/gems/pearl-water.webp' },
-    ]
-  },{
-    type: 'Gemstones',
-    valueInGp: 5000,
-    items: [
-      { name: 'Black sapphire', description: 'Translucent lustrous black gem with glowing highlights', img: 'icons/commodities/gems/gem-faceted-round-black.webp' },
-      { name: 'Diamond', description: 'Transparent blue-white, canary, pink, brown or blue gem', img: 'icons/commodities/gems/gem-faceted-round-white.webp' },
-      { name: 'Jacinth', description: 'Transparent fiery orange gem', img: 'icons/commodities/gems/gem-faceted-trillion-orange.webp' },
-      { name: 'Ruby', description: 'Transparent clear red to deep crimsom gem', img: 'icons/commodities/gems/gem-faceted-radiant-red.webp' },
-    ]
-  },{
-    type: 'ArtObjects',
-    valueInGp: 25,
-    items: [
-      { name: 'Silver ewer', description: 'Silver ewer', weight: 0.2, img: 'icons/containers/kitchenware/goblet-engraved-grey.webp' },
-      { name: 'Carved bone statuette', description: 'Carved bone statuette', weight: 0.2, img: 'icons/commodities/treasure/figurine-goddess.webp' },
-      { name: 'Small gold bracelet', description: 'Small gold bracelet', weight: 0.1, img: 'icons/equipment/wrist/bracer-orange-spiked-small.webp' },
-      { name: 'Cloth-of-gold vestments', description: 'Cloth-of-gold vestments', weight: 0.1, img: 'icons/commodities/cloth/cloth-bolt-yellow.webp' },
-      { name: 'Black velvet mask', description: 'Black velvet mask stitched with silver thread', weight: 0.1, img: 'icons/equipment/head/mask-carved-gargoyle-grey.webp' },
-      { name: 'Copper chalice', description: 'Copper chalice with silver filigree', weight: 0.2, img: 'icons/containers/kitchenware/goblet-clay-engraved-spirals.webp' },
-      { name: 'Engraved dice', description: 'Pair of engraved bone dice', weight: 0.1, img: 'icons/sundries/gaming/dice-runed-tan.webp' },
-      { name: 'Small mirror', description: 'Small mirror set in a painted wooden frame', weight: 0.2, img: 'icons/sundries/survival/mirror-plain.webp' },
-      { name: 'Silk hankerchief', description: 'Embroidered silk hankerchief', weight: 0.1, img: 'icons/commodities/cloth/cloth-bolt-glow-white.webp' },
-      { name: 'Gold locket', description: 'Gold locket with a painted portrait inside', weight: 0.1, img: 'icons/equipment/neck/amulet-round-engraved-gold.webp' },
-      { name: 'Gold dust', description: 'Bowl containing gold dust', weight: 0.4, img: 'icons/commodities/materials/bowl-powder-gold.webp' },
-      { name: 'Divination bones', description: 'Set of specially marked bones, used for divination magic', weight: 0.2, img: 'icons/commodities/bones/bones-stack-worn-brown.webp' },
-      { name: 'Silver rod', description: 'Small silver rod', weight: 0.2, img: 'icons/weapons/wands/wand-gem-violet.webp' },
-    ]
-  },{
-    type: 'ArtObjects',
-    valueInGp: 250,
-    items: [
-      { name: 'Gold ring', description: 'Gold ring set with bloodstones', weight: 0.1, img: 'icons/equipment/finger/ring-band-thin-rounded-gold.webp' },
-      { name: 'Carved ivory statuette', description: 'Carved ivory statuette', weight: 0.2, img: 'icons/commodities/treasure/figurine-idol.webp' },
-      { name: 'Large gold bracelet', description: 'Large gold bracelet', weight: 0.2, img: 'icons/equipment/wrist/bracer-ornate-gold-purple.webp' },
-      { name: 'Silver necklace', description: 'Silver necklace with a gemstone pendant', weight: 0.1, img: 'icons/equipment/neck/choker-chain-thick-silver.webp' },
-      { name: 'Bronze crown', description: 'Bronze crown', weight: 0.3, img: 'icons/equipment/head/crown-gold-blue.webp' },
-      { name: 'Silk robe', description: 'Silk robe with gold embroidery', weight: 0.3, img: 'icons/commodities/cloth/cloth-bolt-embroidered-pink.webp' },
-      { name: 'Large tapestry', description: 'Large wellmade tapestry', weight: 1, img: 'icons/commodities/cloth/cloth-patterned-yellow-green.webp' },
-      { name: 'Brass mug', description: 'Brass mug with jade inlay', weight: 0.4, img: 'icons/containers/kitchenware/goblet-simple-copper.webp' },
-      { name: 'Box of figurines', description: 'Box of turquoise animal figurines', weight: 0.4, img: 'icons/containers/boxes/box-gift-white.webp' },
-      { name: 'Gold bird cage', description: 'Gold bird cage with electrum filigree', weight: 0.3, img: 'icons/containers/boxes/box-gift-blue.webp' },
-      { name: 'Carved silver bar', description: 'Onately carved bar of silver', weight: 0.3, img: 'icons/commodities/metal/clasp-steel-braid-glowing.webp' },
-      { name: 'Jeweled horn', description: 'Jeweled horn for hearing', weight: 0.1, img: 'icons/commodities/treasure/horn-carved-banded.webp' },
-      { name: 'Glass eye', description: 'Glass eye', weight: 0.1, img: 'icons/commodities/biological/eye-lizard-orange.webp' },
-      { name: 'Runesticks', description: 'Set of ivory carved runesticks, used for divination magic', weight: 0.2, img: 'icons/commodities/treasure/token-engraved-symbols-grey.webp' },
-      { name: 'Miniature sword', description: 'Miniature platinum sword with a grip and pommel of copper and zinc', weight: 0.2, img: 'icons/weapons/swords/shortsword-guard-green.webp' },
-    ]
-  },{
-    type: 'ArtObjects',
-    valueInGp: 750,
-    items: [
-      { name: 'Silver chalice', description: 'Silver chalice set with moonstones', weight: 0.3, img: 'icons/containers/kitchenware/goblet-jeweled-gold-white.webp' },
-      { name: 'Silver-plated longsword', description: 'Silver-plated steel longsword with jet set in hilt', weight: 3, img: 'icons/weapons/swords/greatsword-guard-gem-blue.webp' },
-      { name: 'Harp of exotic wood', description: 'Carved harp of exotic wood with ivory inlay and zircon gems', weight: 1, img: 'icons/tools/instruments/harp-lap-brown.webp' },
-      { name: 'Small gold idol', description: 'Small gold idol', weight: 0.5, img: 'icons/commodities/treasure/mask-jeweled-gold.webp' },
-      { name: 'Gold dragon comb', description: 'Gold dragon comb set with red garnets as eyes', weight: 0.1, img: 'icons/commodities/treasure/broach-gold-eye-green.webp' },
-      { name: 'Bottle stopper cork', description: 'Bottle stopper cork embossed with gold leaf and set with amethysts', weight: 0.1, img: 'icons/containers/kitchenware/vase-clay-painted-blue-gold.webp' },
-      { name: 'Ceremonial dagger', description: 'Ceremonial electrum dagger with a black pearl in the pommel', weight: 1, img: 'icons/weapons/daggers/dagger-jeweled-black.webp' },
-      { name: 'Silver and gold brooch', description: 'Silver and gold brooch', weight: 0.2, img: 'icons/commodities/treasure/token-gold-gem-red.webp' },
-      { name: 'Obsidian statuette', description: 'Obsidian statuette with gold fittings and inlay', weight: 0.5, img: 'icons/commodities/treasure/statuette-gargoyle-green-gold.webp' },
-      { name: 'Painted gold war mask', description: 'Painted gold war mask', weight: 0.3, img: 'icons/equipment/head/mask-carved-scream-tan.webp' },
-      { name: 'Rare unguents', description: 'Rare unguents', weight: 0.2, img: 'icons/consumables/potions/potion-flask-corked-labeled-pink.webp' },
-    ]
-  },{
-    type: 'ArtObjects',
-    valueInGp: 2500,
-    items: [
-      { name: 'Fine gold chain', description: 'Fine gold chain set with a fire opal', weight: 0.3, img: 'icons/equipment/neck/choker-chain-thin-gold.webp' },
-      { name: 'Old masterpiece painting', description: 'Old masterpiece painting', weight: 1, img: 'icons/tools/navigation/map-simple-tree.webp' },
-      { name: 'Silk and velvet mantle', description: 'Embroidered silk and velvet mantle set with numerous moonstones', weight: 0.5, img: 'icons/commodities/cloth/cloth-bolt-gold-red.webp' },
-      { name: 'Platinum bracelet', description: 'Platinum bracelet set with a sapphire', weight: 0.3, img: 'icons/equipment/wrist/bracer-ornate-black-silver.webp' },
-      { name: 'Embroidered glove', description: 'Embroidered glove set with jewel chips', weight: 0.5, img: 'icons/equipment/hand/glove-leather-blue-gold.webp' },
-      { name: 'Jeweled anklet', description: 'Jeweled anklet', weight: 0.3, img: 'icons/equipment/neck/collar-rounded-gold-pink.webp' },
-      { name: 'Gold music box', description: 'Gold music box', weight: 1, img: 'icons/commodities/treasure/box-jade-tassel.webp' },
-      { name: 'Gold circlet', description: 'Gold circlet set with four aquamarines', weight: 0.3, img: 'icons/equipment/neck/necklace-astrology-sun-gold.webp' },
-      { name: 'Eye patch with a mock eye', description: 'Eye patch with a mock eye set in blue sapphire and moonstone', weight: 0.1, img: 'icons/commodities/biological/eye-blue.webp' },
-      { name: 'Pink pearls necklace', description: 'A necklace string of small pink pearls', weight: 0.3, img: 'icons/equipment/neck/collar-rounded-red.webp' },
-      { name: 'Gem encrusted bowl', description: 'Gem encrusted bowl', weight: 0.2, img: 'icons/containers/kitchenware/goblet-jeweled-gold-purple.webp' },
-      { name: 'Jade circlet', description: 'Gold circlet set with multiple jades', weight: 0.3, img: 'icons/equipment/neck/choker-rounded-gold-green.webp' },
-    ]
-  },{
-    type: 'ArtObjects',
-    valueInGp: 7500,
-    items: [
-      { name: 'Jeweled gold crown', description: 'Jeweled gold crown', weight: 0.5, img: 'icons/commodities/treasure/crown-gold-satin-gems-red.webp' },
-      { name: 'Jeweled platinum ring', description: 'Jeweled platinum ring', weight: 0.1, img: 'icons/equipment/finger/ring-faceted-gold-green.webp' },
-      { name: 'Small gold stattuete', description: 'Small gold stattuete set with rubies', weight: 0.5, img: 'icons/commodities/treasure/crystal-pedastal-red-gold.webp' },
-      { name: 'Gold cup', description: 'Gold cup set with emeralds', weight: 0.3, img: 'icons/containers/kitchenware/goblet-jeweled-engraved-red-gold.webp' },
-      { name: 'Gold jewelry box', description: 'Gold jewelry box with platinum filigree', weight: 0.5, img: 'icons/containers/chest/chest-reinforced-steel-red.webp' },
-      { name: 'Child\'s sarcophagus', description: 'Painted gold child\'s sarcophagus', weight: 2, img: 'icons/commodities/treasure/bust-pharaoh-gold-blue.webp' },
-      { name: 'Jade gameboard', description: 'Jade gameboard with solid gold playing pieces', weight: 1, img: 'icons/sundries/gaming/chess-pawn-white-pink.webp' },
-      { name: 'Ivory drinking horn', description: 'Bejeweled ivory drinking horn with gold filigree', weight: 0.5, img: 'icons/commodities/bones/horn-drinking-white.webp' },
-    ]
-  }];
+  static treasureTables = {
+    img: 'icons/containers/chest/chest-reinforced-steel-green.webp',
+    description: 'A random treasure generation table.',
+    tables: [{
+      valueInGp: 10,
+      tableName: 'Lootable Treasures 10gp',
+      items: [
+        { name: 'Azurite', description: 'Opaque gem mottled deep blue', img: 'icons/commodities/gems/gem-cluster-blue-white.webp' },
+        { name: 'Banded agate', description: 'Translucent gem striped brown, blue, white or red', img: 'icons/commodities/gems/gem-fragments-red.webp' },
+        { name: 'Blue quartz', description: 'Transparent pale blue gem', img: 'icons/commodities/gems/gem-rough-pendeloque-blue.webp' },
+        { name: 'Eye agate', description: 'Translucent gem with circles of gray, white, brown, blue or green', img: 'icons/commodities/gems/pearl-brown.webp' },
+        { name: 'Hematite', description: 'Opaque gray-black gem', img: 'icons/commodities/gems/gem-rough-navette-blue.webp' },
+        { name: 'Lapis lazuli', description: 'Opaque light and dark blue gem with yellow flecks', img: 'icons/commodities/gems/gem-rough-cushion-blue.webp' },
+        { name: 'Malachite', description: 'Opaque striated light and dark green gem', img: 'icons/commodities/gems/gem-raw-rough-teal.webp' },
+        { name: 'Moss agate', description: 'Translucent pink or yellow-white gem with mossy gray or green markings', img: 'icons/commodities/gems/gem-rough-tapered-green.webp' },
+        { name: 'Obsidian', description: 'Opaque black gem', img: 'icons/commodities/gems/gem-rough-cushion-violet.webp' },
+        { name: 'Rhodochrosite', description: 'Opaque light pink gem', img: 'icons/commodities/gems/gem-rough-navette-pink.webp' },
+        { name: 'Tiger eye', description: 'Translucent brown gem with golden center', img: 'icons/commodities/gems/gem-rough-cushion-orange-red.webp' },
+        { name: 'Turquoise', description: 'Opaque light blue-green gem', img: 'icons/commodities/gems/gem-rough-oval-teal.webp' },
+      ]
+    },{
+      valueInGp: 50,
+      tableName: 'Lootable Treasures 50gp',
+      items: [
+        { name: 'Bloodstone', description: 'Opaque dark gray gem with red flecks', img: 'icons/commodities/gems/gem-rough-rose-red.webp' },
+        { name: 'Carnelian', description: 'Opaque orange to red-brown gem', img: 'icons/commodities/gems/gem-rough-round-orange.webp' },
+        { name: 'Chaldedony', description: 'Opaque white gem', img: 'icons/commodities/gems/pearl-white-oval.webp' },
+        { name: 'Chrysoprase', description: 'Translucent green gem', img: 'icons/commodities/gems/gem-fragments-green.webp' },
+        { name: 'Citrine', description: 'Transparent pale yellow-brown gem', img: 'icons/commodities/gems/gem-rough-pear-orange.webp' },
+        { name: 'Jasper', description: 'Opaque blue, black or brown gem', img: 'icons/commodities/gems/gem-rough-cushion-purple.webp' },
+        { name: 'Moonstone', description: 'Translucent white gem with pale blue glow', img: 'icons/commodities/gems/gem-rough-drop-blue.webp' },
+        { name: 'Onyx', description: 'Opaque gem with bands of black and white, or pure black or white', img: 'icons/commodities/gems/powder-raw-white.webp' },
+        { name: 'Quartz', description: 'Transparent white, smoky gray, or yellow gem', img: 'icons/commodities/gems/gem-rough-oval-white.webp' },
+        { name: 'Sardonyx', description: 'Opaque gem with bands of red and white', img: 'icons/commodities/gems/gem-faceted-rough-red.webp' },
+        { name: 'Star rose quartz', description: 'Translucent rosy stone gem with white star-shaped center', img: 'icons/commodities/gems/gem-rough-round-pink.webp' },
+        { name: 'Zircon', description: 'Transparent pale blue-green gem', img: 'icons/commodities/gems/gem-fragments-turquoise.webp' },
+        { name: 'Lesser ruby', description: 'Transparent clear red to deep crimsom gem of low quality', img: 'icons/commodities/gems/gem-faceted-navette-red.webp' },
+      ]
+    },{
+      valueInGp: 100,
+      tableName: 'Lootable Treasures 100gp',
+      items: [
+        { name: 'Amber', description: 'Transparent watery gold to rich gold gem', img: 'icons/commodities/gems/gem-amber-insect-orange.webp' },
+        { name: 'Amethyst', description: 'Transparent deep purple gem', img: 'icons/commodities/gems/gem-cut-faceted-princess-purple.webp' },
+        { name: 'Chrysoberyl', description: 'Transparent yellow-green to pale green gem', img: 'icons/commodities/gems/gem-raw-rough-green-yellow.webp' },
+        { name: 'Coral', description: 'Opaque crimsom gem', img: 'icons/commodities/gems/gem-rough-cushion-red.webp' },
+        { name: 'Garnet', description: 'Transparent red, brown-green or violet gem', img: 'icons/commodities/gems/gem-rough-oval-purple.webp' },
+        { name: 'Jade', description: 'Translucent light green, deep green or white gem', img: 'icons/commodities/gems/gem-rough-oval-green.webp' },
+        { name: 'Jet', description: 'Opaque deep black gem', img: 'icons/commodities/gems/gem-rough-ball-purple.webp' },
+        { name: 'Pearl', description: 'Opaque lustrous white, yellow or pink gem', img: 'icons/commodities/gems/pearl-rough-white.webp' },
+        { name: 'Spinel', description: 'Transparent red, red-brown or deep green gem', img: 'icons/commodities/gems/gem-rough-square-red.webp' },
+        { name: 'Tourmaline', description: 'Transparent pale green, blue, brown or red gem', img: 'icons/commodities/gems/pearl-rough-turquoise.webp' },
+        { name: 'Lesser diamond', description: 'Transparent blue-white, canary, pink, brown or blue gem of low quality', img: 'icons/commodities/gems/gem-fragments-blue.webp' },
+      ]
+    },{
+      valueInGp: 500,
+      tableName: 'Lootable Treasures 500gp',
+      items: [
+        { name: 'Alexandrite', description: 'Transparent dark green gem', img: 'icons/commodities/gems/gem-faceted-large-green.webp' },
+        { name: 'Aquamarine', description: 'Transparent pale blue-green gem', img: 'icons/commodities/gems/gem-shattered-teal.webp' },
+        { name: 'Black pearl', description: 'Opaque pure black gem', img: 'icons/commodities/gems/pearl-glass-purple.webp' },
+        { name: 'Blue spinel', description: 'Transparent deep blue gem', img: 'icons/commodities/gems/gem-shattered-violet.webp' },
+        { name: 'Peridot', description: 'Transparent rich olive green gem', img: 'icons/commodities/gems/gem-rough-brilliant-green.webp' },
+        { name: 'Topaz', description: 'Transparent golden yellow gem', img: 'icons/commodities/gems/gem-rough-rectangular-red.webp' },
+        { name: 'Great black onyx', description: 'Opaque pure black gem', img: 'icons/commodities/gems/gem-rough-tapered-purple.webp' },
+      ]
+    },{
+      valueInGp: 1000,
+      tableName: 'Lootable Treasures 1000gp',
+      items: [
+        { name: 'Black opal', description: 'Translucent dark green gem with black mottling and golden flecks', img: 'icons/commodities/gems/gem-faceted-diamond-green.webp' },
+        { name: 'Blue sapphire', description: 'Transparent blue-white to medium blue gem', img: 'icons/commodities/gems/gem-faceted-radiant-blue.webp' },
+        { name: 'Emerald', description: 'Transparent deep bright green gem', img: 'icons/commodities/gems/gem-cut-table-green.webp' },
+        { name: 'Fire opal', description: 'Translucent fiery red gem', img: 'icons/commodities/gems/gem-oval-red.webp' },
+        { name: 'Opal', description: 'Translucent pale blue gem with green and golden mottling', img: 'icons/commodities/gems/gem-faceted-hexagon-blue.webp' },
+        { name: 'Star ruby', description: 'Translucent ruby with white star-shaped center', img: 'icons/commodities/gems/pearl-fire-swirl.webp' },
+        { name: 'Star sapphire', description: 'Translucent blue sapphire with white star-shaped center', img: 'icons/commodities/gems/pearl-swirl-blue.webp' },
+        { name: 'Yellow sapphire', description: 'Transparent fiery yellow or yellow-green gem', img: 'icons/commodities/gems/gem-faceted-octagon-yellow.webp' },
+        { name: 'Agate', description: 'Transparent multicolored gem', img: 'icons/commodities/gems/pearl-water.webp' },
+      ]
+    },{
+      valueInGp: 5000,
+      tableName: 'Lootable Treasures 5000gp',
+      items: [
+        { name: 'Black sapphire', description: 'Translucent lustrous black gem with glowing highlights', img: 'icons/commodities/gems/gem-faceted-round-black.webp' },
+        { name: 'Diamond', description: 'Transparent blue-white, canary, pink, brown or blue gem', img: 'icons/commodities/gems/gem-faceted-round-white.webp' },
+        { name: 'Jacinth', description: 'Transparent fiery orange gem', img: 'icons/commodities/gems/gem-faceted-trillion-orange.webp' },
+        { name: 'Ruby', description: 'Transparent clear red to deep crimsom gem', img: 'icons/commodities/gems/gem-faceted-radiant-red.webp' },
+      ]
+    },{
+      valueInGp: 25,
+      tableName: 'Lootable Treasures 25gp',
+      items: [
+        { name: 'Silver ewer', description: 'Silver ewer', weight: 0.2, img: 'icons/containers/kitchenware/goblet-engraved-grey.webp' },
+        { name: 'Carved bone statuette', description: 'Carved bone statuette', weight: 0.2, img: 'icons/commodities/treasure/figurine-goddess.webp' },
+        { name: 'Small gold bracelet', description: 'Small gold bracelet', weight: 0.1, img: 'icons/equipment/wrist/bracer-orange-spiked-small.webp' },
+        { name: 'Cloth-of-gold vestments', description: 'Cloth-of-gold vestments', weight: 0.1, img: 'icons/commodities/cloth/cloth-bolt-yellow.webp' },
+        { name: 'Black velvet mask', description: 'Black velvet mask stitched with silver thread', weight: 0.1, img: 'icons/equipment/head/mask-carved-gargoyle-grey.webp' },
+        { name: 'Copper chalice', description: 'Copper chalice with silver filigree', weight: 0.2, img: 'icons/containers/kitchenware/goblet-clay-engraved-spirals.webp' },
+        { name: 'Engraved dice', description: 'Pair of engraved bone dice', weight: 0.1, img: 'icons/sundries/gaming/dice-runed-tan.webp' },
+        { name: 'Small mirror', description: 'Small mirror set in a painted wooden frame', weight: 0.2, img: 'icons/sundries/survival/mirror-plain.webp' },
+        { name: 'Silk hankerchief', description: 'Embroidered silk hankerchief', weight: 0.1, img: 'icons/commodities/cloth/cloth-bolt-glow-white.webp' },
+        { name: 'Gold locket', description: 'Gold locket with a painted portrait inside', weight: 0.1, img: 'icons/equipment/neck/amulet-round-engraved-gold.webp' },
+        { name: 'Gold dust', description: 'Bowl containing gold dust', weight: 0.4, img: 'icons/commodities/materials/bowl-powder-gold.webp' },
+        { name: 'Divination bones', description: 'Set of specially marked bones, used for divination magic', weight: 0.2, img: 'icons/commodities/bones/bones-stack-worn-brown.webp' },
+        { name: 'Silver rod', description: 'Small silver rod', weight: 0.2, img: 'icons/weapons/wands/wand-gem-violet.webp' },
+      ]
+    },{
+      valueInGp: 250,
+      tableName: 'Lootable Treasures 250gp',
+      items: [
+        { name: 'Gold ring', description: 'Gold ring set with bloodstones', weight: 0.1, img: 'icons/equipment/finger/ring-band-thin-rounded-gold.webp' },
+        { name: 'Carved ivory statuette', description: 'Carved ivory statuette', weight: 0.2, img: 'icons/commodities/treasure/figurine-idol.webp' },
+        { name: 'Large gold bracelet', description: 'Large gold bracelet', weight: 0.2, img: 'icons/equipment/wrist/bracer-ornate-gold-purple.webp' },
+        { name: 'Silver necklace', description: 'Silver necklace with a gemstone pendant', weight: 0.1, img: 'icons/equipment/neck/choker-chain-thick-silver.webp' },
+        { name: 'Bronze crown', description: 'Bronze crown', weight: 0.3, img: 'icons/equipment/head/crown-gold-blue.webp' },
+        { name: 'Silk robe', description: 'Silk robe with gold embroidery', weight: 0.3, img: 'icons/commodities/cloth/cloth-bolt-embroidered-pink.webp' },
+        { name: 'Large tapestry', description: 'Large wellmade tapestry', weight: 1, img: 'icons/commodities/cloth/cloth-patterned-yellow-green.webp' },
+        { name: 'Brass mug', description: 'Brass mug with jade inlay', weight: 0.4, img: 'icons/containers/kitchenware/goblet-simple-copper.webp' },
+        { name: 'Box of figurines', description: 'Box of turquoise animal figurines', weight: 0.4, img: 'icons/containers/boxes/box-gift-white.webp' },
+        { name: 'Gold bird cage', description: 'Gold bird cage with electrum filigree', weight: 0.3, img: 'icons/containers/boxes/box-gift-blue.webp' },
+        { name: 'Carved silver bar', description: 'Onately carved bar of silver', weight: 0.3, img: 'icons/commodities/metal/clasp-steel-braid-glowing.webp' },
+        { name: 'Jeweled horn', description: 'Jeweled horn for hearing', weight: 0.1, img: 'icons/commodities/treasure/horn-carved-banded.webp' },
+        { name: 'Glass eye', description: 'Glass eye', weight: 0.1, img: 'icons/commodities/biological/eye-lizard-orange.webp' },
+        { name: 'Runesticks', description: 'Set of ivory carved runesticks, used for divination magic', weight: 0.2, img: 'icons/commodities/treasure/token-engraved-symbols-grey.webp' },
+        { name: 'Miniature sword', description: 'Miniature platinum sword with a grip and pommel of copper and zinc', weight: 0.2, img: 'icons/weapons/swords/shortsword-guard-green.webp' },
+      ]
+    },{
+      valueInGp: 750,
+      tableName: 'Lootable Treasures 750gp',
+      items: [
+        { name: 'Silver chalice', description: 'Silver chalice set with moonstones', weight: 0.3, img: 'icons/containers/kitchenware/goblet-jeweled-gold-white.webp' },
+        { name: 'Silver-plated longsword', description: 'Silver-plated steel longsword with jet set in hilt', weight: 3, img: 'icons/weapons/swords/greatsword-guard-gem-blue.webp' },
+        { name: 'Harp of exotic wood', description: 'Carved harp of exotic wood with ivory inlay and zircon gems', weight: 1, img: 'icons/tools/instruments/harp-lap-brown.webp' },
+        { name: 'Small gold idol', description: 'Small gold idol', weight: 0.5, img: 'icons/commodities/treasure/mask-jeweled-gold.webp' },
+        { name: 'Gold dragon comb', description: 'Gold dragon comb set with red garnets as eyes', weight: 0.1, img: 'icons/commodities/treasure/broach-gold-eye-green.webp' },
+        { name: 'Bottle stopper cork', description: 'Bottle stopper cork embossed with gold leaf and set with amethysts', weight: 0.1, img: 'icons/containers/kitchenware/vase-clay-painted-blue-gold.webp' },
+        { name: 'Ceremonial dagger', description: 'Ceremonial electrum dagger with a black pearl in the pommel', weight: 1, img: 'icons/weapons/daggers/dagger-jeweled-black.webp' },
+        { name: 'Silver and gold brooch', description: 'Silver and gold brooch', weight: 0.2, img: 'icons/commodities/treasure/token-gold-gem-red.webp' },
+        { name: 'Obsidian statuette', description: 'Obsidian statuette with gold fittings and inlay', weight: 0.5, img: 'icons/commodities/treasure/statuette-gargoyle-green-gold.webp' },
+        { name: 'Painted gold war mask', description: 'Painted gold war mask', weight: 0.3, img: 'icons/equipment/head/mask-carved-scream-tan.webp' },
+        { name: 'Rare unguents', description: 'Rare unguents', weight: 0.2, img: 'icons/consumables/potions/potion-flask-corked-labeled-pink.webp' },
+      ]
+    },{
+      valueInGp: 2500,
+      tableName: 'Lootable Treasures 2500gp',
+      items: [
+        { name: 'Fine gold chain', description: 'Fine gold chain set with a fire opal', weight: 0.3, img: 'icons/equipment/neck/choker-chain-thin-gold.webp' },
+        { name: 'Old masterpiece painting', description: 'Old masterpiece painting', weight: 1, img: 'icons/tools/navigation/map-simple-tree.webp' },
+        { name: 'Silk and velvet mantle', description: 'Embroidered silk and velvet mantle set with numerous moonstones', weight: 0.5, img: 'icons/commodities/cloth/cloth-bolt-gold-red.webp' },
+        { name: 'Platinum bracelet', description: 'Platinum bracelet set with a sapphire', weight: 0.3, img: 'icons/equipment/wrist/bracer-ornate-black-silver.webp' },
+        { name: 'Embroidered glove', description: 'Embroidered glove set with jewel chips', weight: 0.5, img: 'icons/equipment/hand/glove-leather-blue-gold.webp' },
+        { name: 'Jeweled anklet', description: 'Jeweled anklet', weight: 0.3, img: 'icons/equipment/neck/collar-rounded-gold-pink.webp' },
+        { name: 'Gold music box', description: 'Gold music box', weight: 1, img: 'icons/commodities/treasure/box-jade-tassel.webp' },
+        { name: 'Gold circlet', description: 'Gold circlet set with four aquamarines', weight: 0.3, img: 'icons/equipment/neck/necklace-astrology-sun-gold.webp' },
+        { name: 'Eye patch with a mock eye', description: 'Eye patch with a mock eye set in blue sapphire and moonstone', weight: 0.1, img: 'icons/commodities/biological/eye-blue.webp' },
+        { name: 'Pink pearls necklace', description: 'A necklace string of small pink pearls', weight: 0.3, img: 'icons/equipment/neck/collar-rounded-red.webp' },
+        { name: 'Gem encrusted bowl', description: 'Gem encrusted bowl', weight: 0.2, img: 'icons/containers/kitchenware/goblet-jeweled-gold-purple.webp' },
+        { name: 'Jade circlet', description: 'Gold circlet set with multiple jades', weight: 0.3, img: 'icons/equipment/neck/choker-rounded-gold-green.webp' },
+      ]
+    },{
+      valueInGp: 7500,
+      tableName: 'Lootable Treasures 7500gp',
+      items: [
+        { name: 'Jeweled gold crown', description: 'Jeweled gold crown', weight: 0.5, img: 'icons/commodities/treasure/crown-gold-satin-gems-red.webp' },
+        { name: 'Jeweled platinum ring', description: 'Jeweled platinum ring', weight: 0.1, img: 'icons/equipment/finger/ring-faceted-gold-green.webp' },
+        { name: 'Small gold stattuete', description: 'Small gold stattuete set with rubies', weight: 0.5, img: 'icons/commodities/treasure/crystal-pedastal-red-gold.webp' },
+        { name: 'Gold cup', description: 'Gold cup set with emeralds', weight: 0.3, img: 'icons/containers/kitchenware/goblet-jeweled-engraved-red-gold.webp' },
+        { name: 'Gold jewelry box', description: 'Gold jewelry box with platinum filigree', weight: 0.5, img: 'icons/containers/chest/chest-reinforced-steel-red.webp' },
+        { name: 'Child\'s sarcophagus', description: 'Painted gold child\'s sarcophagus', weight: 2, img: 'icons/commodities/treasure/bust-pharaoh-gold-blue.webp' },
+        { name: 'Jade gameboard', description: 'Jade gameboard with solid gold playing pieces', weight: 1, img: 'icons/sundries/gaming/chess-pawn-white-pink.webp' },
+        { name: 'Ivory drinking horn', description: 'Bejeweled ivory drinking horn with gold filigree', weight: 0.5, img: 'icons/commodities/bones/horn-drinking-white.webp' },
+      ]
+    }]
+  };
 
   static trinkets = {
-    table: 'RandomTrinkets',
-    existingItems: [
+    tableName: 'Lootable Valuables',
+    img: 'icons/containers/chest/chest-reinforced-steel-brown.webp',
+    description: 'A random trinket generation table.',
+    systemItems: [
       // Check dnd5e items AND tradegoods
-      'Bell',
-      'Salt'
+      { name: 'Bell', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Salt', pack: SYSTEM_PACKS.TRADE_GOODS },
     ],
     items : [
       { name: 'Charcoal', description: 'Chunk of charcoal', weight: 1, price: 1, coinType: 'sp', img: 'icons/commodities/stone/ore-pile-iron-black.webp' },
@@ -271,7 +277,7 @@ export class LootBuilder {
   static async generateItems(cleanFirst = false) {
     const treasuresPack = Module.COMPENDIUMS.TREASURES.nameInWorld;
     const trinketsPack = Module.COMPENDIUMS.TRINKETS.nameInWorld;
-    const treasures = this.treasureTables.reduce((acc, group) => [...acc, ...group.items.map(i => this.#prepareTreasure(i, group.valueInGp))], []);
+    const treasures = this.treasureTables.tables.reduce((acc, group) => [...acc, ...group.items.map(i => this.#prepareTreasure(i, group.valueInGp))], []);
     const trinkets = this.trinkets.items.map(i => this.#prepareItem(i));
 
     await this.#createCompendiums(Module.COMPENDIUM_LIST, cleanFirst);
@@ -306,19 +312,20 @@ export class LootBuilder {
     const trinketsPack = Module.COMPENDIUMS.TRINKETS.nameInWorld;
     const tablesPack = Module.COMPENDIUMS.LOOT_TABLES.nameInWorld;
 
-    const treasures = game.packs.get(treasuresPack).map(i => ({ name: i.name, id: i._id, img: i.img, price: i.system.price.value }));
-    const trinkets = game.packs.get(trinketsPack).map(i => ({ name: i.name, id: i._id, img: i.img }));
+    const [treasuresIndex, trinketsIndex, systemItemsIndex, systemTradeGoodsIndex] = await Promise.all([treasuresPack, trinketsPack, SYSTEM_PACKS.ITEMS, SYSTEM_PACKS.TRADE_GOODS].map(p => game.packs.get(p).getIndex()));
+    const packToIndex = {
+      [treasuresPack]: treasuresIndex,
+      [trinketsPack]: trinketsIndex,
+      [SYSTEM_PACKS.ITEMS]: systemItemsIndex,
+      [SYSTEM_PACKS.TRADE_GOODS]: systemTradeGoodsIndex,
+    }
 
-    const tablesForTreasures = this.treasureTables.map(({ valueInGp }) => {
-      const results = treasures.filter(t => t.price === valueInGp).map((t, i) => this.#generateTableResult(t, i, treasuresPack));
-      // TODO: Add results from existing packs.
-      return this.#generateTableData(results, `Treasures_${valueInGp}gp`, 'A random treasure generation table.', 'icons/containers/chest/chest-reinforced-steel-green.webp');
-    });
-    const trinketResults = trinkets.map((t, i) => this.#generateTableResult(t, i, trinketsPack));
-    // TODO: Add results from existing packs.
-    const tableForTrinkets = this.#generateTableData(trinketResults, this.trinkets.table, 'A random trinket generation table.', 'icons/containers/chest/chest-reinforced-steel-brown.webp');
-
-    const tables = [...tablesForTreasures, tableForTrinkets].filter(Boolean);
+    const tables = [
+      ...this.treasureTables.tables.map(tableData => ({ ...tableData, pack: treasuresPack, img: this.treasureTables.img, description: this.treasureTables.description })),
+      { ...this.trinkets, pack: trinketsPack }
+    ]
+      .map(data => this.#generateTableFromData(data, packToIndex))
+      .filter(Boolean);
 
     if (tables.length) {
       await this.#deleteExistingTables(tables.map(t => t.name));
@@ -384,7 +391,7 @@ export class LootBuilder {
       type: CONST.TABLE_RESULT_TYPES.COMPENDIUM,
       collection: 'Item',
       documentCollection: pack,
-      resultId: item.id,
+      resultId: item._id,
       img: item.img,
       weight: 1,
       range: [index+1, index+1],
@@ -392,9 +399,19 @@ export class LootBuilder {
     };
   }
 
-  static #generateTableData(results, name, description, img) {
+  static #generateResults(items, systemItems, itemsPack, packToIndex) {
+    return [
+      ...items.map(({ name }) => ({ ...(packToIndex[itemsPack].find(i => i.name === name) || {}), pack: itemsPack })),
+      ...systemItems.map(({ name, pack }) => ({ ...(packToIndex[pack].find(i => i.name === name) || {}), pack })),
+    ]
+      .filter(i => i._id)
+      .map((item, index) => this.#generateTableResult(item, index, item.pack));
+  }
+
+  static #generateTableFromData({ tableName, pack, items = [], systemItems = [], img, description = 'A random treasure generation table.' }, packToIndex) {
+    const results = this.#generateResults(items, systemItems, pack, packToIndex);
     return results.length ? {
-      name,
+      name: tableName,
       description,
       results,
       img,

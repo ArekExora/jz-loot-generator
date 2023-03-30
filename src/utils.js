@@ -1,6 +1,11 @@
 import './typedefs.js';
 import { JZLootGenerator as Module } from './jz-loot-generator.js';
 
+export const SYSTEM_PACKS = {
+  ITEMS: 'dnd5e.items',
+  TRADE_GOODS: 'dnd5e.tradegoods'
+}
+
 /**
  * Utility class
  * @Class
@@ -165,7 +170,7 @@ export class Utils {
    * @returns {Item} The retrieved item, or undefined
    */
   static async getItem(data, extraCompendiums = []) {
-    const compendiums = ['dnd5e.items', 'dnd5e.tradegoods', ...Module.COMPENDIUM_LIST.map(pack => pack.nameInModule), ...extraCompendiums];
+    const compendiums = [SYSTEM_PACKS.ITEMS, SYSTEM_PACKS.TRADE_GOODS, ...Module.COMPENDIUM_LIST.map(pack => pack.nameInModule), ...extraCompendiums];
     const { name, type } = typeof data === 'string' ? { name: data } : data;
 
     Module.debug(false, `Searching item: ${name}${type ? ' [' + type + ']' : ''}`);
