@@ -21,7 +21,7 @@ export class LootBuilder {
     description: 'A random treasure generation table.',
     tables: [{
       valueInGp: 10,
-      tableName: 'Lootable Treasures 10gp',
+      tableName: 'Lootable treasures 10gp',
       items: [
         { name: 'Azurite', description: 'Opaque gem mottled deep blue', img: 'icons/commodities/gems/gem-cluster-blue-white.webp' },
         { name: 'Banded agate', description: 'Translucent gem striped brown, blue, white or red', img: 'icons/commodities/gems/gem-fragments-red.webp' },
@@ -38,7 +38,7 @@ export class LootBuilder {
       ]
     },{
       valueInGp: 50,
-      tableName: 'Lootable Treasures 50gp',
+      tableName: 'Lootable treasures 50gp',
       items: [
         { name: 'Bloodstone', description: 'Opaque dark gray gem with red flecks', img: 'icons/commodities/gems/gem-rough-rose-red.webp' },
         { name: 'Carnelian', description: 'Opaque orange to red-brown gem', img: 'icons/commodities/gems/gem-rough-round-orange.webp' },
@@ -56,7 +56,7 @@ export class LootBuilder {
       ]
     },{
       valueInGp: 100,
-      tableName: 'Lootable Treasures 100gp',
+      tableName: 'Lootable treasures 100gp',
       items: [
         { name: 'Amber', description: 'Transparent watery gold to rich gold gem', img: 'icons/commodities/gems/gem-amber-insect-orange.webp' },
         { name: 'Amethyst', description: 'Transparent deep purple gem', img: 'icons/commodities/gems/gem-cut-faceted-princess-purple.webp' },
@@ -72,7 +72,7 @@ export class LootBuilder {
       ]
     },{
       valueInGp: 500,
-      tableName: 'Lootable Treasures 500gp',
+      tableName: 'Lootable treasures 500gp',
       items: [
         { name: 'Alexandrite', description: 'Transparent dark green gem', img: 'icons/commodities/gems/gem-faceted-large-green.webp' },
         { name: 'Aquamarine', description: 'Transparent pale blue-green gem', img: 'icons/commodities/gems/gem-shattered-teal.webp' },
@@ -84,7 +84,7 @@ export class LootBuilder {
       ]
     },{
       valueInGp: 1000,
-      tableName: 'Lootable Treasures 1000gp',
+      tableName: 'Lootable treasures 1000gp',
       items: [
         { name: 'Black opal', description: 'Translucent dark green gem with black mottling and golden flecks', img: 'icons/commodities/gems/gem-faceted-diamond-green.webp' },
         { name: 'Blue sapphire', description: 'Transparent blue-white to medium blue gem', img: 'icons/commodities/gems/gem-faceted-radiant-blue.webp' },
@@ -98,7 +98,7 @@ export class LootBuilder {
       ]
     },{
       valueInGp: 5000,
-      tableName: 'Lootable Treasures 5000gp',
+      tableName: 'Lootable treasures 5000gp',
       items: [
         { name: 'Black sapphire', description: 'Translucent lustrous black gem with glowing highlights', img: 'icons/commodities/gems/gem-faceted-round-black.webp' },
         { name: 'Diamond', description: 'Transparent blue-white, canary, pink, brown or blue gem', img: 'icons/commodities/gems/gem-faceted-round-white.webp' },
@@ -107,7 +107,7 @@ export class LootBuilder {
       ]
     },{
       valueInGp: 25,
-      tableName: 'Lootable Treasures 25gp',
+      tableName: 'Lootable treasures 25gp',
       items: [
         { name: 'Silver ewer', description: 'Silver ewer', weight: 0.2, img: 'icons/containers/kitchenware/goblet-engraved-grey.webp' },
         { name: 'Carved bone statuette', description: 'Carved bone statuette', weight: 0.2, img: 'icons/commodities/treasure/figurine-goddess.webp' },
@@ -125,7 +125,7 @@ export class LootBuilder {
       ]
     },{
       valueInGp: 250,
-      tableName: 'Lootable Treasures 250gp',
+      tableName: 'Lootable treasures 250gp',
       items: [
         { name: 'Gold ring', description: 'Gold ring set with bloodstones', weight: 0.1, img: 'icons/equipment/finger/ring-band-thin-rounded-gold.webp' },
         { name: 'Carved ivory statuette', description: 'Carved ivory statuette', weight: 0.2, img: 'icons/commodities/treasure/figurine-idol.webp' },
@@ -145,7 +145,7 @@ export class LootBuilder {
       ]
     },{
       valueInGp: 750,
-      tableName: 'Lootable Treasures 750gp',
+      tableName: 'Lootable treasures 750gp',
       items: [
         { name: 'Silver chalice', description: 'Silver chalice set with moonstones', weight: 0.3, img: 'icons/containers/kitchenware/goblet-jeweled-gold-white.webp' },
         { name: 'Silver-plated longsword', description: 'Silver-plated steel longsword with jet set in hilt', weight: 3, img: 'icons/weapons/swords/greatsword-guard-gem-blue.webp' },
@@ -161,7 +161,7 @@ export class LootBuilder {
       ]
     },{
       valueInGp: 2500,
-      tableName: 'Lootable Treasures 2500gp',
+      tableName: 'Lootable treasures 2500gp',
       items: [
         { name: 'Fine gold chain', description: 'Fine gold chain set with a fire opal', weight: 0.3, img: 'icons/equipment/neck/choker-chain-thin-gold.webp' },
         { name: 'Old masterpiece painting', description: 'Old masterpiece painting', weight: 1, img: 'icons/tools/navigation/map-simple-tree.webp' },
@@ -178,7 +178,7 @@ export class LootBuilder {
       ]
     },{
       valueInGp: 7500,
-      tableName: 'Lootable Treasures 7500gp',
+      tableName: 'Lootable treasures 7500gp',
       items: [
         { name: 'Jeweled gold crown', description: 'Jeweled gold crown', weight: 0.5, img: 'icons/commodities/treasure/crown-gold-satin-gems-red.webp' },
         { name: 'Jeweled platinum ring', description: 'Jeweled platinum ring', weight: 0.1, img: 'icons/equipment/finger/ring-faceted-gold-green.webp' },
@@ -193,9 +193,9 @@ export class LootBuilder {
   };
 
   static trinkets = {
-    tableName: 'Lootable Valuables',
+    tableName: 'Lootable valuables',
     img: 'icons/containers/chest/chest-reinforced-steel-brown.webp',
-    description: 'A random trinket generation table.',
+    description: 'A random valuables generation table.',
     systemItems: [
       // Check dnd5e items AND tradegoods
       { name: 'Bell', pack: SYSTEM_PACKS.ITEMS },

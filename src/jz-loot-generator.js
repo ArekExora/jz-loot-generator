@@ -43,8 +43,8 @@ export class JZLootGenerator extends BaseModule {
       type: 'Item',
     },
     TRINKETS: {
-      ...this.#generateModuleNames(`${this.ID}_trinkets`),
-      label: 'Lootable trinkets',
+      ...this.#generateModuleNames(`${this.ID}_valuables`),
+      label: 'Lootable valuables',
       type: 'Item',
     },
     LOOT_TABLES: {
