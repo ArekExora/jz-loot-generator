@@ -22,6 +22,20 @@ export class LootBuilder {
     tables: [{
       valueInGp: 10,
       tableName: 'Lootable treasures 10gp',
+      systemItems: [
+        { name: 'Acid (vial)', pack: SYSTEM_PACKS.ITEMS }, //25
+        { name: 'Bagpipes', pack: SYSTEM_PACKS.ITEMS }, //30
+        { name: 'Book', pack: SYSTEM_PACKS.ITEMS }, //25
+        { name: 'Book of Lore', pack: SYSTEM_PACKS.ITEMS }, //25
+        { name: 'Climber\'s Kit', pack: SYSTEM_PACKS.ITEMS }, //25
+        { name: 'Component Pouch', pack: SYSTEM_PACKS.ITEMS }, //25
+        { name: 'Dulcimer', pack: SYSTEM_PACKS.ITEMS }, //25
+        { name: 'Hourglass', pack: SYSTEM_PACKS.ITEMS }, //25
+        { name: 'Lute', pack: SYSTEM_PACKS.ITEMS }, //35
+        { name: 'Lyre', pack: SYSTEM_PACKS.ITEMS }, //30
+        { name: 'Prayer Book', pack: SYSTEM_PACKS.ITEMS }, //25
+        { name: 'Thieves\' Tools', pack: SYSTEM_PACKS.ITEMS }, //25
+      ],
       items: [
         { name: 'Azurite', description: 'Opaque gem mottled deep blue', img: 'icons/commodities/gems/gem-cluster-blue-white.webp' },
         { name: 'Banded agate', description: 'Translucent gem striped brown, blue, white or red', img: 'icons/commodities/gems/gem-fragments-red.webp' },
@@ -39,6 +53,12 @@ export class LootBuilder {
     },{
       valueInGp: 50,
       tableName: 'Lootable treasures 50gp',
+      systemItems: [
+        { name: 'Basic Poison', pack: SYSTEM_PACKS.ITEMS }, //100
+        { name: 'Magnifying Glass', pack: SYSTEM_PACKS.ITEMS }, //100
+        { name: 'Philter of Love', pack: SYSTEM_PACKS.ITEMS }, //90
+        { name: 'Potion of Greater Healing', pack: SYSTEM_PACKS.ITEMS }, //150
+      ],
       items: [
         { name: 'Bloodstone', description: 'Opaque dark gray gem with red flecks', img: 'icons/commodities/gems/gem-rough-rose-red.webp' },
         { name: 'Carnelian', description: 'Opaque orange to red-brown gem', img: 'icons/commodities/gems/gem-rough-round-orange.webp' },
@@ -57,6 +77,10 @@ export class LootBuilder {
     },{
       valueInGp: 100,
       tableName: 'Lootable treasures 100gp',
+      systemItems: [
+        { name: 'Potion of Superior Healing', pack: SYSTEM_PACKS.ITEMS }, //450
+        { name: 'Potion of Greater Healing', pack: SYSTEM_PACKS.ITEMS }, //150
+      ],
       items: [
         { name: 'Amber', description: 'Transparent watery gold to rich gold gem', img: 'icons/commodities/gems/gem-amber-insect-orange.webp' },
         { name: 'Amethyst', description: 'Transparent deep purple gem', img: 'icons/commodities/gems/gem-cut-faceted-princess-purple.webp' },
@@ -73,6 +97,10 @@ export class LootBuilder {
     },{
       valueInGp: 500,
       tableName: 'Lootable treasures 500gp',
+      systemItems: [
+        { name: 'Potion of Superior Healing', pack: SYSTEM_PACKS.ITEMS }, //450
+        { name: 'Spyglass', pack: SYSTEM_PACKS.ITEMS }, //1000
+      ],
       items: [
         { name: 'Alexandrite', description: 'Transparent dark green gem', img: 'icons/commodities/gems/gem-faceted-large-green.webp' },
         { name: 'Aquamarine', description: 'Transparent pale blue-green gem', img: 'icons/commodities/gems/gem-shattered-teal.webp' },
@@ -85,6 +113,9 @@ export class LootBuilder {
     },{
       valueInGp: 1000,
       tableName: 'Lootable treasures 1000gp',
+      systemItems: [
+
+      ],
       items: [
         { name: 'Black opal', description: 'Translucent dark green gem with black mottling and golden flecks', img: 'icons/commodities/gems/gem-faceted-diamond-green.webp' },
         { name: 'Blue sapphire', description: 'Transparent blue-white to medium blue gem', img: 'icons/commodities/gems/gem-faceted-radiant-blue.webp' },
@@ -99,6 +130,9 @@ export class LootBuilder {
     },{
       valueInGp: 5000,
       tableName: 'Lootable treasures 5000gp',
+      systemItems: [
+
+      ],
       items: [
         { name: 'Black sapphire', description: 'Translucent lustrous black gem with glowing highlights', img: 'icons/commodities/gems/gem-faceted-round-black.webp' },
         { name: 'Diamond', description: 'Transparent blue-white, canary, pink, brown or blue gem', img: 'icons/commodities/gems/gem-faceted-round-white.webp' },
@@ -108,6 +142,11 @@ export class LootBuilder {
     },{
       valueInGp: 25,
       tableName: 'Lootable treasures 25gp',
+      systemItems: [
+        { name: 'Alchemist\'s Fire', pack: SYSTEM_PACKS.ITEMS }, //50
+        { name: 'Antitoxin', pack: SYSTEM_PACKS.ITEMS }, //50
+        { name: 'Gold', pack: SYSTEM_PACKS.TRADE_GOODS }, //50
+      ],
       items: [
         { name: 'Silver ewer', description: 'Silver ewer', weight: 0.2, img: 'icons/containers/kitchenware/goblet-engraved-grey.webp' },
         { name: 'Carved bone statuette', description: 'Carved bone statuette', weight: 0.2, img: 'icons/commodities/treasure/figurine-goddess.webp' },
@@ -126,6 +165,11 @@ export class LootBuilder {
     },{
       valueInGp: 250,
       tableName: 'Lootable treasures 250gp',
+      systemItems: [
+        { name: 'Potion of Superior Healing', pack: SYSTEM_PACKS.ITEMS }, //450
+        { name: 'Potion of Greater Healing', pack: SYSTEM_PACKS.ITEMS }, //150
+        { name: 'Platinum', pack: SYSTEM_PACKS.TRADE_GOODS }, //500
+      ],
       items: [
         { name: 'Gold ring', description: 'Gold ring set with bloodstones', weight: 0.1, img: 'icons/equipment/finger/ring-band-thin-rounded-gold.webp' },
         { name: 'Carved ivory statuette', description: 'Carved ivory statuette', weight: 0.2, img: 'icons/commodities/treasure/figurine-idol.webp' },
@@ -146,6 +190,9 @@ export class LootBuilder {
     },{
       valueInGp: 750,
       tableName: 'Lootable treasures 750gp',
+      systemItems: [
+
+      ],
       items: [
         { name: 'Silver chalice', description: 'Silver chalice set with moonstones', weight: 0.3, img: 'icons/containers/kitchenware/goblet-jeweled-gold-white.webp' },
         { name: 'Silver-plated longsword', description: 'Silver-plated steel longsword with jet set in hilt', weight: 3, img: 'icons/weapons/swords/greatsword-guard-gem-blue.webp' },
@@ -162,6 +209,9 @@ export class LootBuilder {
     },{
       valueInGp: 2500,
       tableName: 'Lootable treasures 2500gp',
+      systemItems: [
+
+      ],
       items: [
         { name: 'Fine gold chain', description: 'Fine gold chain set with a fire opal', weight: 0.3, img: 'icons/equipment/neck/choker-chain-thin-gold.webp' },
         { name: 'Old masterpiece painting', description: 'Old masterpiece painting', weight: 1, img: 'icons/tools/navigation/map-simple-tree.webp' },
@@ -179,6 +229,9 @@ export class LootBuilder {
     },{
       valueInGp: 7500,
       tableName: 'Lootable treasures 7500gp',
+      systemItems: [
+
+      ],
       items: [
         { name: 'Jeweled gold crown', description: 'Jeweled gold crown', weight: 0.5, img: 'icons/commodities/treasure/crown-gold-satin-gems-red.webp' },
         { name: 'Jeweled platinum ring', description: 'Jeweled platinum ring', weight: 0.1, img: 'icons/equipment/finger/ring-faceted-gold-green.webp' },
@@ -197,9 +250,122 @@ export class LootBuilder {
     img: 'icons/containers/chest/chest-reinforced-steel-brown.webp',
     description: 'A random valuables generation table.',
     systemItems: [
-      // Check dnd5e items AND tradegoods
+      // ITEMS
+      { name: 'Abacus', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Alms Box', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Amulet', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Backpack', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Bag of Sand', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Basket', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Bedroll', pack: SYSTEM_PACKS.ITEMS },
       { name: 'Bell', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Blanket', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Block and Tackle', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Block of Incense', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Blowgun Needle', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Bucket', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Bullseye Lantern', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Caltrops', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Candle', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Carpenter\'s Tools', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Censer', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Chain (10 feet)', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Chalk', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Chess Set', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Cobbler\'s Tools', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Common Clothes', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Cook\'s Utensils', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Costume Clothes', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Crowbar', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Crystal', pack: SYSTEM_PACKS.ITEMS }, //10
+      { name: 'Dice Set', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Drum', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Emblem', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Fine Clothes', pack: SYSTEM_PACKS.ITEMS }, //15
+      { name: 'Fishing Tackle', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Flask', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Flute', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Glass Bottle', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Healer\'s Kit', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Hempen Rope (50 ft.)', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Herbalism Kit', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Hooded Lantern', pack: SYSTEM_PACKS.ITEMS }, //10
+      { name: 'Horn', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Hunting Trap', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Ink Bottle', pack: SYSTEM_PACKS.ITEMS }, //10
+      { name: 'Ink Pen', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Iron Pot', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Iron Spike', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Jug', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Lamp', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Leatherworker\'s Tools', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Lock', pack: SYSTEM_PACKS.ITEMS }, //10
+      { name: 'Manacles', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Map or Scroll Case', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Mason\'s Tools', pack: SYSTEM_PACKS.ITEMS }, //10
+      { name: 'Merchant\'s Scale', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Mess Kit', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Miner\'s Pick', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Net', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Oil Flask', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Orb', pack: SYSTEM_PACKS.ITEMS }, //20
+      { name: 'Pan Flute', pack: SYSTEM_PACKS.ITEMS }, //12
+      { name: 'Paper', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Parchment', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Perfume', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Pitcher', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Piton', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Playing Cards Set', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Potion of Healing', pack: SYSTEM_PACKS.ITEMS }, //50
+      { name: 'Potion of Greater Healing', pack: SYSTEM_PACKS.ITEMS }, //150
+      { name: 'Pouch', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Prayer Wheel', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Rations', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Reliquary', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Robes', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Rod', pack: SYSTEM_PACKS.ITEMS }, //10
+      { name: 'Sack', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Sealing Wax', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Shawm', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Shovel', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Signal Whistle', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Signet Ring', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Silk Rope (50 ft.)', pack: SYSTEM_PACKS.ITEMS }, //10
+      { name: 'Small Knife', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Soap', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Sprig of Mistletoe', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Staff', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Steel Mirror', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Stick of Incense', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Tankard', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Tinderbox', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Torch', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Traveler\'s Clothes', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Two-Person Tent', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Vestments', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Vial', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Wand', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Waterskin', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Whetstone', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Wooden Staff', pack: SYSTEM_PACKS.ITEMS },
+      { name: 'Yew Wand', pack: SYSTEM_PACKS.ITEMS }, //10
+      // TRADE GOODS
+      { name: 'Canvas', pack: SYSTEM_PACKS.TRADE_GOODS },
+      { name: 'Chicken', pack: SYSTEM_PACKS.TRADE_GOODS },
+      { name: 'Cinnamon', pack: SYSTEM_PACKS.TRADE_GOODS },
+      { name: 'Cloves', pack: SYSTEM_PACKS.TRADE_GOODS },
+      { name: 'Copper', pack: SYSTEM_PACKS.TRADE_GOODS },
+      { name: 'Cotton', pack: SYSTEM_PACKS.TRADE_GOODS },
+      { name: 'Flour', pack: SYSTEM_PACKS.TRADE_GOODS },
+      { name: 'Ginger', pack: SYSTEM_PACKS.TRADE_GOODS },
+      { name: 'Iron', pack: SYSTEM_PACKS.TRADE_GOODS },
+      { name: 'Linen', pack: SYSTEM_PACKS.TRADE_GOODS },
+      { name: 'Pepper', pack: SYSTEM_PACKS.TRADE_GOODS },
+      { name: 'Saffron', pack: SYSTEM_PACKS.TRADE_GOODS }, //15
       { name: 'Salt', pack: SYSTEM_PACKS.TRADE_GOODS },
+      { name: 'Silk', pack: SYSTEM_PACKS.TRADE_GOODS }, //10
+      { name: 'Silver', pack: SYSTEM_PACKS.TRADE_GOODS },
+      { name: 'Wheat', pack: SYSTEM_PACKS.TRADE_GOODS },
     ],
     items : [
       { name: 'Charcoal', description: 'Chunk of charcoal', weight: 1, price: 1, coinType: 'sp', img: 'icons/commodities/stone/ore-pile-iron-black.webp' },
@@ -220,7 +386,6 @@ export class LootBuilder {
       { name: 'Silver pin', description: 'Silver pin', weight: 0.1, price: 1, coinType: 'ep', img: 'icons/commodities/metal/pin-cottar-steel.webp' },
       { name: 'Glass totem', description: 'Glass totem', weight: 0.1, price: 2, coinType: 'sp', img: 'icons/environment/creatures/gargoyle-grey-blue.webp' },
       { name: 'Powder', description: 'Measure of powder, do not place it near the fire', weight: 0.2, price: 1, coinType: 'gp', img: 'icons/containers/ammunition/powder-horn-leather.webp' },
-      { name: 'Glass vial', description: 'Empty glass vial', weight: 0.1, price: 1, coinType: 'ep', img: 'icons/consumables/potions/vial-cork-empty.webp' },
       { name: 'Soot', description: 'Small amount of soot, can help to light a fire', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/commodities/materials/bowl-powder-grey.webp' },
       { name: 'Wallnuts', description: 'Handful of wallnuts', weight: 0.1, price: 3, coinType: 'cp', img: 'icons/consumables/nuts/walnut-shelled-glowing-brown.webp' },
       { name: 'Lump of clay', description: 'Lump of soft clay', weight: 0.2, price: 2, coinType: 'cp', img: 'icons/commodities/stone/boulder-tan.webp' },
@@ -242,8 +407,7 @@ export class LootBuilder {
       { name: 'Brimstone', description: 'Lump of brimstone, basically sulfur', weight: 0.1, price: 1, coinType: 'ep', img: 'icons/commodities/stone/ore-chunk-yellow-brown.webp' },
       { name: 'Strap of leather', description: 'Strap of leather', weight: 0.1, price: 3, coinType: 'cp', img: 'icons/commodities/leather/leather-scraps-tan.webp' },
       { name: 'Glass bead', description: 'Small bead made of glass', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/commodities/materials/glass-cube.webp' },
-      { name: 'Mistletoe', description: 'Sprig of mistletoe', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/commodities/flowers/blooms-pink.webp' },
-      { name: 'Beans', description: 'Handfull of beans, enough for a full day when cooked', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/consumables/vegetable/lima-beans-pod-brown.webp' },
+      { name: 'Beans', description: 'Handful of beans, enough for a full day when cooked', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/consumables/vegetable/lima-beans-pod-brown.webp' },
       { name: 'Licorice root', description: 'Licorice root', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/consumables/vegetable/root-brown-orange.webp' },
       { name: 'Petrified eye', description: 'Petrified eye of a newt', weight: 0.1, price: 3, coinType: 'sp', img: 'icons/commodities/biological/eye-purple.webp' },
       { name: 'Sugar', description: 'Sugar, really sweet', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/containers/bags/sack-simple-green.webp' },
@@ -262,15 +426,56 @@ export class LootBuilder {
       { name: 'Insect cocoon', description: 'Cocoon from an insect', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/environment/creatures/bug-flea-beige.webp' },
       { name: 'Lump of talc', description: 'Lump of talc', weight: 0.1, price: 1, coinType: 'gp', img: 'icons/commodities/stone/stone-pile-grey.webp' },
       { name: 'Mica', description: 'Chunk of mica', weight: 0.2, price: 1, coinType: 'sp', img: 'icons/commodities/stone/paver-tile-grey.webp' },
-      { name: 'Dried rose', description: 'Dried rose', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/commodities/flowers/clover-red.webp' },
+      { name: 'Dried rose', description: 'Well preserved dried rose', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/commodities/flowers/clover-red.webp' },
       { name: 'Molasses', description: 'Molasses', weight: 0.1, price: 1, coinType: 'gp', img: 'icons/consumables/drinks/wine-amphora-clay-red.webp' },
-      { name: 'Magnifying glass', description: 'Magnifying glass', weight: 0.1, price: 1, coinType: 'gp', img: 'icons/tools/scribal/magnifying-glass.webp' },
       { name: 'Bitumen', description: 'Small pot of bitumen', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/tools/laboratory/bowl-liquid-black.webp' },
       { name: 'Sunstone', description: 'Small chunk of sunstone', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/commodities/stone/stone-nugget-gold.webp' },
       { name: 'Vial of mercury', description: 'Vial of mercury', weight: 0.1, price: 1, coinType: 'gp', img: 'icons/consumables/potions/vial-cork-blue.webp' },
-      { name: 'Chalk', description: 'Lump of chalk, can be used for writing', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/commodities/stone/ore-chunk-white.webp' },
       { name: 'Block of granite', description: 'Small block of granite', weight: 1, price: 1, coinType: 'sp', img: 'icons/commodities/stone/masonry-block-cube-pink-white.webp' },
       { name: 'Kindling', description: 'Assortement of twigs, thorny branches and dried leaves and grass', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/commodities/wood/kindling-sticks-yellow.webp' },
+      { name: 'Heart', description: 'Heart of a once living creature', weight: 0.2, price: 1, coinType: 'cp', img: 'icons/commodities/biological/organ-heart-red.webp' },
+      { name: 'Pile of bones', description: 'Pile of dried bones', weight: 0.2, price: 1, coinType: 'cp', img: 'icons/commodities/bones/bones-stack-brown.webp' },
+      { name: 'Bird skull', description: 'Well preserved bird skull', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/commodities/bones/skull-bird-grey.webp' },
+      { name: 'Humanoid skull', description: 'Well preserved humanoid skull', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/commodities/bones/skull-hollow-white.webp' },
+      { name: 'Sharp tooth', description: 'Really sharp tooth from a hunter creature', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/commodities/bones/tooth-canine-white.webp' },
+      { name: 'Raptor claw', description: 'Severed claw from a raptor bird', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/commodities/claws/claw-bird-yellow.webp' },
+      { name: 'Foreign coin', description: 'Peculiar coin from a foreign kingdom', weight: 0.1, price: 6, coinType: 'gp', img: 'icons/commodities/currency/coin-engraved-sun-smile-copper.webp' },
+      { name: 'War paints', description: 'Pigments and paints to get ready for war', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/commodities/materials/bowl-liquid-red.webp' },
+      { name: 'Unknown sapling', description: 'Sapling from an unknown plant', weight: 0.5, price: 1, coinType: 'sp', img: 'icons/commodities/materials/plant-sprout-tan-green.webp' },
+      { name: 'Hair trophy', description: 'Braided hair from a defeated foe or loved one', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/commodities/materials/hair-braid-gold.webp' },
+      { name: 'Spherical box', description: 'Extrange spherical box, aparently highly technological. Has traces of red paint in the upper half', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/commodities/tech/bearing-steel-green.webp' },
+      { name: 'Misterious insignia', description: 'Insignia from a misterious group', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/commodities/treasure/broach-jeweled-green.webp' },
+      { name: 'Small badge', description: 'Small badge, probably earned after some trials', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/commodities/treasure/plaque-wood-leaves.webp' },
+      { name: 'Distasteful brew', description: 'Extrange brew with a pungent distasteful odor', weight: 0.2, price: 1, coinType: 'cp', img: 'icons/consumables/drinks/tea-jug-gourd-brown.webp' },
+      { name: 'Coloured egg', description: 'Coloured egg from an unknown creature, it is warm', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/consumables/eggs/egg-spotted-cyan.webp' },
+      { name: 'Assorted berries', description: 'Bunch of berries from multiple plants, should be enough food for a day', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/consumables/fruit/berries-hanging-red.webp' },
+      { name: 'Loaf of bread', description: 'Loaf of bread, should be enough food for a day', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/consumables/grains/bread-loaf-boule-rustic-brown.webp' },
+      { name: 'Red mushrooms', description: 'Handful of red mushrooms, they may be edible, or hallucinogenic , or deadly...', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/consumables/mushrooms/campanulate-bell-shiny-red.webp' },
+      { name: 'Blue mushrooms', description: 'Handful of blue mushrooms, they may be edible, or hallucinogenic , or deadly...', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/consumables/mushrooms/ovate-thin-blue.webp' },
+      { name: 'Brown mushrooms', description: 'Handful of brown mushrooms, they may be edible, or hallucinogenic , or deadly...', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/consumables/mushrooms/convex-bolete-brown.webp' },
+      { name: 'Vial of green liquid', description: 'Vial of viscous green liquid', weight: 0.1, price: 5, coinType: 'cp', img: 'icons/consumables/potions/potion-tube-corked-tied-green.webp' },
+      { name: 'Leather satchel', description: 'Leather satchel', weight: 0.3, price: 1, coinType: 'sp', img: 'icons/containers/bags/satchel-worn-leather-tan.webp' },
+      { name: 'Clay bowl', description: 'Clay bowl, useful as a liquid container', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/containers/kitchenware/bowl-clay-brown.webp' },
+      { name: 'Ceremonial cape', description: 'Ornated ceremonial cape', weight: 0.3, price: 1, coinType: 'sp', img: 'icons/equipment/back/cape-layered-green-eye.webp' },
+      { name: 'Tattered clothes', description: 'Full set of tattered clothes', weight: 2, price: 1, coinType: 'cp', img: 'icons/equipment/chest/shirt-simple-grey.webp' },
+      { name: 'Runic ring', description: 'Ring with a rune engraved in it', weight: 0.1, price: 2, coinType: 'gp', img: 'icons/equipment/finger/ring-signet-silver.webp' },
+      { name: 'Feather crown', description: 'Feather crown', weight: 0.3, price: 2, coinType: 'sp', img: 'icons/equipment/head/crown-feather-brown.webp' },
+      { name: 'Claw trinket', description: 'Claw trinket', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/equipment/neck/pendant-simple-claw.webp' },
+      { name: 'Rune trinket', description: 'Rune trinket', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/equipment/neck/pendant-runed-hagalz-blue.webp' },
+      { name: 'Bones trinket', description: 'Bones trinket', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/equipment/neck/collar-carved-bone-teeth-ring.webp' },
+      { name: 'Hook trinket', description: 'Hook trinket', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/equipment/neck/necklace-simple-hook-stone.webp' },
+      { name: 'Stone trinket', description: 'Stone trinket', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/equipment/neck/pendant-rough-gold-green.webp' },
+      { name: 'Cloth belt', description: 'Simple cloth belt', weight: 0.1, price: 4, coinType: 'cp', img: 'icons/equipment/waist/cloth-sash-purple.webp' },
+      { name: 'Tattered book', description: 'Tattered but almost complete book', weight: 0.1, price: 5, coinType: 'gp', img: 'icons/sundries/books/book-worn-brown-grey.webp' },
+      { name: 'Handful of notes', description: 'Handful of notes written on paper', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/sundries/documents/document-letter-tan.webp' },
+      { name: 'Folded flag', description: 'Folded flag', weight: 0.3, price: 1, coinType: 'sp', img: 'icons/sundries/flags/banner-symbol-claw.webp' },
+      { name: 'Iron key', description: 'Key made of iron', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/sundries/misc/key-steel.webp' },
+      { name: 'Sealed scroll', description: 'Sealed scroll', weight: 0.1, price: 3, coinType: 'sp', img: 'icons/sundries/scrolls/scroll-bound-sealed-red.webp' },
+      { name: 'Mortar and pestle', description: 'Mortar and pestle', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/tools/cooking/mortar-yellow.webp' },
+      { name: 'Iron nails', description: 'Some iron nails', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/tools/fasteners/nails-worn-steel.webp' },
+      { name: 'Bone fishing hook', description: 'Bone fishing hook', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/tools/fishing/hook-simple-bone.webp' },
+      { name: 'Damaged map', description: 'Damaged, barely legible map', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/tools/navigation/map-simple-brown.webp' },
+      { name: 'Horseshoe', description: 'Horseshoe made of iron', weight: 0.2, price: 5, coinType: 'cp', img: 'icons/tools/smithing/horsehoe-worn-steel-grey.webp' },
     ]
   };
 
