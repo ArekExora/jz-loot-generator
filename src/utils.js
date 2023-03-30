@@ -92,7 +92,7 @@ export class Utils {
     if (table) {
       Module.debug(false, `Table ${tableName} found in game table list.`);
     } else {
-      const packName = Module.COMPENDIUMS.LOOT_TABLES.nameInModule;
+      const packName = Module.COMPENDIUMS.LOOT_TABLES.fullName;
       const tablePack = game.packs.get(packName);
       if (tablePack) {
         tablePack?.getIndex();
@@ -170,7 +170,7 @@ export class Utils {
    * @returns {Item} The retrieved item, or undefined
    */
   static async getItem(data, extraCompendiums = []) {
-    const compendiums = [SYSTEM_PACKS.ITEMS, SYSTEM_PACKS.TRADE_GOODS, ...Module.COMPENDIUM_LIST.map(pack => pack.nameInModule), ...extraCompendiums];
+    const compendiums = [SYSTEM_PACKS.ITEMS, SYSTEM_PACKS.TRADE_GOODS, ...Module.COMPENDIUM_LIST.map(pack => pack.fullName), ...extraCompendiums];
     const { name, type } = typeof data === 'string' ? { name: data } : data;
 
     Module.debug(false, `Searching item: ${name}${type ? ' [' + type + ']' : ''}`);

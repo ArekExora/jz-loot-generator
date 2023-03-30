@@ -480,12 +480,13 @@ export class LootBuilder {
   };
 
   static async generateItems(cleanFirst = false) {
-    const treasuresPack = Module.COMPENDIUMS.TREASURES.nameInWorld;
-    const trinketsPack = Module.COMPENDIUMS.TRINKETS.nameInWorld;
+    const treasuresPack = Module.COMPENDIUMS.TREASURES.fullName;
+    const trinketsPack = Module.COMPENDIUMS.TRINKETS.fullName;
     const treasures = this.treasureTables.tables.reduce((acc, group) => [...acc, ...group.items.map(i => this.#prepareTreasure(i, group.valueInGp))], []);
     const trinkets = this.trinkets.items.map(i => this.#prepareItem(i));
 
-    await this.#createCompendiums(Module.COMPENDIUM_LIST, cleanFirst);
+    // Only usable for debug and testing
+    //await this.#createCompendiums(Module.COMPENDIUM_LIST, cleanFirst);
 
     let treasuresToGenerate = [];
     let trinketsToGenerate = [];
@@ -513,9 +514,9 @@ export class LootBuilder {
   }
 
   static async #generateTables() {
-    const treasuresPack = Module.COMPENDIUMS.TREASURES.nameInWorld;
-    const trinketsPack = Module.COMPENDIUMS.TRINKETS.nameInWorld;
-    const tablesPack = Module.COMPENDIUMS.LOOT_TABLES.nameInWorld;
+    const treasuresPack = Module.COMPENDIUMS.TREASURES.fullName;
+    const trinketsPack = Module.COMPENDIUMS.TRINKETS.fullName;
+    const tablesPack = Module.COMPENDIUMS.LOOT_TABLES.fullName;
 
     const [treasuresIndex, trinketsIndex, systemItemsIndex, systemTradeGoodsIndex] = await Promise.all([treasuresPack, trinketsPack, SYSTEM_PACKS.ITEMS, SYSTEM_PACKS.TRADE_GOODS].map(p => game.packs.get(p).getIndex()));
     const packToIndex = {
@@ -550,8 +551,8 @@ export class LootBuilder {
   }
 
   static async #createCompendiums(compendiumList, cleanFirst) {
-    for (const { nameInWorld, name, label, type } of compendiumList) {
-      const pack = game.packs.get(nameInWorld);
+    for (const { fullName, name, label, type } of compendiumList) {
+      const pack = game.packs.get(fullName);
 
       if (pack && !cleanFirst)
         return;

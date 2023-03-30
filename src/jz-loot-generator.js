@@ -38,17 +38,20 @@ export class JZLootGenerator extends BaseModule {
 
   static COMPENDIUMS = {
     TREASURES: {
-      ...this.#generateModuleNames(`${this.ID}_treasures`),
+      name: 'lootable_treasures',
+      fullName: `${this.ID}.lootable_treasures`,
       label: 'Lootable treasures',
       type: 'Item',
     },
     TRINKETS: {
-      ...this.#generateModuleNames(`${this.ID}_valuables`),
+      name: 'lootable_valuables',
+      fullName: `${this.ID}.lootable_valuables`,
       label: 'Lootable valuables',
       type: 'Item',
     },
     LOOT_TABLES: {
-      ...this.#generateModuleNames(`${this.ID}_tables`),
+      name: 'loot_tables',
+      fullName: `${this.ID}.loot_tables`,
       label: 'Loot tables',
       type: 'RollTable',
     },
@@ -110,14 +113,6 @@ export class JZLootGenerator extends BaseModule {
       key: this.SETTINGS.TURN_INTO_ITEM_PILES,
       config: { type: Boolean, default: !!game.modules.get('item-piles')?.active }
     }].forEach(({ key, config }) => this._setupSetting(key, config));
-  }
-
-  static #generateModuleNames(name) {
-    return {
-      name,
-      nameInWorld: `world.${name}`,
-      nameInModule: `world.${name}`,
-    }
   }
 
 }

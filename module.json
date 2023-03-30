@@ -1,22 +1,37 @@
 {
   "name": "jz-loot-generator",
   "title": "JZ Loot Generator",
-  "description": "Generates the loot of dead NPCs in DnD 5e, by Jan Zizka.",
+  "description": "Generates loot on NPCs placement for DnD 5e, by Jan Zizka.",
   "version": "0.0.1",
+  "system": ["dnd5e"],
   "authors": [{ "name": "Jan Zizka" }],
   "minimumCoreVersion": "10",
   "compatibleCoreVersion": "10",
   "esmodules": [
     "src/jz-loot-generator.js"
   ],
-  "styles": [
-    "styles/jz-loot-generator.css"
-  ],
-  "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "lang/en.json"
-    }
-  ]
+  "packs": [{
+    "name": "lootable_treasures",
+    "label": "Lootable treasures",
+    "path": "packs/lootable_treasures.db",
+    "entity": "Item",
+    "module": "jz-loot-generator"
+   },{
+    "name": "lootable_valuables",
+    "label": "Lootable valuables",
+    "path": "packs/lootable_valuables.db",
+    "entity": "Item",
+    "module": "jz-loot-generator"
+   },{
+    "name": "loot_tables",
+    "label": "Loot tables",
+    "path": "packs/loot_tables.db",
+    "entity": "RollTable",
+    "module": "jz-loot-generator"
+   }],
+  "languages": [{
+    "lang": "en",
+    "name": "English",
+    "path": "lang/en.json"
+  }]
 }
