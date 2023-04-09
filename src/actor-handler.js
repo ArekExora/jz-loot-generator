@@ -72,10 +72,10 @@ export class ActorHandler {
     const treasureLevel = this.#getTreasureLevel();
 
     return {
-      treasureRolls: treasureLevel || (hasLoot ? 1 : 0),
+      treasureRolls: treasureLevel || Number(hasLoot),
       hasTrinkets: hasLoot,
       turnToPile: !!treasureLevel,
-      minCoinFactor: treasureLevel ? 1 : 0,
+      minCoinFactor: Number(treasureLevel),
     }
   }
 
@@ -95,7 +95,7 @@ export class ActorHandler {
   #getTreasureLevel() {
     const defaultTreasureLevel = 5;
     const type = this.actor.system?.details?.type || {};
-    const isTreasure = type.custom === this.TREASURE_TYPE;
+    const isTreasure = type.custom?.toLowerCase() === this.TREASURE_TYPE;
     return isTreasure ? parseInt(type.subtype) || defaultTreasureLevel : 0;
   }
 

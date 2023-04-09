@@ -17,6 +17,10 @@
     "items": {
       "damaged_suffix": " (Damaged)"
     },
+    "dialogs": {
+      "generate_items_title": "Confirm item generation",
+      "generate_items_content": "This operation is only intended for module development. Continue under your own risk."
+    },
     "settings": {
       "types_with_loot": {
         "name": "NPC types that generate valuables",

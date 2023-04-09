@@ -81,7 +81,7 @@ export class JZLootGenerator extends BaseModule {
       config: { type: Number, default: 33, range: { min: 0, max: 100 } }
     },{
       key: this.SETTINGS.TRINKETS.PERCENTAGE,
-      config: { type: Number, default: 60, range: { min: 0, max: 100 } }
+      config: { type: Number, default: 90, range: { min: 0, max: 100 } }
     },{
       key: this.SETTINGS.TRINKETS.MAX,
       config: { type: Number, default: 5, range: { min: 1, max: 10 } }

@@ -99,6 +99,7 @@ export class LootBuilder {
       tableName: 'Lootable treasures 500gp',
       systemItems: [
         { name: 'Potion of Superior Healing', pack: SYSTEM_PACKS.ITEMS }, //450
+        { name: 'Potion of Supreme Healing', pack: SYSTEM_PACKS.ITEMS }, // 1350
         { name: 'Spyglass', pack: SYSTEM_PACKS.ITEMS }, //1000
       ],
       items: [
@@ -114,7 +115,7 @@ export class LootBuilder {
       valueInGp: 1000,
       tableName: 'Lootable treasures 1000gp',
       systemItems: [
-
+        { name: 'Potion of Supreme Healing', pack: SYSTEM_PACKS.ITEMS }, // 1350
       ],
       items: [
         { name: 'Black opal', description: 'Translucent dark green gem with black mottling and golden flecks', img: 'icons/commodities/gems/gem-faceted-diamond-green.webp' },
@@ -476,6 +477,8 @@ export class LootBuilder {
       { name: 'Bone fishing hook', description: 'Bone fishing hook', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/tools/fishing/hook-simple-bone.webp' },
       { name: 'Damaged map', description: 'Damaged, barely legible map', weight: 0.1, price: 1, coinType: 'cp', img: 'icons/tools/navigation/map-simple-brown.webp' },
       { name: 'Horseshoe', description: 'Horseshoe made of iron', weight: 0.2, price: 5, coinType: 'cp', img: 'icons/tools/smithing/horsehoe-worn-steel-grey.webp' },
+      { name: 'Quill', description: 'Quill for writing', weight: 0.1, price: 5, coinType: 'sp', img: 'icons/tools/scribal/ink-quill-red.webp' },
+      { name: 'String (10 ft.)', description: 'Simple string, 10 feet long.', weight: 0.1, price: 1, coinType: 'ep', img: 'icons/commodities/cloth/thread-spindle-white-grey.webp' },
     ]
   };
 
@@ -499,16 +502,17 @@ export class LootBuilder {
       treasuresToGenerate = treasures.filter((_v, index) => !treasuresFound[index]);
       trinketsToGenerate = trinkets.filter((_v, index) => !trinketsFound[index]);
     }
-    
-    if (treasuresToGenerate.length) {
-      Module.debug(false, 'Generating treasures: ', treasuresToGenerate);    
-      await Item.createDocuments(treasuresToGenerate, { pack: treasuresPack });
-    }
-    if (trinketsToGenerate.length) {
-      Module.debug(false, 'Generating trinkets: ', trinketsToGenerate);    
-      await Item.createDocuments(trinketsToGenerate, { pack: trinketsPack });
-    }
-    if (treasuresToGenerate.length || trinketsToGenerate.length) {
+
+    if ((treasuresToGenerate.length || trinketsToGenerate.length) && await this.#askConfirmation()) {
+      if (treasuresToGenerate.length) {
+        Module.debug(false, 'Generating treasures: ', treasuresToGenerate);    
+        await Item.createDocuments(treasuresToGenerate, { pack: treasuresPack });
+      }
+      if (trinketsToGenerate.length) {
+        Module.debug(false, 'Generating trinkets: ', trinketsToGenerate);    
+        await Item.createDocuments(trinketsToGenerate, { pack: trinketsPack });
+      }
+      
       await this.#generateTables();
     }
   }
@@ -545,7 +549,7 @@ export class LootBuilder {
       const table = await Utils.getTable(name);
       if (table) {
         Module.debug(false, `Deleting table ${name}`);
-        await game.tables.getName(name).delete();
+        await table.delete();
       }
     }
   }
@@ -623,5 +627,11 @@ export class LootBuilder {
       img,
       formula: `1d${results.length}`
     } : null;
+  }
+
+  static async #askConfirmation() {
+    const title = game.i18n.localize(`${Module.ID}.dialogs.generate_items_title`);
+    const content = game.i18n.localize(`${Module.ID}.dialogs.generate_items_content`);
+    return await Dialog.confirm({ title, content });
   }
 }
