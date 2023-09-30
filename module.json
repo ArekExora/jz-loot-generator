@@ -12,16 +12,20 @@
       "name": "Jan Zizka"
     }
   ],
-  "system": ["dnd5e"],
   "esmodules": [
     "src/jz-loot-generator.js"
   ],
   "relationships": {
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system"
+      }
+    ],
     "requires": [
       {
         "id": "item-piles",
-        "type": "module",
-        "compatibility": {}
+        "type": "module"
       }
     ]
   },
