@@ -2,16 +2,16 @@
   "id": "jz-loot-generator",
   "title": "JZ Loot Generator",
   "description": "Generates loot on NPCs placement for DnD 5e, by Jan Zizka.",
-  "version": "0.0.1",
-  "compatibility": {
-    "minimum": "10",
-    "verified": "11"
-  },
+  "version": "1.0.0",
   "authors": [
     {
       "name": "Jan Zizka"
     }
   ],
+  "compatibility": {
+    "minimum": "10",
+    "verified": "11"
+  },
   "esmodules": [
     "src/jz-loot-generator.js"
   ],
@@ -31,25 +31,40 @@
   },
   "packs": [
     {
-      "label": "Lootable treasures",
       "name": "lootable_treasures",
-      "path": "packs/lootable_treasures.db",
+      "label": "Lootable treasures",
+      "path": "packs/lootable_treasures",
+      "type": "Item",
       "system": "dnd5e",
-      "type": "Item"
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
     },
     {
-      "label": "Lootable valuables",
       "name": "lootable_valuables",
-      "path": "packs/lootable_valuables.db",
+      "label": "Lootable valuables",
+      "path": "packs/lootable_valuables",
+      "type": "Item",
       "system": "dnd5e",
-      "type": "Item"
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
     },
     {
-      "label": "Loot tables",
       "name": "loot_tables",
-      "path": "packs/loot_tables.db",
+      "label": "Loot tables",
+      "path": "packs/loot_tables",
+      "type": "RollTable",
       "system": "dnd5e",
-      "type": "RollTable"
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
     }
   ],
   "packFolders": [
@@ -70,5 +85,7 @@
       "name": "English",
       "path": "lang/en.json"
     }
-  ]
+  ],
+  "manifest": "",
+  "download": ""
 }

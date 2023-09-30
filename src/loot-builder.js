@@ -493,19 +493,18 @@ export class LootBuilder {
       return;
     }
 
-    const treasuresPack = Module.COMPENDIUMS.TREASURES.fullName;
-    const trinketsPack = Module.COMPENDIUMS.TRINKETS.fullName;
     const treasures = this.treasureTables.tables.reduce((acc, group) => [...acc, ...group.items.map(i => this.#prepareTreasure(i, group.valueInGp))], []);
     const trinkets = this.trinkets.items.map(i => this.#prepareItem(i));
 
     // Only usable for debug and testing (create compendiums in world so they can be copied to module)
-    //await this.#createCompendiums(Module.COMPENDIUM_LIST, cleanFirst);
+    //await this.#createCompendiums(cleanFirst);
 
-    this.#lockCompendiums(Module.COMPENDIUM_LIST, false);
+    await this.#lockCompendiums(false);
 
     let treasuresToGenerate = [];
     let trinketsToGenerate = [];
     if (cleanFirst) {
+      await this.#emptyCompendiums();
       treasuresToGenerate = treasures;
       trinketsToGenerate = trinkets;
     } else {
@@ -518,41 +517,48 @@ export class LootBuilder {
     if ((treasuresToGenerate.length || trinketsToGenerate.length)) {
       if (treasuresToGenerate.length) {
         Module.debug(false, 'Generating treasures: ', treasuresToGenerate);
-        await Item.createDocuments(treasuresToGenerate, { pack: treasuresPack });
+        await Item.createDocuments(treasuresToGenerate, { pack: Module.COMPENDIUMS.TREASURES.fullName });
       }
       if (trinketsToGenerate.length) {
         Module.debug(false, 'Generating trinkets: ', trinketsToGenerate);
-        await Item.createDocuments(trinketsToGenerate, { pack: trinketsPack });
+        await Item.createDocuments(trinketsToGenerate, { pack: Module.COMPENDIUMS.TRINKETS.fullName });
       }
 
       await this.#generateTables();
 
-      this.#lockCompendiums(Module.COMPENDIUM_LIST);
+      await this.#lockCompendiums();
     }
   }
 
-  static async #createCompendiums(compendiumList, cleanFirst) {
-    for (const { name, label, type } of compendiumList) {
-      const packName = `world.${name}`; // Create compendiums in the world so they can be copied to the module.
-      const pack = game.packs.get(packName);
+  static async #createCompendiums(cleanFirst) {
+    for (const { name, label, type } of Module.COMPENDIUM_LIST) {
+      const pack = game.packs.get(`world.${name}`); // Create compendiums in the world so they can be copied to the module.
 
       if (pack && !cleanFirst)
         return;
 
-      if (pack)
-        Module.log(true, `Recreating compendium ${label}`);
-      else
-        Module.log(true, `Creating compendium ${label}`);
-
+      Module.log(true, `${pack ? 'Recreating' : 'Creating'} compendium ${label}`);
       await pack?.deleteCompendium();
       await CompendiumCollection.createCompendium({ label, name, type });
     }
   }
 
-  static async #lockCompendiums(compendiumList, locked = true) {
-    for (const { fullName } of compendiumList) {
-      await game.packs.get(fullName).configure({ locked });
+  static async #lockCompendiums(locked = true) {
+    for (const { fullName, label } of Module.COMPENDIUM_LIST) {
+      if (game.packs.get(fullName).locked !== locked) {
+        Module.debug(false, `${locked ? 'Locking' : 'Unlocking'} compendium ${label}`);
+        await game.packs.get(fullName).configure({ locked });
+      }
     }
+  }
+
+  static async #emptyCompendiums() {
+    const treasuresPack = game.packs.get(Module.COMPENDIUMS.TREASURES.fullName);
+    const trinketsPack = game.packs.get(Module.COMPENDIUMS.TRINKETS.fullName);
+
+    Module.log(true, 'Emptying treasures and trinkets compendiums');
+    (await treasuresPack.getIndex()).forEach(i => treasuresPack.delete(i._id));
+    (await trinketsPack.getIndex()).forEach(i => trinketsPack.delete(i._id));
   }
 
   static async #generateTables() {
