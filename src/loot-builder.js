@@ -50,7 +50,7 @@ export class LootBuilder {
         { name: 'Tiger eye', description: 'Translucent brown gem with golden center', img: 'icons/commodities/gems/gem-rough-cushion-orange-red.webp' },
         { name: 'Turquoise', description: 'Opaque light blue-green gem', img: 'icons/commodities/gems/gem-rough-oval-teal.webp' },
       ]
-    },{
+    }, {
       valueInGp: 50,
       tableName: 'Lootable treasures 50gp',
       systemItems: [
@@ -74,7 +74,7 @@ export class LootBuilder {
         { name: 'Zircon', description: 'Transparent pale blue-green gem', img: 'icons/commodities/gems/gem-fragments-turquoise.webp' },
         { name: 'Lesser ruby', description: 'Transparent clear red to deep crimsom gem of low quality', img: 'icons/commodities/gems/gem-faceted-navette-red.webp' },
       ]
-    },{
+    }, {
       valueInGp: 100,
       tableName: 'Lootable treasures 100gp',
       systemItems: [
@@ -94,7 +94,7 @@ export class LootBuilder {
         { name: 'Tourmaline', description: 'Transparent pale green, blue, brown or red gem', img: 'icons/commodities/gems/pearl-rough-turquoise.webp' },
         { name: 'Lesser diamond', description: 'Transparent blue-white, canary, pink, brown or blue gem of low quality', img: 'icons/commodities/gems/gem-fragments-blue.webp' },
       ]
-    },{
+    }, {
       valueInGp: 500,
       tableName: 'Lootable treasures 500gp',
       systemItems: [
@@ -111,7 +111,7 @@ export class LootBuilder {
         { name: 'Topaz', description: 'Transparent golden yellow gem', img: 'icons/commodities/gems/gem-rough-rectangular-red.webp' },
         { name: 'Great black onyx', description: 'Opaque pure black gem', img: 'icons/commodities/gems/gem-rough-tapered-purple.webp' },
       ]
-    },{
+    }, {
       valueInGp: 1000,
       tableName: 'Lootable treasures 1000gp',
       systemItems: [
@@ -128,7 +128,7 @@ export class LootBuilder {
         { name: 'Yellow sapphire', description: 'Transparent fiery yellow or yellow-green gem', img: 'icons/commodities/gems/gem-faceted-octagon-yellow.webp' },
         { name: 'Agate', description: 'Transparent multicolored gem', img: 'icons/commodities/gems/pearl-water.webp' },
       ]
-    },{
+    }, {
       valueInGp: 5000,
       tableName: 'Lootable treasures 5000gp',
       systemItems: [
@@ -140,7 +140,7 @@ export class LootBuilder {
         { name: 'Jacinth', description: 'Transparent fiery orange gem', img: 'icons/commodities/gems/gem-faceted-trillion-orange.webp' },
         { name: 'Ruby', description: 'Transparent clear red to deep crimsom gem', img: 'icons/commodities/gems/gem-faceted-radiant-red.webp' },
       ]
-    },{
+    }, {
       valueInGp: 25,
       tableName: 'Lootable treasures 25gp',
       systemItems: [
@@ -163,7 +163,7 @@ export class LootBuilder {
         { name: 'Divination bones', description: 'Set of specially marked bones, used for divination magic', weight: 0.2, img: 'icons/commodities/bones/bones-stack-worn-brown.webp' },
         { name: 'Silver rod', description: 'Small silver rod', weight: 0.2, img: 'icons/weapons/wands/wand-gem-violet.webp' },
       ]
-    },{
+    }, {
       valueInGp: 250,
       tableName: 'Lootable treasures 250gp',
       systemItems: [
@@ -188,7 +188,7 @@ export class LootBuilder {
         { name: 'Runesticks', description: 'Set of ivory carved runesticks, used for divination magic', weight: 0.2, img: 'icons/commodities/treasure/token-engraved-symbols-grey.webp' },
         { name: 'Miniature sword', description: 'Miniature platinum sword with a grip and pommel of copper and zinc', weight: 0.2, img: 'icons/weapons/swords/shortsword-guard-green.webp' },
       ]
-    },{
+    }, {
       valueInGp: 750,
       tableName: 'Lootable treasures 750gp',
       systemItems: [
@@ -207,7 +207,7 @@ export class LootBuilder {
         { name: 'Painted gold war mask', description: 'Painted gold war mask', weight: 0.3, img: 'icons/equipment/head/mask-carved-scream-tan.webp' },
         { name: 'Rare unguents', description: 'Rare unguents', weight: 0.2, img: 'icons/consumables/potions/potion-flask-corked-labeled-pink.webp' },
       ]
-    },{
+    }, {
       valueInGp: 2500,
       tableName: 'Lootable treasures 2500gp',
       systemItems: [
@@ -227,7 +227,7 @@ export class LootBuilder {
         { name: 'Gem encrusted bowl', description: 'Gem encrusted bowl', weight: 0.2, img: 'icons/containers/kitchenware/goblet-jeweled-gold-purple.webp' },
         { name: 'Jade circlet', description: 'Gold circlet set with multiple jades', weight: 0.3, img: 'icons/equipment/neck/choker-rounded-gold-green.webp' },
       ]
-    },{
+    }, {
       valueInGp: 7500,
       tableName: 'Lootable treasures 7500gp',
       systemItems: [
@@ -368,7 +368,7 @@ export class LootBuilder {
       { name: 'Silver', pack: SYSTEM_PACKS.TRADE_GOODS },
       { name: 'Wheat', pack: SYSTEM_PACKS.TRADE_GOODS },
     ],
-    items : [
+    items: [
       { name: 'Charcoal', description: 'Chunk of charcoal', weight: 1, price: 1, coinType: 'sp', img: 'icons/commodities/stone/ore-pile-iron-black.webp' },
       { name: 'Herbs', description: 'Various herbs used for crafting, alchemy and magic.', weight: 0.2, price: 1, coinType: 'gp', img: 'icons/commodities/flowers/buds-red-green.webp' },
       { name: 'Trophy from a fallen enemy', description: 'A trophy taken from a fallen enemy (a dagger, broken blade, or piece of a banner)', weight: 0.5, price: 1, coinType: 'sp', img: 'icons/commodities/metal/fragments-sword-steel.webp' },
@@ -482,14 +482,26 @@ export class LootBuilder {
     ]
   };
 
+  static async #askConfirmation() {
+    const title = game.i18n.localize(`${Module.ID}.dialogs.generate_items_title`);
+    const content = game.i18n.localize(`${Module.ID}.dialogs.generate_items_content`);
+    return await Dialog.confirm({ title, content });
+  }
+
   static async generateItems(cleanFirst = false) {
+    if (!(await this.#askConfirmation())) {
+      return;
+    }
+
     const treasuresPack = Module.COMPENDIUMS.TREASURES.fullName;
     const trinketsPack = Module.COMPENDIUMS.TRINKETS.fullName;
     const treasures = this.treasureTables.tables.reduce((acc, group) => [...acc, ...group.items.map(i => this.#prepareTreasure(i, group.valueInGp))], []);
     const trinkets = this.trinkets.items.map(i => this.#prepareItem(i));
 
-    // Only usable for debug and testing
+    // Only usable for debug and testing (create compendiums in world so they can be copied to module)
     //await this.#createCompendiums(Module.COMPENDIUM_LIST, cleanFirst);
+
+    this.#lockCompendiums(Module.COMPENDIUM_LIST, false);
 
     let treasuresToGenerate = [];
     let trinketsToGenerate = [];
@@ -503,17 +515,43 @@ export class LootBuilder {
       trinketsToGenerate = trinkets.filter((_v, index) => !trinketsFound[index]);
     }
 
-    if ((treasuresToGenerate.length || trinketsToGenerate.length) && await this.#askConfirmation()) {
+    if ((treasuresToGenerate.length || trinketsToGenerate.length)) {
       if (treasuresToGenerate.length) {
-        Module.debug(false, 'Generating treasures: ', treasuresToGenerate);    
+        Module.debug(false, 'Generating treasures: ', treasuresToGenerate);
         await Item.createDocuments(treasuresToGenerate, { pack: treasuresPack });
       }
       if (trinketsToGenerate.length) {
-        Module.debug(false, 'Generating trinkets: ', trinketsToGenerate);    
+        Module.debug(false, 'Generating trinkets: ', trinketsToGenerate);
         await Item.createDocuments(trinketsToGenerate, { pack: trinketsPack });
       }
-      
+
       await this.#generateTables();
+
+      this.#lockCompendiums(Module.COMPENDIUM_LIST);
+    }
+  }
+
+  static async #createCompendiums(compendiumList, cleanFirst) {
+    for (const { name, label, type } of compendiumList) {
+      const packName = `world.${name}`; // Create compendiums in the world so they can be copied to the module.
+      const pack = game.packs.get(packName);
+
+      if (pack && !cleanFirst)
+        return;
+
+      if (pack)
+        Module.log(true, `Recreating compendium ${label}`);
+      else
+        Module.log(true, `Creating compendium ${label}`);
+
+      await pack?.deleteCompendium();
+      await CompendiumCollection.createCompendium({ label, name, type });
+    }
+  }
+
+  static async #lockCompendiums(compendiumList, locked = true) {
+    for (const { fullName } of compendiumList) {
+      await game.packs.get(fullName).configure({ locked });
     }
   }
 
@@ -554,23 +592,6 @@ export class LootBuilder {
     }
   }
 
-  static async #createCompendiums(compendiumList, cleanFirst) {
-    for (const { fullName, name, label, type } of compendiumList) {
-      const pack = game.packs.get(fullName);
-
-      if (pack && !cleanFirst)
-        return;
-
-      if (pack)
-        Module.log(false, `Recreating compendium ${label}`);
-      else
-        Module.log(false, `Creating compendium ${label}`);
-
-      await pack?.deleteCompendium();
-      await CompendiumCollection.createCompendium({ label, name, type });
-    }
-  }
-
   static #prepareTreasure(itemData, price) {
     return this.#prepareItem({ ...itemData, price, description: `${itemData.description}, valued around ${price}gp`, rarity: price > 500 ? ITEM_RARITY.UNCOMMON : ITEM_RARITY.COMMON });
   }
@@ -604,7 +625,7 @@ export class LootBuilder {
       resultId: item._id,
       img: item.img,
       weight: 1,
-      range: [index+1, index+1],
+      range: [index + 1, index + 1],
       drawn: false
     };
   }
@@ -627,11 +648,5 @@ export class LootBuilder {
       img,
       formula: `1d${results.length}`
     } : null;
-  }
-
-  static async #askConfirmation() {
-    const title = game.i18n.localize(`${Module.ID}.dialogs.generate_items_title`);
-    const content = game.i18n.localize(`${Module.ID}.dialogs.generate_items_content`);
-    return await Dialog.confirm({ title, content });
   }
 }

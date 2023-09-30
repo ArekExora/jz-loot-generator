@@ -1,37 +1,70 @@
 {
-  "name": "jz-loot-generator",
+  "id": "jz-loot-generator",
   "title": "JZ Loot Generator",
   "description": "Generates loot on NPCs placement for DnD 5e, by Jan Zizka.",
   "version": "0.0.1",
+  "compatibility": {
+    "minimum": "10",
+    "verified": "11"
+  },
+  "authors": [
+    {
+      "name": "Jan Zizka"
+    }
+  ],
   "system": ["dnd5e"],
-  "authors": [{ "name": "Jan Zizka" }],
-  "minimumCoreVersion": "10",
-  "compatibleCoreVersion": "10",
   "esmodules": [
     "src/jz-loot-generator.js"
   ],
-  "packs": [{
-    "name": "lootable_treasures",
-    "label": "Lootable treasures",
-    "path": "packs/lootable_treasures.db",
-    "entity": "Item",
-    "module": "jz-loot-generator"
-   },{
-    "name": "lootable_valuables",
-    "label": "Lootable valuables",
-    "path": "packs/lootable_valuables.db",
-    "entity": "Item",
-    "module": "jz-loot-generator"
-   },{
-    "name": "loot_tables",
-    "label": "Loot tables",
-    "path": "packs/loot_tables.db",
-    "entity": "RollTable",
-    "module": "jz-loot-generator"
-   }],
-  "languages": [{
-    "lang": "en",
-    "name": "English",
-    "path": "lang/en.json"
-  }]
+  "relationships": {
+    "requires": [
+      {
+        "id": "item-piles",
+        "type": "module",
+        "compatibility": {}
+      }
+    ]
+  },
+  "packs": [
+    {
+      "label": "Lootable treasures",
+      "name": "lootable_treasures",
+      "path": "packs/lootable_treasures.db",
+      "system": "dnd5e",
+      "type": "Item"
+    },
+    {
+      "label": "Lootable valuables",
+      "name": "lootable_valuables",
+      "path": "packs/lootable_valuables.db",
+      "system": "dnd5e",
+      "type": "Item"
+    },
+    {
+      "label": "Loot tables",
+      "name": "loot_tables",
+      "path": "packs/loot_tables.db",
+      "system": "dnd5e",
+      "type": "RollTable"
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "JZ Loot Generator",
+      "sorting": "m",
+      "color": "#03a300",
+      "packs": [
+        "lootable_treasures",
+        "lootable_valuables",
+        "loot_tables"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ]
 }
