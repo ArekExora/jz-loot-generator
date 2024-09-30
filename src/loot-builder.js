@@ -22,6 +22,7 @@ export class LootBuilder {
     tables: [{
       valueInGp: 10,
       tableName: 'Lootable treasures 10gp',
+      lootType: 'gem',
       systemItems: [
         { name: 'Acid (vial)', pack: SYSTEM_PACKS.ITEMS }, //25
         { name: 'Bagpipes', pack: SYSTEM_PACKS.ITEMS }, //30
@@ -53,6 +54,7 @@ export class LootBuilder {
     }, {
       valueInGp: 50,
       tableName: 'Lootable treasures 50gp',
+      lootType: 'gem',
       systemItems: [
         { name: 'Basic Poison', pack: SYSTEM_PACKS.ITEMS }, //100
         { name: 'Magnifying Glass', pack: SYSTEM_PACKS.ITEMS }, //100
@@ -77,6 +79,7 @@ export class LootBuilder {
     }, {
       valueInGp: 100,
       tableName: 'Lootable treasures 100gp',
+      lootType: 'gem',
       systemItems: [
         { name: 'Potion of Superior Healing', pack: SYSTEM_PACKS.ITEMS }, //450
         { name: 'Potion of Greater Healing', pack: SYSTEM_PACKS.ITEMS }, //150
@@ -97,6 +100,7 @@ export class LootBuilder {
     }, {
       valueInGp: 500,
       tableName: 'Lootable treasures 500gp',
+      lootType: 'gem',
       systemItems: [
         { name: 'Potion of Superior Healing', pack: SYSTEM_PACKS.ITEMS }, //450
         { name: 'Potion of Supreme Healing', pack: SYSTEM_PACKS.ITEMS }, // 1350
@@ -114,6 +118,7 @@ export class LootBuilder {
     }, {
       valueInGp: 1000,
       tableName: 'Lootable treasures 1000gp',
+      lootType: 'gem',
       systemItems: [
         { name: 'Potion of Supreme Healing', pack: SYSTEM_PACKS.ITEMS }, // 1350
       ],
@@ -131,6 +136,7 @@ export class LootBuilder {
     }, {
       valueInGp: 5000,
       tableName: 'Lootable treasures 5000gp',
+      lootType: 'gem',
       systemItems: [
 
       ],
@@ -143,6 +149,7 @@ export class LootBuilder {
     }, {
       valueInGp: 25,
       tableName: 'Lootable treasures 25gp',
+      lootType: 'art',
       systemItems: [
         { name: 'Alchemist\'s Fire', pack: SYSTEM_PACKS.ITEMS }, //50
         { name: 'Antitoxin', pack: SYSTEM_PACKS.ITEMS }, //50
@@ -166,6 +173,7 @@ export class LootBuilder {
     }, {
       valueInGp: 250,
       tableName: 'Lootable treasures 250gp',
+      lootType: 'art',
       systemItems: [
         { name: 'Potion of Superior Healing', pack: SYSTEM_PACKS.ITEMS }, //450
         { name: 'Potion of Greater Healing', pack: SYSTEM_PACKS.ITEMS }, //150
@@ -191,6 +199,7 @@ export class LootBuilder {
     }, {
       valueInGp: 750,
       tableName: 'Lootable treasures 750gp',
+      lootType: 'art',
       systemItems: [
 
       ],
@@ -210,6 +219,7 @@ export class LootBuilder {
     }, {
       valueInGp: 2500,
       tableName: 'Lootable treasures 2500gp',
+      lootType: 'art',
       systemItems: [
 
       ],
@@ -230,6 +240,7 @@ export class LootBuilder {
     }, {
       valueInGp: 7500,
       tableName: 'Lootable treasures 7500gp',
+      lootType: 'art',
       systemItems: [
 
       ],
@@ -493,7 +504,7 @@ export class LootBuilder {
       return;
     }
 
-    const treasures = this.treasureTables.tables.reduce((acc, group) => [...acc, ...group.items.map(i => this.#prepareTreasure(i, group.valueInGp))], []);
+    const treasures = this.treasureTables.tables.reduce((acc, group) => [...acc, ...group.items.map(i => this.#prepareTreasure(i, group.lootType, group.valueInGp))], []);
     const trinkets = this.trinkets.items.map(i => this.#prepareItem(i));
 
     // Only usable for debug and testing (create compendiums in world so they can be copied to module)
@@ -598,11 +609,11 @@ export class LootBuilder {
     }
   }
 
-  static #prepareTreasure(itemData, price) {
-    return this.#prepareItem({ ...itemData, price, description: `${itemData.description}, valued around ${price}gp`, rarity: price > 500 ? ITEM_RARITY.UNCOMMON : ITEM_RARITY.COMMON });
+  static #prepareTreasure(itemData, lootType, price) {
+    return this.#prepareItem({ ...itemData, lootType, price, description: `${itemData.description}, valued around ${price}gp`, rarity: price > 500 ? ITEM_RARITY.UNCOMMON : ITEM_RARITY.COMMON });
   }
 
-  static #prepareItem({ name, img, type = 'loot', price = 0, coinType = 'gp', weight = 0.01, description = 'Just an item.', rarity = ITEM_RARITY.COMMON }) {
+  static #prepareItem({ name, img, type = 'loot', price = 0, coinType = 'gp', weight = 0.01, lootType = 'junk', description = 'Just an item.', rarity = ITEM_RARITY.COMMON }) {
     return {
       name,
       type,
@@ -616,6 +627,7 @@ export class LootBuilder {
         description: {
           value: `<p>${description}</p>`
         },
+        type: { value: lootType },
         rarity,
         source: 'JZ Loot Generator'
       }

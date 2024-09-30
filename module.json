@@ -2,7 +2,7 @@
   "id": "jz-loot-generator",
   "title": "JZ Loot Generator",
   "description": "Generates loot on NPCs placement for DnD 5e, by Jan Zizka.",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "authors": [
     {
       "name": "Jan Zizka"
