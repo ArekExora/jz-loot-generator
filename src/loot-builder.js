@@ -526,7 +526,7 @@ export class LootBuilder {
     const trinkets = this.trinkets.items.map(i => this.#prepareItem(i));
 
     // Only usable for debug and testing (create compendiums in world so they can be copied to module)
-    //await this.#createCompendiums(cleanFirst);
+    // await this.#createCompendiums(cleanFirst);
 
     await this.#lockCompendiums(false);
 
