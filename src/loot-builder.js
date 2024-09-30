@@ -525,6 +525,15 @@ export class LootBuilder {
       trinketsToGenerate = trinkets.filter((_v, index) => !trinketsFound[index]);
     }
 
+    // Add the folder to the treasures.
+    const folderIdByPrice = await this.#retrieveTreasureFolders();
+    Module.debug(false, 'Retrieved treasure folders:', folderIdByPrice);
+    treasuresToGenerate = treasuresToGenerate.map(treasure => {
+      const index = treasure.system.price.value;
+      treasure.folder = folderIdByPrice[index];
+      return treasure;
+    });
+
     if ((treasuresToGenerate.length || trinketsToGenerate.length)) {
       if (treasuresToGenerate.length) {
         Module.debug(false, 'Generating treasures: ', treasuresToGenerate);
@@ -539,6 +548,19 @@ export class LootBuilder {
 
       await this.#lockCompendiums();
     }
+  }
+
+  static async #retrieveTreasureFolders() {
+    const pack = Module.COMPENDIUMS.TREASURES.fullName;
+    const prices = this.treasureTables.tables.map(data => data.valueInGp);
+    const folderIdByPrice = {};
+
+    for (const price of prices) {
+      const name = `Valued ${price} gp`;
+      folderIdByPrice[price] = game.packs.get(pack).folders.find(folder => folder.name === name) ?? await Folder.create({ name, type: 'Item' }, { pack });
+    }
+
+    return folderIdByPrice;
   }
 
   static async #createCompendiums(cleanFirst) {
@@ -568,6 +590,7 @@ export class LootBuilder {
     const trinketsPack = game.packs.get(Module.COMPENDIUMS.TRINKETS.fullName);
 
     Module.log(true, 'Emptying treasures and trinkets compendiums');
+    treasuresPack.folders.forEach(f => treasuresPack.folders.delete(f.id));
     (await treasuresPack.getIndex()).forEach(i => treasuresPack.delete(i._id));
     (await trinketsPack.getIndex()).forEach(i => trinketsPack.delete(i._id));
   }
