@@ -41,7 +41,7 @@ export class ActorHandler {
     const { treasureRolls, hasTrinkets, turnToPile, minCoinFactor } = this.#getFlags();
     
     if (treasureRolls)
-      coins = CoinGenerator.generateIndividualTreasure(this.actor, treasureRolls, minCoinFactor);
+      coins = await CoinGenerator.generateIndividualTreasure(this.actor, treasureRolls, minCoinFactor);
     ({ coins, treasures } = await TreasureConverter.convertCoinsToTreasures(coins));
     treasures.push(...await TrinketGenerator.generateAmmo(this.actor));
     if (hasTrinkets)

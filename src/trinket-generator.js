@@ -40,23 +40,25 @@ export class TrinketGenerator {
    * @returns {Promise<ItemQuantity[]>} The list of ammo generated
    */
   static async generateAmmo(actor) {
-    const weaponsAndAmmo = [
-      { weapons: ['shortbow', 'longbow', 'oathbow'], ammo: 'Arrow', quantityRoll: '4d3-5' },
-      { weapons: ['crossbow'], ammo: 'Crossbow Bolt', quantityRoll: '4d3-5' },
-      { weapons: ['blowgun'], ammo: 'Blowgun Needle', quantityRoll: '4d3-5'  },
-      { weapons: ['sling'], ammo: 'Sling Bullet', quantityRoll: '4d3' },
-      { weapons: ['dart', 'javelin'], quantityRoll: '4d3-8' },
+    const rangedWeapons = [
+      { names: ['shortbow', 'longbow', 'oathbow'], ammo: 'Arrow', quantityRoll: '4d3-5' },
+      { names: ['crossbow'], ammo: 'Crossbow Bolt', quantityRoll: '4d3-5' },
+      { names: ['blowgun'], ammo: 'Blowgun Needle', quantityRoll: '4d3-5'  },
+      { names: ['sling'], ammo: 'Sling Bullet', quantityRoll: '4d3' },
+      { names: ['dart', 'javelin'], quantityRoll: '4d3-8' },
     ]
 
-    const ammoToAdd = actor.items
-      .map(i => {
-        if (i.type !== 'weapon')
+    const ammoQuantityPromises = actor.items
+      .map(async actorItem => {
+        if (actorItem.type !== 'weapon')
           return;
-        const weapon = weaponsAndAmmo.find(wa => wa.weapons.some(weaponName => i.name.toLowerCase().includes(weaponName)));
-        const item = weapon ? weapon.ammo || i : null;
-        const quantity = item ? Math.max(0, Utils.rollDice(weapon.quantityRoll)) : 0;
-        return quantity ? { item, quantity } : null;
-      })
+        const weapon = rangedWeapons.find(rw => rw.names.some(weaponName => actorItem.name.toLowerCase().includes(weaponName)));
+        const ammoItem = weapon ? weapon.ammo || actorItem : null;
+        const quantity = ammoItem ? Math.max(0, await Utils.rollDice(weapon.quantityRoll)) : 0;
+        return quantity ? { item: ammoItem, quantity } : null;
+      });
+
+    const ammoToAdd = (await Promise.all(ammoQuantityPromises))
       .filter(Boolean)
       .reduce((acc, ammo) => {
         const existing = acc.find(a => (a.item.name || a.item) === (ammo.item.name || ammo.item));

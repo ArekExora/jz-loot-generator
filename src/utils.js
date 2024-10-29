@@ -10,7 +10,7 @@ export const SYSTEM_PACKS = {
  * Utility class
  * @Class
  */
-export class Utils {  
+export class Utils {
   /**
    * Evaluates if a required module is active
    * @param {string} moduleName - The name of the required module
@@ -18,8 +18,8 @@ export class Utils {
    */
   static requireModule(moduleName) {
     if (!game.modules.get(moduleName)?.active) {
-        Module.error('module_required', { moduleName });
-        return false;
+      Module.error('module_required', { moduleName });
+      return false;
     }
     return true;
   }
@@ -27,10 +27,12 @@ export class Utils {
   /**
    * Evaluates dice roll
    * @param {string} rollString - The roll formula
-   * @returns {number} The result of the roll
+   * @returns {Promise<number>} The result of the roll
    */
-  static rollDice(rollString) {
-    return new Roll(rollString).roll({ async: false }).total;
+  static async rollDice(rollString) {
+    const roll = await new Roll(rollString).roll();
+    Module.debug(false, `Rolled ${rollString}, result was ${roll.total}`)
+    return roll.total;
   }
 
   /**
@@ -52,29 +54,37 @@ export class Utils {
     }
 
     const tableResult = await table.drawMany(rolls, { displayChat: false });
-    for (const { documentId, documentCollection } of tableResult.results) {
-      const itemQuantity = items.find(({ item }) => item._id === documentId);
+    for (const { documentCollection, text: itemName } of tableResult.results) {
+      const itemQuantity = items.find(({ item }) => item.name === itemName);
       if (itemQuantity) {
         Module.debug(false, `Item ${itemQuantity.item.name} rolled from table ${tableName}`);
         itemQuantity.quantity++;
         continue;
       }
-      
+
       let item;
       if (documentCollection === 'Item') {
-        item = game.items.get(documentId);
+        Module.debug(false, `Item found in game: ${itemName}`);
+        item = game.items.find(i => i.name === itemName);
       } else {
         const pack = game.packs.get(documentCollection);
         if (!pack) {
           Module.warn('element_name_not_found', { element: 'Compendium', name: documentCollection });
           continue;
         }
-        item = await pack.getDocument(documentId);
+        
+        const docs = await pack.getDocuments({ name: itemName });
+        if (docs.length) {
+          Module.debug(false, `Item found in compendium ${documentCollection}: ${itemName}`);
+          item = docs.shift();
+        }
       }
 
       if (item instanceof Item) {
         items.push({ item, quantity: 1 });
         Module.debug(false, `Item ${item.name} rolled from table ${tableName}`);
+      } else {
+        Module.debug(false, `Item ${text} not found in ${documentCollection}`);
       }
     }
 
@@ -116,7 +126,7 @@ export class Utils {
    * @param {ItemQuantity[]} itemsQuantities - The list of items and quantities to parse
    * @returns {String} The list of items in human readable form
    */
-  static parseItemNames(itemsQuantities){
+  static parseItemNames(itemsQuantities) {
     return itemsQuantities.map(({ item, quantity }) =>
       item.name + (quantity > 1 ? `(x${quantity})` : '')
     ).join(', ');
@@ -127,9 +137,9 @@ export class Utils {
    * @param {CoinGroup} coins - The group of coins
    * @returns {String} The group of coins in human readable form
    */
-  static parseCoins(coins){
+  static parseCoins(coins) {
     const result = [];
-    
+
     for (const [coinType, amount] of Object.entries(coins))
       if (amount) result.push(`${amount}${coinType}`);
 
@@ -176,20 +186,20 @@ export class Utils {
     Module.debug(false, `Searching item: ${name}${type ? ' [' + type + ']' : ''}`);
     const item = game.items.find(i => i.name === name && (!type || i.type === type));
     if (item) {
-      Module.debug(false, `Item found: ${name}${type ? ' [' + type + ']' : ''}`);
+      Module.debug(false, `Item found in game: ${name}${type ? ' [' + type + ']' : ''}`);
       return item;
     }
-    
+
     for (const compendium of compendiums) {
       const pack = game.packs.get(compendium);
       if (!pack) {
         Module.warn('element_name_not_found', { element: 'Compendium', name: compendium });
         continue;
       }
-      
+
       const docs = await pack.getDocuments({ name, type });
       if (docs.length) {
-        Module.debug(false, `Item found: ${name}${type ? ' [' + type + ']' : ''}`);
+        Module.debug(false, `Item found in compendium ${compendium}: ${name}${type ? ' [' + type + ']' : ''}`);
         return docs.shift();
       }
     }
@@ -214,8 +224,8 @@ export class Utils {
       this.storedSuccessRateSegments[max] = this.#getSuccessRateSegments(max);
 
     const segments = this.storedSuccessRateSegments[max];
-    const segmentSize = chance/segments.length;
-    const index = Math.floor(result/segmentSize);
+    const segmentSize = chance / segments.length;
+    const index = Math.floor(result / segmentSize);
     const successRate = index >= 0 ? Math.max(min, segments[index]) : min;
     Module.debug(false, `Success rate: ${successRate}[${min}-${max}]. Size: ${segmentSize}, index: ${index}, segments: ${segments.join(',')}`);
     return successRate;
