@@ -81,7 +81,8 @@ export class LootBuilder {
         { name: 'Ruby dust', description: 'Pinch of powdered ruby', img: 'icons/commodities/materials/bowl-powder-pink.webp' },
         { name: 'Emerald dust', description: 'Pinch of powdered emerald', img: 'icons/commodities/materials/bowl-powder-teal.webp' },
         { name: 'Diamond dust', description: 'Pinch of powdered diamond', img: 'icons/commodities/materials/bowl-powder-grey.webp' },
-        { name: 'Spellbook inks', description: 'Fine inks and various materials used to copy spells to the wizard spellbook.</p><p>A wizard requires 2 hours of work and a one of this packs per level of spell copied.</p><p>Truly special mixture', lootType:'material', img: 'icons/tools/scribal/ink-quill-red.webp' },
+        { name: 'Silver cult symbol', description: 'Insignia of a cult made of pure silver', weight: 0.2, lootType: 'art', img: 'icons/commodities/treasure/token-cross-gem-yellow.webp' },
+        { name: 'Spellbook inks', description: 'Fine inks and various materials used to copy spells to the wizard spellbook.</p><p>A wizard requires 2 hours of work and a one of this packs per level of spell copied.</p><p>Truly special mixture', lootType: 'material', img: 'icons/tools/scribal/ink-quill-red.webp' },
       ]
     }, {
       valueInGp: 100,
@@ -105,6 +106,8 @@ export class LootBuilder {
         // CUSTOM
         { name: 'Broken lesser diamond', description: 'Transparent blue-white, canary, pink, brown or blue broken gem of low quality', img: 'icons/commodities/gems/gem-fragments-blue.webp' },
         { name: 'Saphire dust', description: 'Pinch of powdered saphire', img: 'icons/commodities/materials/bowl-powder-blue.webp' },
+        { name: 'Star chart', description: 'Beautifully crafted star chart, may be useful to an astrologer', lootType: 'art', img: 'icons/sundries/documents/blueprint-recipe-magic.webp' },
+        { name: 'Ermine pelt', description: 'Soft and beatiful pelt from an ermine', lootType: 'art', img: 'icons/commodities/leather/fur-white.webp' },
       ]
     }, {
       valueInGp: 500,
@@ -124,6 +127,7 @@ export class LootBuilder {
         { name: 'Topaz', description: 'Transparent golden yellow gem', img: 'icons/commodities/gems/gem-rough-rectangular-red.webp' },
         // CUSTOM
         { name: 'Great black onyx', description: 'Opaque pure black gem', img: 'icons/commodities/gems/gem-rough-tapered-purple.webp' },
+        { name: 'Decorated bridle', description: 'Decorated golden bridle with jade and mithril bits', weight: 2, lootType: 'art', img: 'icons/commodities/tech/pipe-copper-loop-gold.webp' },
       ]
     }, {
       valueInGp: 1000,
@@ -144,6 +148,7 @@ export class LootBuilder {
         // CUSTOM
         { name: 'Agate', description: 'Transparent multicolored gem', img: 'icons/commodities/gems/pearl-water.webp' },
         { name: 'Lesser diamond', description: 'Transparent blue-white, canary, pink, brown or blue gem of low quality', img: 'icons/commodities/gems/gem-shattered-blue.webp' },
+        { name: 'Golden sapphire ring', description: 'Beautiful golden ring with a small sapphire in it', weight: 0.2, lootType: 'art', img: 'icons/equipment/finger/ring-cabochon-gold.webp' },
       ]
     }, {
       valueInGp: 5000,
@@ -157,6 +162,8 @@ export class LootBuilder {
         { name: 'Diamond', description: 'Transparent blue-white, canary, pink, brown or blue gem', img: 'icons/commodities/gems/gem-faceted-round-white.webp' },
         { name: 'Jacinth', description: 'Transparent fiery orange gem', img: 'icons/commodities/gems/gem-faceted-trillion-orange.webp' },
         { name: 'Ruby', description: 'Transparent clear red to deep crimsom gem', img: 'icons/commodities/gems/gem-faceted-radiant-red.webp' },
+        // CUSTOM
+        { name: 'Black dragon statuette', description: 'A small and fragile statue of a black dragon, made with real black dragon scales and claws, with ruby eyes and diamond teeth', weight: 20, lootType: 'art', img: 'icons/commodities/treasure/totem-wooden-glowing-green.webp' },
       ]
     }, {
       valueInGp: 25,
@@ -181,6 +188,9 @@ export class LootBuilder {
         // CUSTOM
         { name: 'Divination bones', description: 'Set of specially marked bones, used for divination magic', weight: 0.2, img: 'icons/commodities/bones/bones-stack-worn-brown.webp' },
         { name: 'Silver rod', description: 'Small silver rod', weight: 0.2, img: 'icons/weapons/wands/wand-gem-violet.webp' },
+        { name: 'Dragon talisman', description: 'Elaborate talisman shaped like a dragon', weight: 0.2, img: 'icons/equipment/neck/necklace-animal-lizard.webp' },
+        { name: 'Fox pelt', description: 'Pelt from a red fox', weight: 0.2, img: 'icons/commodities/leather/fur-brown-gold.webp' },
+        { name: 'Bottle of wine', description: 'Great quality wine, from the best wineries in the realm', weight: 0.2, lootType: 'junk', img: 'icons/consumables/drinks/wine-amphora-clay-gray.webp' },
       ]
     }, {
       valueInGp: 250,
@@ -208,6 +218,8 @@ export class LootBuilder {
         { name: 'Glass eye', description: 'Glass eye', weight: 0.1, img: 'icons/commodities/biological/eye-lizard-orange.webp' },
         { name: 'Runesticks', description: 'Set of ivory carved runesticks, used for divination magic', weight: 0.2, img: 'icons/commodities/treasure/token-engraved-symbols-grey.webp' },
         { name: 'Miniature sword', description: 'Miniature platinum sword with a grip and pommel of copper and zinc', weight: 0.2, img: 'icons/weapons/swords/shortsword-guard-green.webp' },
+        { name: 'Pearl necklace', description: 'Neclace with three small pearls in it', weight: 0.2, img: 'icons/equipment/neck/necklace-shells-blue.webp' },
+        { name: 'Winter wolf cloak', description: 'Beautiful and warm cloak made with the pelt of a winter wolf', weight: 0.2, img: 'icons/equipment/back/cloak-heavy-fur-blue.webp' },
       ]
     }, {
       valueInGp: 750,
@@ -231,6 +243,7 @@ export class LootBuilder {
         { name: 'Rare unguents', description: 'Rare unguents', weight: 0.2, img: 'icons/consumables/potions/potion-flask-corked-labeled-pink.webp' },
         { name: 'Ruby vial', description: 'Small vial made of a hollowed ruby', weight: 0.2, img: 'icons/consumables/drinks/wine-amphora-clay-pink.webp' },
         { name: 'Mithril ingot', description: 'A small ingot of the toughest metal', weight: 0.2, lootType:'material', img: 'icons/commodities/metal/ingot-hammered-silver.webp' },
+        { name: 'Mithril clasp', description: 'An elaborate cloak clasp made of mithril', weight: 0.1, img: 'icons/commodities/treasure/broach-eye-silver-teal.webp' },
       ]
     }, {
       valueInGp: 2500,
@@ -449,6 +462,7 @@ export class LootBuilder {
       { name: 'Feldspar', description: 'Lump of feldspar.', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/commodities/stone/paver-cobble-grey.webp' },
       { name: 'Silver whistle', description: 'Tiny silver whistle.', weight: 0.1, price: 8, coinType: 'sp', img: 'icons/tools/instruments/pipe-flue-tan.webp' },
       { name: 'Silver spoon', description: 'Tiny silver spoon.', weight: 0.1, price: 5, coinType: 'gp', img: 'icons/tools/cooking/soup-ladle.webp' },
+      { name: 'Silver fork', description: 'Simple silver fork.', weight: 0.1, price: 5, coinType: 'gp', img: 'icons/tools/cooking/fork-steel-grey.webp' },
       { name: 'Polished marble', description: 'Chunk of polished marble.', weight: 0.2, price: 5, coinType: 'gp', img: 'icons/commodities/stone/paver-cobble-white.webp' },
       { name: 'Bag of seeds', description: 'Bag with an assortment of various seeds.', weight: 0.1, price: 1, coinType: 'sp', img: 'icons/containers/bags/sack-leather-brown-green.webp' },
       { name: 'Insect cocoon', description: 'Cocoon from an insect.', weight: 0, price: 1, coinType: 'cp', img: 'icons/environment/creatures/bug-flea-beige.webp' },
@@ -508,6 +522,7 @@ export class LootBuilder {
       { name: 'String (10 ft.)', description: 'Simple string, 10 feet long.', weight: 0.1, price: 1, coinType: 'ep', img: 'icons/commodities/cloth/thread-spindle-white-grey.webp' },
       { name: 'Powdered silver', description: 'Pinch of powdered silver.', weight: 0, price: 2, coinType: 'sp', img: 'icons/commodities/treasure/token-silver-blue.webp' },
       { name: 'Gold dust', description: 'Pinch of powdered gold', weight: 0, price: 1, coinType: 'gp', img: 'icons/commodities/materials/bowl-powder-gold.webp' },
+      { name: 'Dragon amulet', description: 'Crude amulet resembling a dragon', weight: 0, price: 2, coinType: 'cp', img: 'icons/commodities/treasure/statue-carved-figurehead.webp' },
     ]
   };
 
@@ -570,12 +585,14 @@ export class LootBuilder {
 
   static async #retrieveTreasureFolders() {
     const pack = Module.COMPENDIUMS.TREASURES.fullName;
-    const prices = this.treasureTables.tables.map(data => data.valueInGp);
+    const prices = this.treasureTables.tables
+      .map(data => data.valueInGp)
+      .sort((a, b) => a - b);
     const folderIdByPrice = {};
 
     for (const price of prices) {
       const name = `Valued ${price} gp`;
-      folderIdByPrice[price] = game.packs.get(pack).folders.find(folder => folder.name === name) ?? await Folder.create({ name, type: 'Item' }, { pack });
+      folderIdByPrice[price] = game.packs.get(pack).folders.find(folder => folder.name === name) ?? await Folder.create({ name, color: '#027500', sorting: 'a', type: 'Item' }, { pack });
     }
 
     return folderIdByPrice;
