@@ -699,6 +699,7 @@ export class LootBuilder {
   }
 
   static #generateTableResult(item, index, pack) {
+    console.log('item', item, index, pack)
     return {
       text: item.name,
       type: CONST.TABLE_RESULT_TYPES.COMPENDIUM,

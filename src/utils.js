@@ -54,7 +54,7 @@ export class Utils {
     }
 
     const tableResult = await table.drawMany(rolls, { displayChat: false });
-    for (const { documentCollection, text: itemName } of tableResult.results) {
+    for (const { documentCollection, name: itemName } of tableResult.results) {
       const itemQuantity = items.find(({ item }) => item.name === itemName);
       if (itemQuantity) {
         Module.debug(false, `Item ${itemQuantity.item.name} rolled from table ${tableName}`);
